@@ -1,0 +1,13 @@
+.todoItemList {
+    ul {
+        list-style-type: none;
+    }
+
+    .new, .done {
+        color: black;
+    }
+
+    .inProgress {
+        color: red;
+    }
+}
