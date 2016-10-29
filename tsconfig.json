@@ -1,6 +1,4 @@
 {
-    "compileOnSave": true,
-    "buildOnSave": true,
     "compilerOptions": {
         "outDir": "./dist/",
         "sourceMap": true,
@@ -10,8 +8,6 @@
         "jsx": "react"
     },
     "exclude": [
-        "node_modules",
-        "typings/browser.d.ts",
-        "typings/browser"
+        "node_modules"
     ]
 }
