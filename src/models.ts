@@ -4,6 +4,8 @@ export enum Status {
     Done
 }
 
-export interface ITodoItemProps { description: string; status: Status; }
+export interface ITodoItem { id: string; description: string; status: Status; }
 
-export interface ITodoItemListProps { items: ITodoItemProps[]; }
+export interface ITodoItemProps { item: ITodoItem; onStatusUpdate: any; }
+
+export interface ITodoItemListProps { todos: ITodoItem[]; newTodo: ITodoItem; }
