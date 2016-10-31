@@ -33,7 +33,7 @@ export class TodoItemList extends React.Component<{}, ITodoItemListProps> {
         const itemsInProgress = this.getItemsByStatus(Status.InProgress);
         const doneItems = this.getItemsByStatus(Status.Done);
         return (
-            <div>
+            <div className="todoItemListContainer">
                 <form>
                     <input
                         type="text"

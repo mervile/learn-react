@@ -1,19 +1,27 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as TestUtils from "react-addons-test-utils";
+import { mount } from "enzyme";
 
+import { TodoItem } from "../src/components/TodoItem";
 import { TodoItemList } from "../src/components/TodoItemList";
 
+const expect = chai.expect;
+
 describe("Todo item list", () => {
-    let renderer: TestUtils.ShallowRenderer;
+    let todoItemList: any;
 
     beforeEach(() => {
-        renderer = TestUtils.createRenderer();
-        renderer.render(<TodoItemList />);
+        todoItemList = mount(<TodoItemList />);
     });
 
     it("should render correctly", () => {
-        const result = renderer.getRenderOutput();
-        chai.assert.strictEqual(result.type, "div");
+        expect(todoItemList.find(TodoItem)).to.have.length(7);
+        expect(todoItemList.find("ul")).to.have.length(3);
+        expect(todoItemList.find("input")).to.have.length(1);
+    });
+
+    it("should create new todo items", () => {
+        todoItemList.find("button").simulate("click");
+        expect(todoItemList.find(TodoItem)).to.have.length(8);
     });
 });

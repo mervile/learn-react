@@ -1,4 +1,4 @@
-//var ExtractTextPlugin = require("extract-text-webpack-plugin");
+// var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var config = {
   /*
    * app.ts represents the entry point to your web application. Webpack will
@@ -53,11 +53,21 @@ var config = {
         test: /\.tsx?$/,
         loader: "ts-loader",
         exclude: /node_modules/
-      }
-    ]/*,
-    plugins: [
-        new ExtractTextPlugin("main.css")
-    ]*/
+      },
+      {
+        test: /\.json$/,
+        loader: 'json',
+      },
+    ]
+  },
+  /*plugins: [
+      new ExtractTextPlugin("main.css")
+  ],*/
+  // Special setup for enzyme
+  externals: {
+    'react/addons': true,
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true
   }
 };
 
