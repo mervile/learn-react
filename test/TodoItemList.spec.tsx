@@ -24,4 +24,15 @@ describe("Todo item list", () => {
         todoItemList.find("button").simulate("click");
         expect(todoItemList.find(TodoItem)).to.have.length(8);
     });
+
+    it("should update todo item's state", () => {
+        const newTodos = todoItemList.find("ul").at(0);
+        const inProgress = todoItemList.find("ul").at(1);
+        expect(newTodos.find("li")).to.have.length(3);
+        expect(inProgress.find("li")).to.have.length(2);
+        const select = todoItemList.find("select").at(0);
+        select.simulate("change", {target: { value : "1" }});
+        expect(newTodos.find("li")).to.have.length(2);
+        expect(inProgress.find("li")).to.have.length(3);
+    });
 });
