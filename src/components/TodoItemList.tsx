@@ -1,7 +1,8 @@
 import * as _ from "lodash";
 import * as React from "react";
 
-import { ITodoItem, ITodoItemListProps, Status } from "../models";
+import { ITodoItem, Status } from "../models";
+import { AddTodoForm } from "./AddTodoForm";
 import { TodoItem } from "./TodoItem";
 
 import "./TodoItemList.scss";
@@ -16,8 +17,9 @@ const list = [
     { description: "Learn redux", id: "7", status: Status.InProgress },
 ];
 
+export interface ITodoItemListState { todos: ITodoItem[]; newTodo: ITodoItem; }
 
-export class TodoItemList extends React.Component<{}, ITodoItemListProps> {
+export class TodoItemList extends React.Component<{}, ITodoItemListState> {
     constructor() {
         super();
         this.state = {
@@ -34,15 +36,11 @@ export class TodoItemList extends React.Component<{}, ITodoItemListProps> {
         const doneItems = this.getItemsByStatus(Status.Done);
         return (
             <div className="todoItemListContainer">
-                <form>
-                    <input
-                        type="text"
-                        placeholder="Add new todo"
-                        value={this.state.newTodo.description}
-                        onChange={this.handleChange}
-                    />
-                    <button onClick={this.handleSubmit}>Submit</button>
-                </form>
+                <AddTodoForm
+                    value={this.state.newTodo.description}
+                    handleChange={this.handleChange}
+                    submitTodo={this.handleSubmit}
+                />
                 <div className="todoItemList">
                     <h2>New</h2>
                     <ul className="new">{newItems}</ul>
@@ -64,7 +62,7 @@ export class TodoItemList extends React.Component<{}, ITodoItemListProps> {
             todos: this.state.todos });
     }
 
-    private handleStateChange(item: ITodoItem, event: any) {
+    private handleStatusChange(item: ITodoItem, event: any) {
         // Copy todos array
         const todos = this.state.todos.slice();
         const todo = _.find(todos, (todoItem) => todoItem.id === item.id);
@@ -83,7 +81,7 @@ export class TodoItemList extends React.Component<{}, ITodoItemListProps> {
             .filter((item: ITodoItem) => item.status === status)
             .map((item: ITodoItem, i: number) =>
                 <li key={i}>
-                    <TodoItem item={item} onStatusUpdate={this.handleStateChange.bind(this, item)} />
+                    <TodoItem item={item} onStatusUpdate={this.handleStatusChange.bind(this, item)} />
                 </li>)
             .value();
     }

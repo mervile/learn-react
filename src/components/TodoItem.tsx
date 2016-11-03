@@ -1,11 +1,12 @@
 import * as React from "react";
 
-import { ITodoItemProps, Status } from "../models";
+import { ITodoItem, Status } from "../models";
 
 import "./TodoItem.scss";
 
-export class TodoItem extends React.Component<ITodoItemProps, {}> {
+export interface ITodoItemProps { item: ITodoItem; onStatusUpdate: any; }
 
+export class TodoItem extends React.Component<ITodoItemProps, {}> {
     public render() {
         return (
             <div className="todoItem">

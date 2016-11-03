@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+
 // var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var config = {
   /*
@@ -5,7 +7,12 @@ var config = {
    * recursively go through every "require" statement in app.ts and
    * efficiently build out the application's dependency tree.
    */
-  entry: './src/index.tsx',
+  entry: [
+    //'react-hot-loader/patch',
+    //'webpack-dev-server/client?http://localhost:3000', // WebpackDevServer host and port
+    //'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
+    './src/index.tsx',
+  ],
 
   /*
    * The combination of path and filename tells Webpack what name to give to
@@ -17,7 +24,8 @@ var config = {
   },
   devServer: {
       inline: true,
-      port: 3000
+      port: 3000,
+      hot: true
   },
 
   /*
@@ -51,7 +59,7 @@ var config = {
       },
       {
         test: /\.tsx?$/,
-        loader: "ts-loader",
+        loaders: ["ts-loader"],
         exclude: /node_modules/
       },
       {
@@ -60,9 +68,10 @@ var config = {
       },
     ]
   },
-  /*plugins: [
-      new ExtractTextPlugin("main.css")
-  ],*/
+  plugins: [
+    // new webpack.HotModuleReplacementPlugin(),
+    // new ExtractTextPlugin("main.css")
+  ],
   // Special setup for enzyme
   externals: {
     'react/addons': true,

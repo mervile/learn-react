@@ -7,6 +7,6 @@ import { TodoItemList } from "./components/TodoItemList";
 import "../main.scss";
 
 ReactDOM.render(
-    <div><h1>My Todo list</h1><TodoItemList /></div>,
+    <div><TodoItemList /></div>,
     document.getElementById("example")
 );
