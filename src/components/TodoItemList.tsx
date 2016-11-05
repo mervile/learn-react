@@ -1,3 +1,5 @@
+import { List, ListItem } from "material-ui/List";
+
 import * as _ from "lodash";
 import * as React from "react";
 
@@ -11,10 +13,10 @@ const list = [
     { description: "Setup a dev environment", id: "1", status: Status.Done },
     { description: "Learn React with Typescript", id: "2", status: Status.InProgress },
     { description: "Setup unit tests, Karma + shallow rendering?", id: "3", status: Status.Done },
-    { description: "Use UI library e.g. Material UI", id: "4", status: Status.New },
+    { description: "Use UI library e.g. Material UI", id: "4", status: Status.Done },
     { description: "Create small backend with Scala, Akka, Spray and some NoSQL DB", id: "5", status: Status.New },
     { description: "Integrate app with backend", id: "6", status: Status.New },
-    { description: "Learn redux", id: "7", status: Status.InProgress },
+    { description: "Learn redux", id: "7", status: Status.New },
 ];
 
 export interface ITodoItemListState { todos: ITodoItem[]; newTodo: ITodoItem; }
@@ -42,12 +44,12 @@ export class TodoItemList extends React.Component<{}, ITodoItemListState> {
                     submitTodo={this.handleSubmit}
                 />
                 <div className="todoItemList">
-                    <h2>New</h2>
-                    <ul className="new">{newItems}</ul>
-                    <h2>In progress</h2>
-                    <ul className="inProgress">{itemsInProgress}</ul>
-                    <h2>Done</h2>
-                    <ul className="done">{doneItems}</ul>
+                    <h3>New</h3>
+                    <List>{newItems}</List>
+                    <h3>In progress</h3>
+                    <List>{itemsInProgress}</List>
+                    <h3>Done</h3>
+                    <List>{doneItems}</List>
                 </div>
             </div>
         );
@@ -62,11 +64,11 @@ export class TodoItemList extends React.Component<{}, ITodoItemListState> {
             todos: this.state.todos });
     }
 
-    private handleStatusChange(item: ITodoItem, event: any) {
+    private handleStatusChange(item: ITodoItem, event: any, index: number, value: number) {
         // Copy todos array
         const todos = this.state.todos.slice();
         const todo = _.find(todos, (todoItem) => todoItem.id === item.id);
-        todo.status = Number(event.target.value);
+        todo.status = value;
         this.setState({ newTodo: this.state.newTodo, todos });
     }
 
@@ -80,9 +82,9 @@ export class TodoItemList extends React.Component<{}, ITodoItemListState> {
         return _.chain(this.state.todos)
             .filter((item: ITodoItem) => item.status === status)
             .map((item: ITodoItem, i: number) =>
-                <li key={i}>
+                <ListItem key={i}>
                     <TodoItem item={item} onStatusUpdate={this.handleStatusChange.bind(this, item)} />
-                </li>)
+                </ListItem>)
             .value();
     }
 }
