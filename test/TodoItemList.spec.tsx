@@ -3,8 +3,8 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { mount } from "enzyme";
 
-import { TodoItem } from "../src/components/TodoItem";
-import { TodoItemList } from "../src/components/TodoItemList";
+import TodoItem from "../src/components/TodoItem";
+import TodoItemListContainer from "../src/components/TodoItemListContainer";
 
 const expect = chai.expect;
 
@@ -12,18 +12,18 @@ describe("Todo item list", () => {
     let todoItemList: any;
 
     beforeEach(() => {
-        todoItemList = mount(<MuiThemeProvider><TodoItemList /></MuiThemeProvider>);
+        todoItemList = mount(<MuiThemeProvider><TodoItemListContainer /></MuiThemeProvider>);
     });
 
     it("should render correctly", () => {
-        expect(todoItemList.find(TodoItem)).to.have.length(7);
+        expect(todoItemList.find(TodoItem)).to.have.length(9);
         expect(todoItemList.find("List")).to.have.length(3);
         expect(todoItemList.find("AddTodoForm")).to.have.length(1);
     });
 
     it("should create new todo items", () => {
         todoItemList.find("button").simulate("click");
-        expect(todoItemList.find(TodoItem)).to.have.length(8);
+        expect(todoItemList.find(TodoItem)).to.have.length(10);
     });
 
     // TODO SelectField unit testing?
