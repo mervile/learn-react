@@ -14,13 +14,15 @@ interface ITodoItemListProps {
     statusName?: string;
     isOver?: boolean;
     connectDropTarget?: ConnectDropTarget;
-    updateTodoList(itemId: string, newStatus: number): void;
+    updateTodoStatus(itemId: number, newStatus: number): void;
 }
 
 const listTarget = {
     drop(props: ITodoItemListProps, monitor: DropTargetMonitor) {
-        const { id } = monitor.getItem() as ITodoItem;
-        props.updateTodoList(id, props.status);
+        // Bug perhaps from changing target to es6?
+        // Had to change from const { id } = monitor.getItem() as ITodoItem
+        const i = monitor.getItem() as {item: ITodoItem};
+        props.updateTodoStatus(i.item.id, props.status);
     },
 };
 
@@ -48,8 +50,8 @@ class TodoItemList extends React.Component<ITodoItemListProps, {}> {
         );
     }
 
-    private handleStatusChange(itemId: string, event: any, index: number, value: number) {
-        this.props.updateTodoList(itemId, value);
+    private handleStatusChange(itemId: number, event: any, index: number, value: number) {
+        this.props.updateTodoStatus(itemId, value);
     }
 
     private renderList(todos: ITodoItem[]) {

@@ -4,7 +4,7 @@ export enum Status {
     Done
 }
 
-export interface ITodoItem { id: string; description: string; status: Status; }
+export interface ITodoItem { id: number; description: string; status: Status; }
 
 // Types for drag and drop
 export const ItemTypes = {

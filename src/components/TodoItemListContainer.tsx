@@ -2,22 +2,11 @@ import * as _ from "lodash";
 import * as React from "react";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
+import "whatwg-fetch";
 
 import { ITodoItem, Status } from "../models";
 import { AddTodoForm } from "./AddTodoForm";
 import TodoItemList from "./TodoItemList";
-
-const list = [
-    { description: "Setup a dev environment", id: "1", status: Status.Done },
-    { description: "Learn React with Typescript", id: "2", status: Status.InProgress },
-    { description: "Setup unit tests, Karma + shallow rendering?", id: "3", status: Status.Done },
-    { description: "Use UI library e.g. Material UI", id: "4", status: Status.Done },
-    { description: "Create small backend with Scala, Akka, Spray and some NoSQL DB", id: "5", status: Status.New },
-    { description: "Integrate app with backend", id: "6", status: Status.New },
-    { description: "Learn redux", id: "7", status: Status.New },
-    { description: "Routing between states", id: "8", status: Status.New },
-    { description: "Add drag and drop feature for list items", id: "9", status: Status.New },
-];
 
 interface ITodoItemListState { todos: ITodoItem[]; newTodo: ITodoItem; }
 
@@ -26,12 +15,21 @@ class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
         super();
         this.state = {
             newTodo: this.createNewTodo(),
-            todos: list,
+            todos: [],
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
-        this.updateTodoList = this.updateTodoList.bind(this);
+        this.updateTodoStatus = this.updateTodoStatus.bind(this);
+    }
+
+    public componentDidMount() {
+        fetch("http://localhost:8080/todos")
+        .then((response: any) => {
+            return response.json();
+        }).then((todos: ITodoItem[]) => {
+            this.setState({ newTodo: this.state.newTodo, todos });
+        });
     }
 
     public render() {
@@ -46,21 +44,29 @@ class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
                     submitTodo={this.handleSubmit}
                 />
                 <div className="todoItemList">
-                    <TodoItemList todos={newItems} status={Status.New} updateTodoList={this.updateTodoList} />
+                    <TodoItemList
+                        todos={newItems}
+                        status={Status.New}
+                        updateTodoStatus={this.updateTodoStatus}
+                    />
                     <TodoItemList
                         todos={itemsInProgress}
                         status={Status.InProgress}
                         statusName="In progress"
-                        updateTodoList={this.updateTodoList}
+                        updateTodoStatus={this.updateTodoStatus}
                     />
-                    <TodoItemList todos={doneItems} status={Status.Done} updateTodoList={this.updateTodoList} />
+                    <TodoItemList
+                        todos={doneItems}
+                        status={Status.Done}
+                        updateTodoStatus={this.updateTodoStatus}
+                    />
                 </div>
             </div>
         );
     }
 
     private createNewTodo = (description: string = "", status: Status = Status.New) => {
-        return { description, id: Math.random().toString(), status };
+        return { description, id: Math.random(), status };
     }
 
     private handleChange(event: any) {
@@ -68,11 +74,11 @@ class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
             todos: this.state.todos });
     }
 
-    private findItemById(id: string): ITodoItem | undefined {
+    private findItemById(id: number): ITodoItem | undefined {
         return _.find(this.state.todos, (todoItem) => todoItem.id === id);
     }
 
-    private updateTodoList(itemId: string, newStatus: number) {
+    private updateTodoStatus(itemId: number, newStatus: number) {
         // Copy todos array
         const todos = this.state.todos.slice();
         const todo = this.findItemById(itemId);
