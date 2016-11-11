@@ -91,21 +91,28 @@ class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
         const todos = this.state.todos.slice();
         const todo = this.findItemById(itemId);
         todo.status = newStatus;
-        this.setState({ newTodo: this.state.newTodo, todos });
+        this.saveTodo(todo)
+            .then((newTodo: ITodoItem) => {
+                this.setState({ newTodo: this.state.newTodo, todos });
+            });
     }
 
     private handleSubmit(event: any) {
         event.preventDefault();  // prevent page refresh
-        this.saveTodo();
+        this.saveTodo(this.state.newTodo)
+            .then((newTodo: ITodoItem) => {
+                const newlist = this.state.todos.concat([newTodo]);
+                this.setState({ newTodo: this.createNewTodo(), todos: newlist });
+            });
     }
 
     private getItemsByStatus(status: Status) {
         return _.filter(this.state.todos, (item: ITodoItem) => item.status === status);
     }
 
-    private saveTodo() {
-        fetch(`${API_URL}/todo`, {
-            body: JSON.stringify(this.state.newTodo),
+    private saveTodo(todo: ITodoItem) {
+        return fetch(`${API_URL}/todo`, {
+            body: JSON.stringify(todo),
             headers: {
                 "Content-Type": "application/json",
             },
@@ -113,9 +120,6 @@ class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
         })
         .then((response: any) => {
             return response.json();
-        }).then((newTodo: ITodoItem) => {
-            const newlist = this.state.todos.concat([newTodo]);
-            this.setState({ newTodo: this.createNewTodo(), todos: newlist });
         }).catch((error) => {
             console.error("Error saving new todo!", error, this.state.newTodo);
         });
