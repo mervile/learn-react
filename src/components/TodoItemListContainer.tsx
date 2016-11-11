@@ -10,6 +10,8 @@ import TodoItemList from "./TodoItemList";
 
 interface ITodoItemListState { todos: ITodoItem[]; newTodo: ITodoItem; }
 
+const API_URL = "http://localhost:8080";
+
 class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
     constructor() {
         super();
@@ -24,12 +26,7 @@ class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
     }
 
     public componentDidMount() {
-        fetch("http://localhost:8080/todos")
-        .then((response: any) => {
-            return response.json();
-        }).then((todos: ITodoItem[]) => {
-            this.setState({ newTodo: this.state.newTodo, todos });
-        });
+        this.getTodoList();
     }
 
     public render() {
@@ -65,8 +62,19 @@ class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
         );
     }
 
+    private getTodoList() {
+        fetch(`${API_URL}/todos`)
+            .then((response: any) => {
+                return response.json();
+            }).then((todos: ITodoItem[]) => {
+                this.setState({ newTodo: this.state.newTodo, todos });
+            }).catch((error) => {
+                console.error("Error receiving todo list", error);
+            });
+    }
+
     private createNewTodo = (description: string = "", status: Status = Status.New) => {
-        return { description, id: Math.random(), status };
+        return { description, id: -1, status };
     }
 
     private handleChange(event: any) {
@@ -88,12 +96,29 @@ class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
 
     private handleSubmit(event: any) {
         event.preventDefault();  // prevent page refresh
-        const newlist = this.state.todos.concat([this.state.newTodo]);
-        this.setState({ newTodo: this.createNewTodo(), todos: newlist });
+        this.saveTodo();
     }
 
     private getItemsByStatus(status: Status) {
         return _.filter(this.state.todos, (item: ITodoItem) => item.status === status);
+    }
+
+    private saveTodo() {
+        fetch(`${API_URL}/todo`, {
+            body: JSON.stringify(this.state.newTodo),
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+        })
+        .then((response: any) => {
+            return response.json();
+        }).then((newTodo: ITodoItem) => {
+            const newlist = this.state.todos.concat([newTodo]);
+            this.setState({ newTodo: this.createNewTodo(), todos: newlist });
+        }).catch((error) => {
+            console.error("Error saving new todo!", error, this.state.newTodo);
+        });
     }
 }
 

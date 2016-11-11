@@ -13,7 +13,7 @@ export function AddTodoForm(props: IAddTodoFormProps) {
                 value={props.value}
                 onChange={props.handleChange}
             />
-            <RaisedButton style={{margin:"10px"}} onClick={props.submitTodo} label="Submit" />
+            <RaisedButton type="submit" style={{margin:"10px"}} onClick={props.submitTodo} label="Submit" />
         </form>
     );
 }
