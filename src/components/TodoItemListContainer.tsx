@@ -23,6 +23,7 @@ class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.updateTodoStatus = this.updateTodoStatus.bind(this);
+        this.deleteTodo = this.deleteTodo.bind(this);
     }
 
     public componentDidMount() {
@@ -45,17 +46,20 @@ class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
                         todos={newItems}
                         status={Status.New}
                         updateTodoStatus={this.updateTodoStatus}
+                        deleteTodo={this.deleteTodo}
                     />
                     <TodoItemList
                         todos={itemsInProgress}
                         status={Status.InProgress}
                         statusName="In progress"
                         updateTodoStatus={this.updateTodoStatus}
+                        deleteTodo={this.deleteTodo}
                     />
                     <TodoItemList
                         todos={doneItems}
                         status={Status.Done}
                         updateTodoStatus={this.updateTodoStatus}
+                        deleteTodo={this.deleteTodo}
                     />
                 </div>
             </div>
@@ -97,6 +101,18 @@ class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
             });
     }
 
+    private deleteTodo(itemId: number) {
+        fetch(`${API_URL}/todo?id=${itemId}`, {
+            method: "DELETE",
+        })
+        .then((response: any) => {
+            const todos = _.remove(this.state.todos, (todo) => todo.id !== itemId);
+            this.setState({ newTodo: this.state.newTodo, todos });
+        }).catch((error) => {
+            console.error("Error deleting todo!", error);
+        });
+    }
+
     private handleSubmit(event: any) {
         event.preventDefault();  // prevent page refresh
         this.saveTodo(this.state.newTodo)
@@ -121,7 +137,7 @@ class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
         .then((response: any) => {
             return response.json();
         }).catch((error) => {
-            console.error("Error saving new todo!", error, this.state.newTodo);
+            console.error("Error saving todo!", error, this.state.newTodo);
         });
     }
 }

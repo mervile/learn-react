@@ -9,12 +9,13 @@ import TodoItem from "./TodoItem";
 import "./TodoItemList.scss";
 
 interface ITodoItemListProps {
+    updateTodoStatus(itemId: number, newStatus: number): void;
+    deleteTodo(itemId: number): void;
     todos: ITodoItem[];
     status: Status;
     statusName?: string;
     isOver?: boolean;
     connectDropTarget?: ConnectDropTarget;
-    updateTodoStatus(itemId: number, newStatus: number): void;
 }
 
 const listTarget = {
@@ -50,14 +51,10 @@ class TodoItemList extends React.Component<ITodoItemListProps, {}> {
         );
     }
 
-    private handleStatusChange(itemId: number, event: any, index: number, value: number) {
-        this.props.updateTodoStatus(itemId, value);
-    }
-
     private renderList(todos: ITodoItem[]) {
         return todos.map((item: ITodoItem) =>
             <ListItem key={item.id}>
-                <TodoItem item={item} onStatusUpdate={this.handleStatusChange.bind(this, item.id)} />
+                <TodoItem item={item} onDelete={this.props.deleteTodo.bind(this, item.id)} />
             </ListItem>);
     }
 }
