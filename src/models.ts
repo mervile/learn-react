@@ -4,9 +4,14 @@ export enum Status {
     Done
 }
 
-export interface ITodoItem { id: number; description: string; status: Status; }
+export interface ITodo { id: number; description: string; status: Status; }
 
 // Types for drag and drop
 export const ItemTypes = {
     TodoItem: "todoItem",
 };
+
+export interface IStateTree {
+    todos: ITodo[];
+    value: string;
+}

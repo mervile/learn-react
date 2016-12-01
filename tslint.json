@@ -7,6 +7,10 @@
    */
   "extends": ["tslint:latest", "tslint-react"],
   "rules": {
+    "trailing-comma": [true, {"multiline": "always", "singleline": "never"}],
+    "semicolon": [true, "always"],
+    "quotemark": [true, "single"],
+    "no-console": [false]
   },
   "rulesDirectory": [
     /*

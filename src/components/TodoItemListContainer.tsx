@@ -1,4 +1,6 @@
-import * as _ from "lodash";
+// TODO new integration with redux
+
+/*import * as _ from "lodash";
 import * as React from "react";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
@@ -145,3 +147,4 @@ class TodoItemListContainer extends React.Component<{}, ITodoItemListState> {
 // Exporting as React.Component.. is a work around for Typescript issue
 // "JSX element attributes type may not be a union type"
 export default DragDropContext(HTML5Backend)(TodoItemListContainer) as React.ComponentClass<{}>;
+*/
