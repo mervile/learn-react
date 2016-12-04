@@ -11,12 +11,14 @@ export const ItemTypes = {
     TodoItem: 'todoItem',
 };
 
+export interface ITodosState {
+    isFetching: boolean,
+    didInvalidate: boolean,
+    lastUpdated: number,
+    items: ITodo[],
+    error: Response | null,
+}
+
 export interface IStateTree {
-    todos: {
-        isFetching: boolean,
-        didInvalidate: boolean,
-        lastUpdated: number,
-        items: ITodo[],
-        error: Response | null,
-    };
+    todos: ITodosState;
 }

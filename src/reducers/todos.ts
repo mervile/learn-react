@@ -1,57 +1,56 @@
 import {
     ADD_TODO,
     DELETE_TODO,
+    RECEIVE_TODOS,
     REQUEST_TODOS,
     REQUEST_TODOS_FAILURE,
-    RECEIVE_TODOS,
     UPDATE_TODO,
 } from '../actions';
+import todo from './todo';
+import { ITodosState } from '../models';
 
-import { IStateTree } from '../models';
-
-const initialState: IStateTree = {
-    todos: {
-        didInvalidate: true,
-        error: null,
-        isFetching: false,
-        items: [],
-        lastUpdated: Date.now(),
-    },
+const initialState: ITodosState = {
+    didInvalidate: true,
+    error: null,
+    isFetching: false,
+    items: [],
+    lastUpdated: Date.now(),
 };
 
-function todoApp(state = initialState, action: any) {
+function todos(state = initialState, action: any) {
     switch (action.type) {
+        case ADD_TODO:
+            return Object.assign({}, state, {
+                didInvalidate: false,
+                error: null,
+                isFetching: false,
+                items: [...state.items, todo(state, action)],
+                lastUpdated: state.lastUpdated,
+            });
         case REQUEST_TODOS:
             return Object.assign({}, state, {
-                todos: {
-                    didInvalidate: false,
-                    error: null,
-                    isFetching: true,
-                    items: state.todos.items,
-                    lastUpdated: state.todos.lastUpdated,
-                },
+                didInvalidate: false,
+                error: null,
+                isFetching: true,
+                items: state.items,
+                lastUpdated: state.lastUpdated,
             });
         case REQUEST_TODOS_FAILURE:
             return Object.assign({}, state, {
-                todos: {
-                    didInvalidate: false,
-                    error: action.error,
-                    isFetching: false,
-                    items: state.todos.items,
-                    lastUpdated: state.todos.lastUpdated,
-                },
+                didInvalidate: false,
+                error: action.error,
+                isFetching: false,
+                items: state.items,
+                lastUpdated: state.lastUpdated,
             });
         case RECEIVE_TODOS:
             return Object.assign({}, state, {
-                todos: {
-                    didInvalidate: false,
-                    error: null,
-                    isFetching: false,
-                    items: action.todos,
-                    lastUpdated: Date.now(),
-                },
+                didInvalidate: true,
+                error: null,
+                isFetching: false,
+                items: action.todos,
+                lastUpdated: Date.now(),
             });
-        case ADD_TODO:
         case UPDATE_TODO:
         case DELETE_TODO:
         default:
@@ -59,4 +58,4 @@ function todoApp(state = initialState, action: any) {
     }
 }
 
-export default todoApp;
+export default todos;

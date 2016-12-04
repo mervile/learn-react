@@ -1,14 +1,10 @@
-import { IStateTree, ITodo } from './models';
-import { getTodoList } from './services/todoService';
+import { IStateTree, ITodo } from '../models';
+import { getTodoList } from '../services/todoService';
 
 const REQUEST_TODOS = 'REQUEST_TODOS';
 const REQUEST_TODOS_FAILURE = 'REQUEST_TODOS_FAILURE';
 const RECEIVE_TODOS = 'RECEIVE_TODOS';
-const ADD_TODO = 'ADD_TODO';
-const UPDATE_TODO = 'UPDATE_TODO';
-const DELETE_TODO = 'DELETE_TODO';
 
-// action creators
 function requestTodos() {
     return {
         type: REQUEST_TODOS,
@@ -39,11 +35,11 @@ function getTodos() {
         // In this case, we return a promise to wait for.
         // This is not required by thunk middleware, but it is convenient for us.
         return getTodoList()
-            .then(todos =>
+            .then((todos: ITodo[]) =>
                 // We can dispatch many times!
                 // Here, we update the app state with the results of the API call.
                 dispatch(receiveTodos(todos))
-            ).catch((error) =>
+            ).catch((error: Response) =>
                 dispatch(requestTodosFailure(error))
             );
     };
@@ -76,36 +72,9 @@ function getTodosIfNeeded() {
     };
 }
 
-function addTodo(description: string) {
-    return {
-        type: ADD_TODO,
-        description,
-    };
-};
-
-function updateTodo(todo: ITodo) {
-    return {
-        type: UPDATE_TODO,
-        todo,
-    };
-}
-
-function deleteTodo(id: number) {
-    return {
-        type: DELETE_TODO,
-        id,
-    };
-};
-
 export {
     REQUEST_TODOS,
     REQUEST_TODOS_FAILURE,
     RECEIVE_TODOS,
-    ADD_TODO,
-    UPDATE_TODO,
-    DELETE_TODO,
     getTodosIfNeeded,
-    addTodo,
-    updateTodo,
-    deleteTodo,
 }

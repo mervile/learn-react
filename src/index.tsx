@@ -6,7 +6,7 @@ import thunkMiddleware from 'redux-thunk';
 import * as createLogger from 'redux-logger';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import todoApp from './reducers/todos';
+import todoApp from './reducers';
 
 import App from './components/App';
 

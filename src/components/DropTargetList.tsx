@@ -47,8 +47,8 @@ class DropTargetList extends React.Component<IDropTargetListProps, {}> {
 
         return connectDropTarget(
             <div style={{backgroundColor: isOver ? 'lightgray' : 'white'}}>
-                <div>{ this.props.isFetching ? 'Loading...' : '' }</div>
                 <h3>{title}</h3>
+                <div>{ this.props.isFetching ? 'Loading...' : '' }</div>
                 <TodoList
                     todos={todos}
                     onDelete={onDelete}
