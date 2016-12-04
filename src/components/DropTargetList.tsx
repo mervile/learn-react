@@ -7,12 +7,14 @@ import { ITodo, ItemTypes, Status } from '../models';
 import TodoList from './TodoList';
 
 interface IDropTargetListProps {
+    isFetching: boolean;
     isOver?: boolean;
     title: string;
     todos: ITodo[];
     status: Status;
     connectDropTarget?: ConnectDropTarget;
     onUpdate(todo: ITodo): void;
+    onInit(): ITodo[];
     onDelete(id: number): void;
 }
 
@@ -36,11 +38,16 @@ class DropTargetList extends React.Component<IDropTargetListProps, {}> {
         super();
     }
 
+    public componentDidMount() {
+        this.props.onInit();
+    }
+
     public render() {
         const { todos, title, onDelete, connectDropTarget, isOver} = this.props;
 
         return connectDropTarget(
             <div style={{backgroundColor: isOver ? 'lightgray' : 'white'}}>
+                <div>{ this.props.isFetching ? 'Loading...' : '' }</div>
                 <h3>{title}</h3>
                 <TodoList
                     todos={todos}

@@ -8,10 +8,15 @@ export interface ITodo { id: number; description: string; status: Status; }
 
 // Types for drag and drop
 export const ItemTypes = {
-    TodoItem: "todoItem",
+    TodoItem: 'todoItem',
 };
 
 export interface IStateTree {
-    todos: ITodo[];
-    value: string;
+    todos: {
+        isFetching: boolean,
+        didInvalidate: boolean,
+        lastUpdated: number,
+        items: ITodo[],
+        error: Response | null,
+    };
 }
