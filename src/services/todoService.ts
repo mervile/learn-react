@@ -13,6 +13,20 @@ function getTodoList() {
         });
 }
 
+function saveTodo(todo: ITodo) {
+    return fetch(`${API_URL}/todo`, {
+        body: JSON.stringify(todo),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method: 'POST',
+    })
+    .then((response: any) => {
+        return response.json();
+    });
+}
+
 export {
     getTodoList,
+    saveTodo,
 };

@@ -11,12 +11,17 @@ export const ItemTypes = {
     TodoItem: 'todoItem',
 };
 
+interface IError {
+    type: string;
+    error: Response | null;
+}
+
 export interface ITodosState {
-    isFetching: boolean,
-    didInvalidate: boolean,
-    lastUpdated: number,
-    items: ITodo[],
-    error: Response | null,
+    isFetching: boolean;
+    didInvalidate: boolean;
+    lastUpdated: number;
+    items: ITodo[];
+    error: IError;
 }
 
 export interface IStateTree {
