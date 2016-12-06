@@ -1,32 +1,32 @@
+import CircularProgress from 'material-ui/CircularProgress';
 import FontIcon from 'material-ui/FontIcon';
 import * as React from 'react';
 
-import { ITodo } from '../models';
+import { DELETE_TODO } from '../actions';
+import { IRequestStatus, ITodo } from '../models';
 
 import './Todo.scss';
 
 interface ITodoProps {
     todo: ITodo;
+    requestStatus: IRequestStatus;
     onDelete(): void;
 }
 
 class Todo extends React.Component<ITodoProps, {}> {
     public render() {
-        const { todo, onDelete } = this.props;
+        const { requestStatus, todo, onDelete } = this.props;
         const iconStyles = {
             cursor: 'pointer',
             float: 'right',
         };
+        const { id, isLoading, type } = requestStatus;
+        const isFetching = isLoading && type === DELETE_TODO && id === todo.id;
+        const deleteIcon = <FontIcon className='material-icons' style={iconStyles} onClick={onDelete}>delete</FontIcon>
         return (
             <div className='todoItem'>
                 <span className='description'>{ todo.description }</span>
-                <FontIcon
-                    className='material-icons'
-                    style={iconStyles}
-                    onClick={onDelete}
-                >
-                    delete
-                </FontIcon>
+                { isFetching ? <CircularProgress size={20} style={iconStyles} /> : deleteIcon }
             </div>
         );
     }

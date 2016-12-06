@@ -18,9 +18,9 @@ import * as _ from 'lodash';
 const initialState: ITodosState = {
     didInvalidate: true,
     error: null,
-    isFetching: false,
     items: [],
     lastUpdated: Date.now(),
+    requestStatus: { isLoading: false, type: '' },
 };
 
 function todos(state = initialState, action: any) {
@@ -29,57 +29,57 @@ function todos(state = initialState, action: any) {
             return Object.assign({}, state, {
                 didInvalidate: false,
                 error: null,
-                isFetching: true,
                 items: state.items,
                 lastUpdated: state.lastUpdated,
+                requestStatus: { isLoading: true, type: action.type },
             });
         case ADD_TODO_SUCCESS:
             return Object.assign({}, state, {
                 didInvalidate: false,
                 error: null,
-                isFetching: false,
                 items: [...state.items, action.todo],
                 lastUpdated: Date.now(),
+                requestStatus: { isLoading: false, type: action.type },
             });
         case ADD_TODO_FAILURE:
             return Object.assign({}, state, {
                 didInvalidate: false,
                 error: { error: action.error, type: action.type },
-                isFetching: false,
                 items: state.items,
                 lastUpdated: state.lastUpdated,
+                requestStatus: { isLoading: false, type: action.type },
             });
         case REQUEST_TODOS:
             return Object.assign({}, state, {
                 didInvalidate: false,
                 error: null,
-                isFetching: true,
                 items: state.items,
                 lastUpdated: state.lastUpdated,
+                requestStatus: { isLoading: true, type: action.type },
             });
         case REQUEST_TODOS_FAILURE:
             return Object.assign({}, state, {
                 didInvalidate: false,
                 error: { error: action.error, type: action.type },
-                isFetching: false,
                 items: state.items,
                 lastUpdated: state.lastUpdated,
+                requestStatus: { isLoading: false, type: action.type },
             });
         case RECEIVE_TODOS:
             return Object.assign({}, state, {
                 didInvalidate: true,
                 error: null,
-                isFetching: false,
                 items: action.todos,
                 lastUpdated: Date.now(),
+                requestStatus: { isLoading: false, type: action.type },
             });
         case UPDATE_TODO:
             return Object.assign({}, state, {
                 didInvalidate: false,
                 error: null,
-                isFetching: true,
                 items: state.items,
                 lastUpdated: state.lastUpdated,
+                requestStatus: { id: action.todo.id, isLoading: true, type: action.type },
             });
         case UPDATE_TODO_SUCCESS: {
             const items = state.items.slice();
@@ -88,43 +88,43 @@ function todos(state = initialState, action: any) {
             return Object.assign({}, state, {
                 didInvalidate: false,
                 error: null,
-                isFetching: false,
                 items,
                 lastUpdated: Date.now(),
+                requestStatus: { isLoading: false, type: action.type },
             });
         }
         case UPDATE_TODO_FAILURE:
             return Object.assign({}, state, {
                 didInvalidate: false,
                 error: { error: action.error, type: action.type },
-                isFetching: false,
                 items: state.items,
                 lastUpdated: state.lastUpdated,
+                requestStatus: { isLoading: false, type: action.type },
             });
         case DELETE_TODO:
             return Object.assign({}, state, {
                 didInvalidate: false,
                 error: null,
-                isFetching: true,
                 items: state.items,
                 lastUpdated: state.lastUpdated,
+                requestStatus: { id: action.id, isLoading: true, type: action.type },
             });
         case DELETE_TODO_FAILURE:
             return Object.assign({}, state, {
                 didInvalidate: false,
                 error: { error: action.error, type: action.type },
-                isFetching: false,
                 items: state.items,
                 lastUpdated: state.lastUpdated,
+                requestStatus: { isLoading: false, type: action.type },
             });
         case DELETE_TODO_SUCCESS: {
             const items = _.filter(state.items, (item) => item.id !== action.id);
             return Object.assign({}, state, {
                 didInvalidate: false,
                 error: null,
-                isFetching: false,
                 items,
                 lastUpdated: state.lastUpdated,
+                requestStatus: { isLoading: false, type: action.type },
             });
         }
         default:

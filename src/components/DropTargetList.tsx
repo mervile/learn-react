@@ -1,14 +1,14 @@
 import CircularProgress from 'material-ui/CircularProgress';
-import { List, ListItem } from 'material-ui/List';
 
 import * as React from 'react';
 import { ConnectDropTarget, DropTarget, DropTargetConnector, DropTargetMonitor } from 'react-dnd';
 
-import { ITodo, ItemTypes, Status } from '../models';
+import { REQUEST_TODOS, UPDATE_TODO } from '../actions';
+import { IRequestStatus, ITodo, ItemTypes, Status } from '../models';
 import TodoList from './TodoList';
 
 interface IDropTargetListProps {
-    isFetching: boolean;
+    requestStatus: IRequestStatus;
     isOver?: boolean;
     title: string;
     todos: ITodo[];
@@ -44,15 +44,20 @@ class DropTargetList extends React.Component<IDropTargetListProps, {}> {
     }
 
     public render() {
-        const { todos, title, onDelete, connectDropTarget, isOver} = this.props;
+        const { requestStatus, todos, title, onDelete, connectDropTarget, isOver} = this.props;
+        const isFetching = requestStatus.isLoading &&
+            (requestStatus.type === REQUEST_TODOS || requestStatus.type === UPDATE_TODO);
 
         return connectDropTarget(
             <div style={{backgroundColor: isOver ? 'lightgray' : 'white'}}>
-                <h3>{title}</h3>
-                <div>{ this.props.isFetching ? <CircularProgress /> : '' }</div>
+                <h3>
+                    <span style={{marginRight:'10px'}}>{title}</span>
+                    <span>{ isFetching ? <CircularProgress size={15} /> : '' }</span>
+                </h3>
                 <TodoList
                     todos={todos}
                     onDelete={onDelete}
+                    requestStatus={requestStatus}
                 />
             </div>
         );

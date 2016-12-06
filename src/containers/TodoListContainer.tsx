@@ -16,7 +16,7 @@ interface ITodoListContainerProps {
 
 const mapStateToProps = (state: IStateTree, props: ITodoListContainerProps) => {
     return {
-        isFetching: state.todos.isFetching,
+        requestStatus: state.todos.requestStatus,
         status: props.status,
         title: props.title,
         todos: state.todos.items.filter(todo => todo.status === props.status),

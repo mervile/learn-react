@@ -1,29 +1,44 @@
-export enum Status {
+enum Status {
     New,
     InProgress,
     Done
 }
 
-export interface ITodo { id: number; description: string; status: Status; }
-
 // Types for drag and drop
-export const ItemTypes = {
+const ItemTypes = {
     TodoItem: 'todoItem',
 };
+
+interface ITodo { id: number; description: string; status: Status; }
 
 interface IError {
     type: string;
     error: Response | null;
 }
 
-export interface ITodosState {
-    isFetching: boolean;
+interface IRequestStatus {
+    type: string;
+    isLoading: boolean;
+    id?: number;
+}
+
+interface ITodosState {
+    requestStatus: IRequestStatus;
     didInvalidate: boolean;
     lastUpdated: number;
     items: ITodo[];
     error: IError;
 }
 
-export interface IStateTree {
+interface IStateTree {
     todos: ITodosState;
+}
+
+export {
+    Status,
+    IStateTree,
+    ITodosState,
+    IRequestStatus,
+    ITodo,
+    ItemTypes,
 }
