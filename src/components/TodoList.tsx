@@ -1,10 +1,10 @@
-import * as React from 'react';
-import { List, ListItem } from 'material-ui/List';
-
 import DraggableTodo from './DraggableTodo';
+import { ListItem } from 'material-ui/List';
+import * as React from 'react';
+
 import { ITodo } from '../models';
 
-import './TodoItemList.scss';
+import './TodoList.scss';
 
 interface ITodoListProps {
     todos: ITodo[];

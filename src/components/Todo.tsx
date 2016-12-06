@@ -1,9 +1,9 @@
-import * as React from 'react';
 import FontIcon from 'material-ui/FontIcon';
+import * as React from 'react';
 
 import { ITodo } from '../models';
 
-import './TodoItem.scss';
+import './Todo.scss';
 
 interface ITodoProps {
     todo: ITodo;
@@ -14,8 +14,8 @@ class Todo extends React.Component<ITodoProps, {}> {
     public render() {
         const { todo, onDelete } = this.props;
         const iconStyles = {
-            float: 'right',
             cursor: 'pointer',
+            float: 'right',
         };
         return (
             <div className='todoItem'>
