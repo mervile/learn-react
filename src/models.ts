@@ -12,8 +12,8 @@ const ItemTypes = {
 interface ITodo { id: number; description: string; status: Status; }
 
 interface IError {
-    type: string;
     error: Response | null;
+    message: string;
 }
 
 interface IRequestStatus {
@@ -23,11 +23,11 @@ interface IRequestStatus {
 }
 
 interface ITodosState {
+    error: IError;
     requestStatus: IRequestStatus;
     didInvalidate: boolean;
     lastUpdated: number;
     items: ITodo[];
-    error: IError;
 }
 
 interface IStateTree {
@@ -36,6 +36,7 @@ interface IStateTree {
 
 export {
     Status,
+    IError,
     IStateTree,
     ITodosState,
     IRequestStatus,

@@ -44,7 +44,10 @@ function todos(state = initialState, action: any) {
         case ADD_TODO_FAILURE:
             return Object.assign({}, state, {
                 didInvalidate: false,
-                error: { error: action.error, type: action.type },
+                error: {
+                    error: action.error,
+                    message: 'Failed to add new todo!',
+                },
                 items: state.items,
                 lastUpdated: state.lastUpdated,
                 requestStatus: { isLoading: false, type: action.type },
@@ -60,7 +63,10 @@ function todos(state = initialState, action: any) {
         case REQUEST_TODOS_FAILURE:
             return Object.assign({}, state, {
                 didInvalidate: false,
-                error: { error: action.error, type: action.type },
+                error: {
+                    error: action.error,
+                    message: 'Failed to get todos!',
+                },
                 items: state.items,
                 lastUpdated: state.lastUpdated,
                 requestStatus: { isLoading: false, type: action.type },
@@ -96,7 +102,10 @@ function todos(state = initialState, action: any) {
         case UPDATE_TODO_FAILURE:
             return Object.assign({}, state, {
                 didInvalidate: false,
-                error: { error: action.error, type: action.type },
+                error: {
+                    error: action.error,
+                    message: 'Failed to update todo!',
+                },
                 items: state.items,
                 lastUpdated: state.lastUpdated,
                 requestStatus: { isLoading: false, type: action.type },
@@ -112,7 +121,10 @@ function todos(state = initialState, action: any) {
         case DELETE_TODO_FAILURE:
             return Object.assign({}, state, {
                 didInvalidate: false,
-                error: { error: action.error, type: action.type },
+                error: {
+                    error: action.error,
+                    message: 'Failed to delete todo!',
+                },
                 items: state.items,
                 lastUpdated: state.lastUpdated,
                 requestStatus: { isLoading: false, type: action.type },

@@ -1,10 +1,8 @@
 import RaisedButton from 'material-ui/RaisedButton';
-import Snackbar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 
 interface ITodoFormProps {
-    hasError: boolean;
     isLoading: boolean;
     onSubmit(event: any, value: string): void;
 }
@@ -37,11 +35,6 @@ class TodoForm extends React.Component<ITodoFormProps, ITodoFormState> {
                     onClick={this.submitTodo}
                     label={this.props.isLoading ? 'Adding...' : 'Submit'}
                     disabled={this.props.isLoading ? true : false}
-                />
-                <Snackbar
-                    open={this.props.hasError}
-                    message='Failed to add new todo item!'
-                    autoHideDuration={4000}
                 />
             </form>
         );
