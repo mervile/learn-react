@@ -15,7 +15,7 @@ module.exports = function(config) {
          * The root path location that will be used to resolve all relative
          * paths defined in "files" and "exclude".
          */
-        basePath: "",
+        basePath: ".",
 
         /*
          * List of browsers to launch and capture tests in. In order to use a
@@ -38,7 +38,9 @@ module.exports = function(config) {
          * http://karma-runner.github.io/0.13/config/files.html
          */
         files: [
-            "test/**/*.tsx"
+            'node_modules/babel-polyfill/dist/polyfill.js',
+            "test/**/*.tsx",
+            "test/**/*.ts"
         ],
 
         /*
@@ -68,7 +70,8 @@ module.exports = function(config) {
          * npm module to be npm installed and added to the "plugins" field.
          */
         preprocessors: {
-            "test/**/*.tsx": ["webpack"] // Using karma-webpack npm module
+            "test/**/*.tsx": ["webpack"], // Using karma-webpack npm module
+            "test/**/*.ts": ["webpack"]
         },
 
         /*

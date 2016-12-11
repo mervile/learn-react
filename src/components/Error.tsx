@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { IError, Status } from '../models';
+import { IError } from '../models';
 import Snackbar from 'material-ui/Snackbar';
 
 interface IErrorProps {
