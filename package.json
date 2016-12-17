@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --watch | webpack-dev-server",
+    "start": "node server.js",
     "test": "karma start"
   },
   "author": "",
@@ -76,6 +76,7 @@
     "tslint-react": "^1.1.0",
     "typescript": "^2.0.6",
     "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "webpack-notifier": "^1.5.0"
   }
 }

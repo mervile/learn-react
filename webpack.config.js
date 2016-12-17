@@ -1,5 +1,6 @@
 var webpack = require('webpack');
-
+var path = require('path');
+var WebpackNotifierPlugin = require('webpack-notifier');
 // var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var config = {
   /*
@@ -9,9 +10,9 @@ var config = {
    */
   entry: [
     'whatwg-fetch',
-    //'react-hot-loader/patch',
-    //'webpack-dev-server/client?http://localhost:3000', // WebpackDevServer host and port
-    //'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
+    'react-hot-loader/patch',
+    'webpack-dev-server/client?http://localhost:3000', // WebpackDevServer host and port
+    'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
     './src/index.tsx',
   ],
 
@@ -20,7 +21,8 @@ var config = {
    * the final bundled JavaScript file and where to store this file.
    */
   output: {
-    path: './dist/',
+    path: path.resolve('dist'),
+    publicPath: '/dist',
     filename: "bundle.js"
   },
   devServer: {
@@ -70,7 +72,8 @@ var config = {
     ]
   },
   plugins: [
-    // new webpack.HotModuleReplacementPlugin(),
+    new WebpackNotifierPlugin({ alwaysNotify: true }),
+    new webpack.HotModuleReplacementPlugin(),
     // new ExtractTextPlugin("main.css")
   ],
   // Special setup for enzyme

@@ -26,7 +26,7 @@ class TodoForm extends React.Component<ITodoFormProps, ITodoFormState> {
             <form className='todoForm'>
                 <TextField
                     type='text'
-                    hintText='Add new todo'
+                    hintText='Add new todo!'
                     onChange={this.handleChange}
                 />
                 <RaisedButton
