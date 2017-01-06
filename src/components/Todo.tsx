@@ -10,25 +10,42 @@ import './Todo.scss';
 interface ITodoProps {
     todo: ITodo;
     requestStatus: IRequestStatus;
-    onDelete(): void;
+    onDelete(id: number): void;
 }
 
 class Todo extends React.Component<ITodoProps, {}> {
+    constructor() {
+        super();
+        this.onDelete = this.onDelete.bind(this);
+    }
+
     public render() {
-        const { requestStatus, todo, onDelete } = this.props;
+        const { requestStatus, todo } = this.props;
         const iconStyles = {
             cursor: 'pointer',
             float: 'right',
         };
         const { id, isLoading, type } = requestStatus;
         const isFetching = isLoading && type === DELETE_TODO && id === todo.id;
-        const deleteIcon = <FontIcon className='material-icons' style={iconStyles} onClick={onDelete}>delete</FontIcon>
+        const deleteIcon =
+            <FontIcon
+                className='material-icons'
+                style={iconStyles}
+                onClick={this.onDelete}
+            >
+                delete
+            </FontIcon>;
         return (
             <div className='todoItem'>
                 <span className='description'>{ todo.description }</span>
                 { isFetching ? <CircularProgress size={20} style={iconStyles} /> : deleteIcon }
             </div>
         );
+    }
+
+    public onDelete() {
+        const { onDelete, todo } = this.props;
+        onDelete(todo.id);
     }
 }
 

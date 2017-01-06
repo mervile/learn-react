@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 
 import {
     getTodosIfNeeded,
-    requestDeleteTodo,
     requestUpdateTodo,
 } from '../actions';
 import { IStateTree, ITodo, Status  } from '../models';
@@ -25,9 +24,6 @@ const mapStateToProps = (state: IStateTree, props: ITodoListContainerProps) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        onDelete: (id: number) => {
-            dispatch(requestDeleteTodo(id));
-        },
         onInit: () => {
             dispatch(getTodosIfNeeded());
         },

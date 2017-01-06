@@ -16,7 +16,6 @@ interface IDropTargetListProps {
     connectDropTarget?: ConnectDropTarget;
     onUpdate(todo: ITodo): void;
     onInit(): ITodo[];
-    onDelete(id: number): void;
 }
 
 const listTarget = {
@@ -44,7 +43,7 @@ class DropTargetList extends React.Component<IDropTargetListProps, {}> {
     }
 
     public render() {
-        const { requestStatus, todos, title, onDelete, connectDropTarget, isOver} = this.props;
+        const { requestStatus, todos, title, connectDropTarget, isOver} = this.props;
         const isFetching = requestStatus.isLoading &&
             (requestStatus.type === REQUEST_TODOS || requestStatus.type === UPDATE_TODO);
 
@@ -56,8 +55,6 @@ class DropTargetList extends React.Component<IDropTargetListProps, {}> {
                 </h3>
                 <TodoList
                     todos={todos}
-                    onDelete={onDelete}
-                    requestStatus={requestStatus}
                 />
             </div>
         );

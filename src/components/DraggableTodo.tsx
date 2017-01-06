@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { DragSource, DragSourceConnector, DragSourceMonitor } from 'react-dnd';
 
-import Todo from '../components/Todo';
-import { IRequestStatus, ITodo, ItemTypes } from '../models';
+import TodoContainer from '../containers/TodoContainer';
+import { ITodo, ItemTypes } from '../models';
 
 interface IDraggableTodoProps {
     todo: ITodo;
-    onDelete: any;
-    requestStatus: IRequestStatus;
     connectDragSource?: any;
     isDragging?: boolean;
 }
@@ -27,10 +25,10 @@ function collect(connect: DragSourceConnector, monitor: DragSourceMonitor) {
 
 class DraggableTodo extends React.Component<IDraggableTodoProps, {}> {
     public render() {
-        const { requestStatus, todo, onDelete, connectDragSource, isDragging } = this.props;
+        const { todo, connectDragSource, isDragging } = this.props;
         return connectDragSource(
             <div style={{opacity: isDragging ? 0.5 : 1}}>
-                <Todo requestStatus={requestStatus} todo={todo} onDelete={onDelete} />
+                <TodoContainer todo={todo} />
             </div>
         );
     }
