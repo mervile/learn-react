@@ -8,6 +8,8 @@ import ErrorContainer from '../containers/ErrorContainer';
 import TodoForm from '../containers/TodoFormContainer';
 import TodoListContainer from '../containers/TodoListContainer';
 
+import LoginForm from '../components/LoginForm';
+
 class App extends React.Component<{}, {}> {
     constructor() {
         super();
@@ -16,6 +18,7 @@ class App extends React.Component<{}, {}> {
     public render() {
         return (
             <div>
+                <LoginForm />
                 <TodoForm />
                 <TodoListContainer status={Status.New} title='New' />
                 <TodoListContainer status={Status.InProgress} title='In Progress' />
