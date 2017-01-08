@@ -9,7 +9,12 @@ const ItemTypes = {
     TodoItem: 'todoItem',
 };
 
-interface ITodo { id: number; description: string; status: Status; }
+interface ITodo {
+    id: number;
+    description: string;
+    status: Status;
+    userId: string;
+}
 
 interface IError {
     error: Response | null;

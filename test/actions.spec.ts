@@ -10,7 +10,8 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const expect = chai.expect;
 
-const todo = { description: 'do something', id: 234, status: 0 };
+const API_URL = 'http://localhost:8080/api';
+const todo = { description: 'do something', id: 234, status: 0, userId: '?' };
 let state: ITodosState = {
     didInvalidate: true,
     error: null,
@@ -25,7 +26,7 @@ describe('Todos actions', () => {
     });
 
     it('creates RECEIVE_TODOS when fetching todos has been done', () => {
-        fetchMock.mock('http://localhost:8080/todos', [todo]);
+        fetchMock.mock(`${API_URL}/todos`, [todo]);
 
         const expectedActions = [
             { type: actions.REQUEST_TODOS },
@@ -42,7 +43,7 @@ describe('Todos actions', () => {
 
     it('creates REQUEST_TODOS_FAILURE when fetching todos fails', () => {
         const error = 'DB error';
-        fetchMock.mock('http://localhost:8080/todos', { body: error, status: 500 });
+        fetchMock.mock(`${API_URL}/todos`, { body: error, status: 500 });
 
         const expectedActions = [
             { type: actions.REQUEST_TODOS },
@@ -66,7 +67,7 @@ describe('Todo actions', () => {
     });
 
     it('creates ADD_TODO_SUCCESS when adding a todo succeeds', () => {
-        fetchMock.post('http://localhost:8080/todo', todo);
+        fetchMock.post(`${API_URL}/todo`, todo);
 
         const expectedActions = [
             { type: actions.ADD_TODO, description: todo.description },
@@ -83,7 +84,7 @@ describe('Todo actions', () => {
 
     it('creates ADD_TODO_FAILURE when adding a todo fails', () => {
         const error = 'DB error';
-        fetchMock.post('http://localhost:8080/todo', { body: error, status: 500 });
+        fetchMock.post(`${API_URL}/todo`, { body: error, status: 500 });
 
         const expectedActions = [
             { type: actions.ADD_TODO, description: todo.description },
@@ -100,7 +101,7 @@ describe('Todo actions', () => {
     });
 
     it('creates UPDATE_TODO_SUCCESS when updating a todo succeeds', () => {
-        fetchMock.post('http://localhost:8080/todo', todo);
+        fetchMock.post(`${API_URL}/todo`, todo);
 
         const expectedActions = [
             { type: actions.UPDATE_TODO, todo },

@@ -8,7 +8,7 @@ function setup() {
     const props = {
         onDelete: () => {},
         requestStatus: { isLoading: false, type: '' },
-        todos: [{ description: 'Run tests', id: 0, status: 0 }],
+        todos: [{ description: 'Run tests', id: 0, status: 0, userId: '?' }],
     };
 
     const enzymeWrapper = shallow(<TodoList {...props} />);

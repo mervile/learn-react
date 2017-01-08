@@ -38,7 +38,7 @@ function addTodoFailure(error: Response) {
 function requestAddTodo(description: string) {
     return (dispatch: any) => {
         dispatch(addTodo(description));
-        return saveTodo({ id: -1, description, status: 0 })
+        return saveTodo({ id: -1, description, status: 0, userId: '' }) // TODO
             .then((todo: ITodo) =>
                 dispatch(addTodoSuccess(todo))
             ).catch((error: Response) =>
