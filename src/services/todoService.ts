@@ -1,19 +1,20 @@
 import { ITodo } from '../models';
-import * as _ from 'lodash';
 import 'whatwg-fetch';
 
-const API_URL = 'http://localhost:8080/api';
-// TODO 
-// TODO https://github.com/werk85/fetch-intercept ?
-const auth = 'Basic ' + window.btoa('test:password');
+import { API_URL, TOKEN } from '../config';
+
+// TODO https://github.com/werk85/fetch-intercept or api middleware?
+
+const getAuth = () => 'Bearer ' + JSON.parse(localStorage.getItem(TOKEN)).token_id;
 
 function getTodoList() {
+    const auth = getAuth();
     return fetch(`${API_URL}/todos`, {
-            headers: {
-                Authorization: auth,
-            },
-            method: 'GET',
-        })
+        headers: {
+            Authorization: auth,
+        },
+        method: 'GET',
+    })
         .then((response: any) => {
             return response.json();
         }).then((todos: ITodo[]) => {
@@ -22,6 +23,7 @@ function getTodoList() {
 }
 
 function saveTodo(todo: ITodo) {
+    const auth = getAuth();
     return fetch(`${API_URL}/todo`, {
         body: JSON.stringify(todo),
         headers: {
@@ -30,12 +32,13 @@ function saveTodo(todo: ITodo) {
         },
         method: 'POST',
     })
-    .then((response: any) => {
-        return response.json();
-    });
+        .then((response: any) => {
+            return response.json();
+        });
 }
 
 function removeTodo(itemId: number) {
+    const auth = getAuth();
     return fetch(`${API_URL}/todo?id=${itemId}`, {
         headers: {
             Authorization: auth,

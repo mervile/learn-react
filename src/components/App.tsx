@@ -2,31 +2,46 @@ import * as React from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import { Status } from '../models';
+import { IStateTree, Status } from '../models';
 
 import ErrorContainer from '../containers/ErrorContainer';
-import TodoForm from '../containers/TodoFormContainer';
+import LoginFormContainer from '../containers/LoginFormContainer';
+import TodoFormContainer from '../containers/TodoFormContainer';
 import TodoListContainer from '../containers/TodoListContainer';
 
-import LoginForm from '../components/LoginForm';
+import { connect } from 'react-redux';
 
-class App extends React.Component<{}, {}> {
-    constructor() {
-        super();
-    }
+interface IAppProps {
+    isAuthenticated: boolean;
+}
 
-    public render() {
-        return (
+const mapStateToProps = (state: IStateTree) => {
+    return {
+        isAuthenticated: state.auth.isAuthenticated,
+    };
+};
+
+const App = (props: IAppProps) => {
+    let authContent = <span>Login to see todos</span>;
+    if (props.isAuthenticated) {
+        authContent = (
             <div>
-                <LoginForm />
-                <TodoForm />
+                <TodoFormContainer />
                 <TodoListContainer status={Status.New} title='New' />
                 <TodoListContainer status={Status.InProgress} title='In Progress' />
                 <TodoListContainer status={Status.Done} title='Done' />
-                <ErrorContainer />
             </div>
         );
     }
-}
+    return (
+        <div>
+            <LoginFormContainer />
+            {authContent}
+            <ErrorContainer />
+        </div>
+    );
+};
 
-export default DragDropContext(HTML5Backend)(App) as React.ComponentClass<{}>;
+const AppContainer = connect(mapStateToProps)(App);
+
+export default DragDropContext(HTML5Backend)(AppContainer) as React.ComponentClass<{}>;

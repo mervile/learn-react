@@ -20,9 +20,9 @@ interface IDropTargetListProps {
 
 const listTarget = {
     drop(props: IDropTargetListProps, monitor: DropTargetMonitor) {
-        const item = monitor.getItem().item;
-        item.status = props.status;
-        props.onUpdate(item);
+        const todo = monitor.getItem().item as ITodo;
+        todo.status = props.status;
+        props.onUpdate(todo);
     },
 };
 

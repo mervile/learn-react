@@ -35,16 +35,31 @@ interface ITodosState {
     items: ITodo[];
 }
 
+interface IAuthState {
+    isAuthenticated: boolean;
+    requestStatus: IRequestStatus;
+    error: IError;
+    username: string;
+ }
+
 interface IStateTree {
     todos: ITodosState;
+    auth: IAuthState;
+}
+
+interface ICredentials {
+    username: string;
+    password: string;
 }
 
 export {
     Status,
     IError,
     IStateTree,
+    IAuthState,
     ITodosState,
     IRequestStatus,
     ITodo,
     ItemTypes,
+    ICredentials,
 }

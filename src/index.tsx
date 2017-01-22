@@ -8,20 +8,19 @@ const { AppContainer } = require('react-hot-loader');
 // Tell Typescript that there is a global variable called module - see below
 declare var module: { hot: any };
 
-import thunkMiddleware from 'redux-thunk';
-import * as createLogger from 'redux-logger';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import todoApp from './reducers';
+import { applyMiddleware, createStore } from 'redux';
+import * as createLogger from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
 
 import App from './components/App';
+import todoApp from './reducers';
 
 // Important that this is after all!
 import '../main.scss';
 
-// TODO: Didn't work after upgrading to Windows 10?
-// import * as injectTapEventPlugin from 'react-tap-event-plugin';
-// injectTapEventPlugin();
+import * as injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 const loggerMiddleware = createLogger();
 
@@ -29,7 +28,7 @@ let store = createStore(
   todoApp,
   applyMiddleware(
     thunkMiddleware, // lets us dispatch() functions
-    loggerMiddleware // neat middleware that logs actions
+    loggerMiddleware, // neat middleware that logs actions
   )
 );
 
