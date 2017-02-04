@@ -1,0 +1,52 @@
+body {
+    font-family: sans-serif;
+    margin: 0px;
+}
+
+.content {
+    margin: 0px 20px;
+}
+
+.flex-row {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.todoItemList {
+    @media all and (min-width: 800px) {
+        width: 50%;
+    }
+}
+
+.todoItem {
+    padding: 5px;
+
+    .description {
+        margin: 10px;
+    }
+}
+
+.header {
+    h1 {
+        color: darkcyan;
+        margin: 0px 10px;
+        text-transform: uppercase;
+        top: 7px;
+        position: relative;
+    }
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+
+    padding: 5px 10px;
+    border-bottom: 1px solid lightgray;
+    box-shadow: 0px 2px 5px gainsboro;
+    margin-bottom: 20px;
+
+    .username {
+        margin-right: 5px;
+    }
+}

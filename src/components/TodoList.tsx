@@ -4,8 +4,6 @@ import * as React from 'react';
 
 import { ITodo } from '../models';
 
-import './TodoList.scss';
-
 interface ITodoListProps {
     todos: ITodo[];
 }

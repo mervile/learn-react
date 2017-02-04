@@ -3,8 +3,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 
-import './LoginForm.scss';
-
 interface ILoginFormState {
     username: string;
     password: string;
@@ -36,7 +34,7 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
     public render() {
         const { isAuthenticated, username } = this.props;
         let content = (
-            <div className='header'>
+            <div className='login'>
                 <span>Welcome, {username}!</span>
                 <RaisedButton
                     type='button'
@@ -48,7 +46,7 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
         );
         if (!isAuthenticated) {
             content = (
-                <div className='header'>
+                <div className='login'>
                     <TextField
                         className='username'
                         type='text'
@@ -71,7 +69,7 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
                 </div>
             );
         }
-        return <div className='login flex-row'><h1>My todos</h1> {content}</div>;
+        return <div className='header flex-row'><h1>My todos</h1> {content}</div>;
     }
 
     private handleUsernameChange(event: any) {

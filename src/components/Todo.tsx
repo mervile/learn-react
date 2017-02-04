@@ -5,8 +5,6 @@ import * as React from 'react';
 import { DELETE_TODO } from '../actions';
 import { IRequestStatus, ITodo } from '../models';
 
-import './Todo.scss';
-
 interface ITodoProps {
     todo: ITodo;
     requestStatus: IRequestStatus;
