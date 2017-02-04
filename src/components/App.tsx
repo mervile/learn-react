@@ -22,10 +22,10 @@ const mapStateToProps = (state: IStateTree) => {
 };
 
 const App = (props: IAppProps) => {
-    let authContent = <span>Login to see todos</span>;
+    let authContent = <span className='content'>Login to see todos</span>;
     if (props.isAuthenticated) {
         authContent = (
-            <div>
+            <div className='content'>
                 <TodoFormContainer />
                 <TodoListContainer status={Status.New} title='New' />
                 <TodoListContainer status={Status.InProgress} title='In Progress' />
