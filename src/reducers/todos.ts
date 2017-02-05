@@ -15,6 +15,8 @@ import {
 import { ITodosState } from '../models';
 import * as _ from 'lodash';
 
+import { request, requestFailure } from './utils';
+
 const initialState: ITodosState = {
     didInvalidate: true,
     error: null,
@@ -26,49 +28,21 @@ const initialState: ITodosState = {
 function todos(state = initialState, action: any): ITodosState {
     switch (action.type) {
         case ADD_TODO:
-            return {
-                didInvalidate: false,
-                error: null,
-                items: state.items,
-                lastUpdated: state.lastUpdated,
-                requestStatus: { isLoading: true, type: action.type },
-            };
+        case REQUEST_TODOS:
+        case UPDATE_TODO:
+        case DELETE_TODO:
+            return request(state, action);
+        case ADD_TODO_FAILURE:
+        case REQUEST_TODOS_FAILURE:
+        case UPDATE_TODO_FAILURE:
+        case DELETE_TODO_FAILURE:
+            return requestFailure(state, action);
         case ADD_TODO_SUCCESS:
             return {
                 didInvalidate: false,
                 error: null,
                 items: [...state.items, action.todo],
                 lastUpdated: Date.now(),
-                requestStatus: { isLoading: false, type: action.type },
-            };
-        case ADD_TODO_FAILURE:
-            return {
-                didInvalidate: false,
-                error: {
-                    error: action.error,
-                    message: 'Failed to add new todo!',
-                },
-                items: state.items,
-                lastUpdated: state.lastUpdated,
-                requestStatus: { isLoading: false, type: action.type },
-            };
-        case REQUEST_TODOS:
-            return {
-                didInvalidate: false,
-                error: null,
-                items: state.items,
-                lastUpdated: state.lastUpdated,
-                requestStatus: { isLoading: true, type: action.type },
-            };
-        case REQUEST_TODOS_FAILURE:
-            return {
-                didInvalidate: false,
-                error: {
-                    error: action.error,
-                    message: 'Failed to get todos!',
-                },
-                items: state.items,
-                lastUpdated: state.lastUpdated,
                 requestStatus: { isLoading: false, type: action.type },
             };
         case RECEIVE_TODOS:
@@ -78,14 +52,6 @@ function todos(state = initialState, action: any): ITodosState {
                 items: action.todos,
                 lastUpdated: Date.now(),
                 requestStatus: { isLoading: false, type: action.type },
-            };
-        case UPDATE_TODO:
-            return {
-                didInvalidate: false,
-                error: null,
-                items: state.items,
-                lastUpdated: state.lastUpdated,
-                requestStatus: { id: action.todo.id, isLoading: true, type: action.type },
             };
         case UPDATE_TODO_SUCCESS: {
             const items = state.items.slice();
@@ -99,36 +65,6 @@ function todos(state = initialState, action: any): ITodosState {
                 requestStatus: { isLoading: false, type: action.type },
             };
         }
-        case UPDATE_TODO_FAILURE:
-            return {
-                didInvalidate: false,
-                error: {
-                    error: action.error,
-                    message: 'Failed to update todo!',
-                },
-                items: state.items,
-                lastUpdated: state.lastUpdated,
-                requestStatus: { isLoading: false, type: action.type },
-            };
-        case DELETE_TODO:
-            return {
-                didInvalidate: false,
-                error: null,
-                items: state.items,
-                lastUpdated: state.lastUpdated,
-                requestStatus: { id: action.id, isLoading: true, type: action.type },
-            };
-        case DELETE_TODO_FAILURE:
-            return {
-                didInvalidate: false,
-                error: {
-                    error: action.error,
-                    message: 'Failed to delete todo!',
-                },
-                items: state.items,
-                lastUpdated: state.lastUpdated,
-                requestStatus: { isLoading: false, type: action.type },
-            };
         case DELETE_TODO_SUCCESS: {
             const items = _.filter(state.items, (item) => item.id !== action.id);
             return {

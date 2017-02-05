@@ -2,11 +2,17 @@ import {
     LOGIN_FAILURE,
     LOGIN_SUCCESS,
     LOGOUT,
+    REGISTRATION_FAILURE,
+    REGISTRATION_SUCCESS,
     REQUEST_LOGIN,
+    REQUEST_REGISTRATION,
 } from '../actions';
 import { TOKEN } from '../config';
 import { IAuthState } from '../models';
 import { logout } from '../services/authService';
+import * as _ from 'lodash';
+
+import { request, requestFailure } from './utils';
 
 const initialState: IAuthState = {
     error: null,
@@ -18,37 +24,27 @@ const initialState: IAuthState = {
 function auth(state = initialState, action: any): IAuthState {
     switch (action.type) {
         case REQUEST_LOGIN:
-            return {
-                error: null,
-                isAuthenticated: false,
-                requestStatus: { isLoading: true, type: action.type },
-                username: '',
-            };
-        case LOGIN_SUCCESS:
-            return {
-                error: null,
-                isAuthenticated: true,
-                requestStatus: { isLoading: false, type: '' },
-                username: action.username,
-            };
+        case REQUEST_REGISTRATION:
+            return request(state, action);
         case LOGIN_FAILURE:
-            return {
-                error: {
-                    error: action.error,
-                    message: 'Wrong username or password!',
-                },
-                isAuthenticated: false,
-                requestStatus: { isLoading: false, type: '' },
-                username: '',
-            };
-        case LOGOUT:
+        case REGISTRATION_FAILURE:
+            return requestFailure(state, action);
+        case LOGIN_SUCCESS: {
+            const copy = JSON.parse(JSON.stringify(state));
+            return _.assign(copy, {
+                isAuthenticated: true,
+                username: action.username,
+            });
+        }
+        case LOGOUT: {
             logout();
-            return {
-                error: null,
+            const copy = JSON.parse(JSON.stringify(state));
+            return _.assign(copy, {
                 isAuthenticated: false,
-                requestStatus: { isLoading: false, type: '' },
-                username: '',
-            };
+            });
+        }
+        case REGISTRATION_SUCCESS:
+            return initialState;
         default:
             return state;
     }

@@ -6,6 +6,7 @@ import { IStateTree, Status } from '../models';
 
 import ErrorContainer from '../containers/ErrorContainer';
 import LoginFormContainer from '../containers/LoginFormContainer';
+import RegisterFormContainer from '../containers/RegisterFormContainer';
 import TodoFormContainer from '../containers/TodoFormContainer';
 import TodoListContainer from '../containers/TodoListContainer';
 
@@ -22,7 +23,12 @@ const mapStateToProps = (state: IStateTree) => {
 };
 
 const App = (props: IAppProps) => {
-    let authContent = <span className='content'>Login to see todos</span>;
+    let authContent = (
+        <div className='content'>
+            Login to see todos. Don't have an account? Register here:
+            <RegisterFormContainer />
+        </div>
+    );
     if (props.isAuthenticated) {
         authContent = (
             <div className='content'>

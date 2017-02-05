@@ -23,9 +23,22 @@ h1, h3 {
     align-items: center;
 }
 
+.flex-col {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
 .todoItemList {
     @media all and (min-width: 800px) {
         width: 50%;
+    }
+}
+
+.register {
+    @media all and (min-width: 800px) {
+        width: 15%;
     }
 }
 
