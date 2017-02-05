@@ -36,7 +36,7 @@ function register(creds: ICredentials) {
             if (!response.ok) {
                 throw new Error(`${response.status} ${response.statusText}`);
             } else {
-                return response.json();
+                return response;
             }
         });
 }
