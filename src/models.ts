@@ -52,6 +52,17 @@ interface ICredentials {
     password: string;
 }
 
+interface IField {
+    isValid: boolean;
+    value: string;
+    name: string;
+}
+
+interface IFormState {
+    fields: IField[];
+    isValid: boolean;
+}
+
 export {
     Status,
     IError,
@@ -62,4 +73,6 @@ export {
     ITodo,
     ItemTypes,
     ICredentials,
+    IField,
+    IFormState,
 }

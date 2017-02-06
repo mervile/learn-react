@@ -5,6 +5,7 @@ import {
     DELETE_TODO,
     DELETE_TODO_FAILURE,
     DELETE_TODO_SUCCESS,
+    LOGOUT,
     RECEIVE_TODOS,
     REQUEST_TODOS,
     REQUEST_TODOS_FAILURE,
@@ -75,6 +76,8 @@ function todos(state = initialState, action: any): ITodosState {
                 requestStatus: { isLoading: false, type: action.type },
             };
         }
+        case LOGOUT:
+            return initialState;
         default:
             return state;
     }

@@ -1,4 +1,7 @@
+@import 'mixins';
+
 $accent-color: darkseagreen;
+$header-height: 65px;
 
 body {
     font-family: sans-serif;
@@ -11,23 +14,7 @@ h1, h3 {
 }
 
 .content {
-    margin: 0px 20px;
-}
-
-.flex-row {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: row;
-    flex-direction: row;
-    -webkit-align-items: center;
-    align-items: center;
-}
-
-.flex-col {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: column;
-    flex-direction: column;
+    margin: 20px;
 }
 
 .todoItemList {
@@ -37,9 +24,21 @@ h1, h3 {
 }
 
 .register {
+    @include flex-column();
+
     @media all and (min-width: 800px) {
         width: 15%;
     }
+}
+
+.login {
+    @media all and (min-width: 800px) {
+        @include flex-row();
+    }
+    @media all and (max-width: 800px) {
+        @include flex-column();
+    }
+    margin-right: 20px;
 }
 
 .todoItem {
@@ -54,16 +53,18 @@ h1, h3 {
     h1 {
         margin: 0px 10px;
     }
-    -webkit-justify-content: space-between;
-    justify-content: space-between;
+    @media all and (min-width: 800px) {
+        @include flex-row();
+
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+    }
+    @media all and (max-width: 800px) {
+        @include flex-column();
+    }
 
     padding: 5px 10px;
     border-bottom: 1px solid lightgray;
     box-shadow: 0px 2px 5px gainsboro;
-    margin-bottom: 20px;
     background-color: whitesmoke;
-
-    .username {
-        margin-right: 5px;
-    }
 }

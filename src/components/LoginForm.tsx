@@ -1,12 +1,11 @@
 import { ICredentials } from '../models';
+import * as _ from 'lodash';
+import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
 import * as React from 'react';
 
-interface ILoginFormState {
-    username: string;
-    password: string;
-}
+import { IField, IFormState } from '../models';
+import FormTextField from './FormTextField';
 
 interface ILoginFormProps {
     isAuthenticated: boolean;
@@ -16,23 +15,27 @@ interface ILoginFormProps {
     onLogout(): void;
 }
 
-class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
+const initState = {
+    fields: [
+        { isValid: false, name: 'password', value: '' },
+        { isValid: false, name: 'username', value: ''},
+    ],
+    isValid: false,
+};
+
+class LoginForm extends React.Component<ILoginFormProps, IFormState> {
     constructor() {
         super();
 
-        this.state = {
-            password: '',
-            username: '',
-        };
+        this.state = initState;
 
-        this.handleUsernameChange = this.handleUsernameChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.updateField = this.updateField.bind(this);
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
     }
 
     public render() {
-        const { isAuthenticated, username } = this.props;
+        const { isAuthenticated, username, isLoading } = this.props;
         let content = (
             <div className='login'>
                 <span>Welcome, {username}!</span>
@@ -40,48 +43,65 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
                     type='button'
                     style={{margin:'10px'}}
                     label='Logout'
+                    icon={ isLoading ? <CircularProgress size={20} /> : ''}
                     onClick={this.logout}
+                    disabled={isLoading}
                 />
             </div>
         );
         if (!isAuthenticated) {
             content = (
                 <div className='login'>
-                    <TextField
-                        className='username'
+                    <FormTextField
                         type='text'
                         name='username'
                         hintText='Username'
-                        onChange={this.handleUsernameChange}
+                        onUpdate={this.updateField}
+                        isRequired={true}
                     />
-                    <TextField
+                    <FormTextField
                         type='password'
                         name='password'
                         hintText='Password'
-                        onChange={this.handlePasswordChange}
+                        onUpdate={this.updateField}
+                        isRequired={true}
                     />
                     <RaisedButton
                         type='submit'
                         style={{margin:'10px'}}
                         label='Login'
+                        icon={ isLoading ? <CircularProgress size={20} /> : ''}
                         onClick={this.login}
+                        disabled={!this.state.isValid || isLoading}
                     />
                 </div>
             );
         }
-        return <div className='header flex-row'><h1>My todos</h1> {content}</div>;
+        return <div className='header'><h1>My todos</h1> {content}</div>;
     }
 
-    private handleUsernameChange(event: any) {
-        this.setState({ password: this.state.password, username: event.target.value });
+    private getStateCopy() {
+        return JSON.parse(JSON.stringify(this.state));
     }
 
-    private handlePasswordChange(event: any) {
-        this.setState({ password: event.target.value, username: this.state.username });
+    private updateField(field: IField) {
+        const fields = this.state.fields.map(f => {
+            if (f.name === field.name) {
+                return field;
+            } else {
+                return f;
+            }
+        });
+        this.setState(_.assign(this.getStateCopy(), {
+            isValid: _.every(fields, 'isValid'),
+            fields,
+        }));
     }
 
-    private login(event: any) {
-        this.props.onLogin({ password: this.state.password, username: this.state.username });
+    private login() {
+        this.props.onLogin({
+            password: this.state.fields[0].value,
+            username: this.state.fields[1].value });
     }
 
     private logout() {
@@ -90,7 +110,7 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
     }
 
     private clearState() {
-        this.setState({ password: '', username: '' });
+        this.setState(initState);
     }
 }
 

@@ -12,8 +12,8 @@ import LoginForm from '../components/LoginForm';
 const mapStateToProps = (state: any) => {
     return {
         isAuthenticated: state.auth.isAuthenticated,
-        isLoading: state.todos.requestStatus.isLoading &&
-            (state.todos.requestStatus.type === REQUEST_LOGIN),
+        isLoading: state.auth.requestStatus.isLoading &&
+            (state.auth.requestStatus.type === REQUEST_LOGIN),
         username: state.auth.username,
     };
 };

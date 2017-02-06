@@ -33,6 +33,7 @@ function auth(state = initialState, action: any): IAuthState {
             const copy = JSON.parse(JSON.stringify(state));
             return _.assign(copy, {
                 isAuthenticated: true,
+                requestStatus: { isLoading: false, type: '' },
                 username: action.username,
             });
         }
