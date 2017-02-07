@@ -52,6 +52,16 @@ interface ICredentials {
     password: string;
 }
 
+interface IAsyncValidator {
+    errorText: string;
+    validate(value: string | number): Promise<any>;
+}
+
+interface IValidator {
+    errorText: string;
+    validate(value: string | number): boolean;
+}
+
 interface IField {
     isValid: boolean;
     value: string;
@@ -75,4 +85,6 @@ export {
     ICredentials,
     IField,
     IFormState,
+    IValidator,
+    IAsyncValidator,
 }

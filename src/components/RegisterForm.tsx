@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import * as React from 'react';
 
 import { IField, IFormState } from '../models';
+import { validateUsername } from '../services/authService';
 import FormTextField from './FormTextField';
 
 interface IRegisterFormProps {
@@ -33,9 +34,17 @@ class RegisterForm extends React.Component<IRegisterFormProps, IFormState> {
 
     public render() {
         const { isLoading } = this.props;
-        const validator = {
+        const pass1Validator = {
+            errorText: 'Passwords length must be at least 3 characters!',
+            validate: (val: string) => val.length >= 3,
+        };
+        const pass2Validator = {
             errorText: 'Passwords must match!',
             validate: (val: string) => val === this.state.fields[0].value,
+        };
+        const usernameValidator = {
+            errorText: 'Username is already taken!',
+            validate: (val: string) => validateUsername(val),
         };
 
         const content = (
@@ -45,6 +54,7 @@ class RegisterForm extends React.Component<IRegisterFormProps, IFormState> {
                     name='username'
                     hintText='Username'
                     isRequired={true}
+                    asyncValidator={usernameValidator}
                     onUpdate={this.updateField}
                 />
                 <FormTextField
@@ -52,6 +62,7 @@ class RegisterForm extends React.Component<IRegisterFormProps, IFormState> {
                     name='password'
                     hintText='Password'
                     isRequired={true}
+                    validator={pass1Validator}
                     onUpdate={this.updateField}
                 />
                 <FormTextField
@@ -59,7 +70,7 @@ class RegisterForm extends React.Component<IRegisterFormProps, IFormState> {
                     name='passwordAgain'
                     hintText='Password again'
                     isRequired={true}
-                    validators={[validator]}
+                    validator={pass2Validator}
                     onUpdate={this.updateField}
                 />
                 <RaisedButton

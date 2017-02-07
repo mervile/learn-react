@@ -2,12 +2,7 @@ import * as _ from 'lodash';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 
-import { IField } from '../models';
-
-interface IValidator {
-    errorText: string;
-    validate(value: string | number): boolean;
-}
+import { IAsyncValidator, IField, IValidator } from '../models';
 
 interface IFormTextFieldState {
     errorText: string;
@@ -20,7 +15,8 @@ interface IFormTextFieldProps {
     name: string;
     hintText: string;
     isRequired: boolean;
-    validators?: IValidator[];
+    validator?: IValidator;
+    asyncValidator?: IAsyncValidator;
     onUpdate?(field: IField): void;
 }
 
@@ -54,27 +50,45 @@ class FormTextField extends React.Component<IFormTextFieldProps, IFormTextFieldS
         );
     }
 
-    private handleChange(event: any) {
-        const { name, validators, onUpdate } = this.props;
+    private validateChange(value: string) {
+        const { validator, asyncValidator } = this.props;
         let errorText = '';
-        if (this.props.isRequired && event.target.value.trim().length === 0) {
+        if (this.props.isRequired && value.trim().length === 0) {
             errorText = 'This field is required!';
-        } else if (typeof validators !== 'undefined') {
-            validators.map(validator => {
-                if (!validator.validate(event.target.value)) {
-                    errorText +=  ' ' + validator.errorText;
-                }
-            });
+        } else {
+            if (typeof validator !== 'undefined' &&
+                !validator.validate(value)) {
+                errorText +=  ' ' + validator.errorText;
+            }
+            if (typeof asyncValidator !== 'undefined') {
+                asyncValidator.validate(value).then((res: any) => {
+                    if (res.username === this.state.value) {
+                        // Update value again after result is known
+                        const txt = !res.isValid ? asyncValidator.errorText : '';
+                        this.update(txt, value);
+                    }
+                });
+            }
         }
+        return errorText;
+    }
+
+    private update(errorText: string, value: string) {
+        const { name, onUpdate } = this.props;
         this.setState({
             errorText,
             isPristine: false,
-            value: event.target.value,
+            value,
         });
 
         if (typeof onUpdate !== 'undefined') {
-            onUpdate({ value: event.target.value, name, isValid: errorText.length === 0 });
+            onUpdate({ value, name, isValid: errorText.length === 0 });
         }
+    }
+
+    private handleChange(event: any) {
+        const val = event.target.value;
+        this.update(this.validateChange(val), val);
     }
 }
 

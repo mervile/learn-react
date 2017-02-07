@@ -41,8 +41,28 @@ function register(creds: ICredentials) {
         });
 }
 
+function validateUsername(username: string) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({username, isValid: username !== 'test'});
+        }, 500);
+    });
+    // TODO create end point
+    /*return fetch(`${PUBLIC_URL}/validate-username?username=${username}`, {
+            method: 'GET',
+        })
+        .then((response: any) => {
+            if (!response.ok) {
+                throw new Error(`${response.status} ${response.statusText}`);
+            } else {
+                return response;
+            }
+        });*/
+}
+
 export {
     login,
     logout,
     register,
+    validateUsername,
 };
