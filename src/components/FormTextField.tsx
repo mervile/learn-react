@@ -61,6 +61,7 @@ class FormTextField extends React.Component<IFormTextFieldProps, IFormTextFieldS
                 errorText +=  ' ' + validator.errorText;
             }
             if (typeof asyncValidator !== 'undefined') {
+                // TODO Try out RxJS
                 asyncValidator.validate(value).then((res: any) => {
                     if (res.username === this.state.value) {
                         // Update value again after result is known

@@ -1,10 +1,10 @@
 import { ICredentials } from '../models';
 import 'whatwg-fetch';
 
-import { PUBLIC_URL, TOKEN } from '../config';
+import { AUTH_URL, PUBLIC_URL, TOKEN } from '../config';
 
 function login(creds: ICredentials) {
-    return fetch(`${PUBLIC_URL}/auth/login`, {
+    return fetch(`${AUTH_URL}/login`, {
             body: `username=${creds.username}&password=${creds.password}`,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -25,7 +25,7 @@ function logout() {
 }
 
 function register(creds: ICredentials) {
-    return fetch(`${PUBLIC_URL}/auth/register`, {
+    return fetch(`${AUTH_URL}/register`, {
             body: `username=${creds.username}&password=${creds.password}`,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -42,22 +42,16 @@ function register(creds: ICredentials) {
 }
 
 function validateUsername(username: string) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve({username, isValid: username !== 'test'});
-        }, 500);
-    });
-    // TODO create end point
-    /*return fetch(`${PUBLIC_URL}/validate-username?username=${username}`, {
+    return fetch(`${PUBLIC_URL}/validate-username?username=${username}`, {
             method: 'GET',
         })
         .then((response: any) => {
             if (!response.ok) {
                 throw new Error(`${response.status} ${response.statusText}`);
             } else {
-                return response;
+                return response.json();
             }
-        });*/
+        });
 }
 
 export {
