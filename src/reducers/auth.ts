@@ -12,13 +12,20 @@ import { IAuthState } from '../models';
 import { logout } from '../services/authService';
 import * as _ from 'lodash';
 
+import * as jwt_decode from 'jwt-decode';
+
 import { request, requestFailure } from './utils';
 
+const token = localStorage.getItem(TOKEN) ? JSON.parse(localStorage.getItem(TOKEN)) : undefined;
+let username = '';
+if (token) {
+    username = jwt_decode(token.token_id).username;
+}
 const initialState: IAuthState = {
     error: null,
-    isAuthenticated: localStorage.getItem(TOKEN) ? true : false,
+    isAuthenticated: token ? true : false,
     requestStatus: { isLoading: false, type: '' },
-    username: localStorage.getItem(TOKEN) ? JSON.parse(localStorage.getItem(TOKEN)).username : '',
+    username,
 };
 
 function auth(state = initialState, action: any): IAuthState {

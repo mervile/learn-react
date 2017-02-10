@@ -2,6 +2,8 @@ import { TOKEN } from '../config';
 import { ICredentials } from '../models';
 import * as auth from '../services/authService';
 
+import * as jwt_decode from 'jwt-decode';
+
 const REQUEST_LOGIN  = 'REQUEST_LOGIN';
 const LOGIN_FAILURE  = 'LOGIN_FAILURE';
 const LOGIN_SUCCESS  = 'LOGIN_SUCCESS';
@@ -35,8 +37,9 @@ function login(creds: ICredentials) {
         dispatch(requestLogin());
         return auth.login(creds)
             .then((res: any) => {
+                const user = jwt_decode(res.token_id);
                 localStorage.setItem(TOKEN, JSON.stringify(res));
-                dispatch(loginSuccess(res.username));
+                dispatch(loginSuccess(user.username));
             }).catch((error: Response) =>
                 dispatch(loginFailure(error))
             );
