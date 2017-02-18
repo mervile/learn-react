@@ -29,6 +29,7 @@ class Error extends React.Component<IErrorProps, IErrorState> {
         let message = this.state.open ? this.props.error.message : '';
         return (
             <Snackbar
+                bodyStyle={{backgroundColor:'red'}}
                 open={this.state.open}
                 message={message}
                 autoHideDuration={4000}

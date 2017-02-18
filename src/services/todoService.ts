@@ -1,7 +1,8 @@
-import { ITodo } from '../models';
 import 'whatwg-fetch';
 
 import { API_URL, TOKEN } from '../config';
+import { ITodo } from '../models';
+import { handleErrors } from './utils';
 
 // TODO https://github.com/werk85/fetch-intercept or api middleware?
 
@@ -15,11 +16,10 @@ function getTodoList() {
         },
         method: 'GET',
     })
-        .then((response: any) => {
-            return response.json();
-        }).then((todos: ITodo[]) => {
-            return todos;
-        });
+    .then(handleErrors)
+    .then((response: any) => {
+        return response.json();
+    });
 }
 
 function saveTodo(todo: ITodo) {
@@ -32,9 +32,10 @@ function saveTodo(todo: ITodo) {
         },
         method: 'POST',
     })
-        .then((response: any) => {
-            return response.json();
-        });
+    .then(handleErrors)
+    .then((response: any) => {
+        return response.json();
+    });
 }
 
 function removeTodo(itemId: number) {
@@ -46,6 +47,7 @@ function removeTodo(itemId: number) {
         },
         method: 'DELETE',
     })
+    .then(handleErrors)
     .then((response: any) => {
         return response.json();
     });

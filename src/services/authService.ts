@@ -1,7 +1,8 @@
-import { ICredentials } from '../models';
 import 'whatwg-fetch';
 
 import { AUTH_URL, PUBLIC_URL, TOKEN } from '../config';
+import { ICredentials } from '../models';
+import { handleErrors } from './utils';
 
 function login(creds: ICredentials) {
     return fetch(`${AUTH_URL}/login`, {
@@ -11,12 +12,9 @@ function login(creds: ICredentials) {
             },
             method: 'POST',
         })
+        .then(handleErrors)
         .then((response: any) => {
-            if (!response.ok) {
-                throw new Error(`${response.status} ${response.statusText}`);
-            } else {
-                return response.json();
-            }
+            return response.json();
         });
 }
 
@@ -32,12 +30,9 @@ function register(creds: ICredentials) {
             },
             method: 'POST',
         })
+        .then(handleErrors)
         .then((response: any) => {
-            if (!response.ok) {
-                throw new Error(`${response.status} ${response.statusText}`);
-            } else {
-                return response;
-            }
+            return response;
         });
 }
 
@@ -45,12 +40,11 @@ function validateUsername(username: string) {
     return fetch(`${PUBLIC_URL}/validate-username?username=${username}`, {
             method: 'GET',
         })
-        .then((response: any) => {
-            if (!response.ok) {
-                throw new Error(`${response.status} ${response.statusText}`);
-            } else {
-                return response.json();
-            }
+        .then(handleErrors)
+        .then((response: any) => response.json())
+        .catch((error: any) => {
+            console.error('Error while validating username:', error);
+            return { username: '' };
         });
 }
 
