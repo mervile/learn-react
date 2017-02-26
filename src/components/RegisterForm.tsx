@@ -3,7 +3,9 @@ import * as _ from 'lodash';
 import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
 import * as React from 'react';
+import { Link } from 'react-router';
 
+import { PATHS } from '../config';
 import { IField, IFormState } from '../models';
 import { validateUsername } from '../services/authService';
 import FormTextField from './FormTextField';
@@ -49,6 +51,7 @@ class RegisterForm extends React.Component<IRegisterFormProps, IFormState> {
 
         const content = (
             <div className='register'>
+                <h1>Create new account</h1>
                 <FormTextField
                     type='text'
                     name='username'
@@ -81,6 +84,10 @@ class RegisterForm extends React.Component<IRegisterFormProps, IFormState> {
                     onClick={this.register}
                     disabled={!this.state.isValid || isLoading}
                 />
+                <div>
+                    <div>Already have an account?</div>
+                    <Link to={PATHS.LOGIN}>Login here</Link>
+                </div>
             </div>
         );
         return <div>{content}</div>;

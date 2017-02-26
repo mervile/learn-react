@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import { Route, Router, browserHistory } from 'react-router';
 
-import { IStateTree, Status } from '../models';
+import { PATHS, TOKEN } from '../config';
+import { IStateTree } from '../models';
 
 import ErrorContainer from '../containers/ErrorContainer';
 import LoginFormContainer from '../containers/LoginFormContainer';
 import RegisterFormContainer from '../containers/RegisterFormContainer';
-import TodoFormContainer from '../containers/TodoFormContainer';
-import TodoListContainer from '../containers/TodoListContainer';
+import TodosContainer from './Todos';
 
 import { connect } from 'react-redux';
 
@@ -22,30 +23,46 @@ const mapStateToProps = (state: IStateTree) => {
     };
 };
 
-const App = (props: IAppProps) => {
-    let authContent = (
-        <div className='content'>
-            Login to see todos. Don't have an account? Register here:
-            <RegisterFormContainer />
-        </div>
-    );
-    if (props.isAuthenticated) {
-        authContent = (
-            <div className='content'>
-                <TodoFormContainer />
-                <TodoListContainer status={Status.New} title='New' />
-                <TodoListContainer status={Status.InProgress} title='In Progress' />
-                <TodoListContainer status={Status.Done} title='Done' />
+class App extends React.Component<IAppProps, {}> {
+    public constructor() {
+        super();
+
+        this.requireAuth = this.requireAuth.bind(this);
+        this.checkAuth = this.checkAuth.bind(this);
+    }
+
+    public render() {
+        return (
+            <div>
+                <Router history={browserHistory}>
+                    <Route path={PATHS.LOGIN} component={LoginFormContainer} onEnter={this.checkAuth} />
+                    <Route path={PATHS.REGISTER} component={RegisterFormContainer} onEnter={this.checkAuth} />
+                    <Route path={PATHS.HOME} component={TodosContainer} onEnter={this.requireAuth} />
+                </Router>
+                <ErrorContainer />
             </div>
         );
     }
-    return (
-        <div>
-            <LoginFormContainer />
-            {authContent}
-            <ErrorContainer />
-        </div>
-    );
+
+    /**
+     * Redirect to authenticated content if user is logged in.
+     */
+    private checkAuth(nextState: any, replace: any) {
+        // TODO Ask server if token is valid
+        if (localStorage.getItem(TOKEN)) {
+            replace(PATHS.HOME);
+        }
+    }
+
+    /**
+     * Redirect to login if user is not logged in.
+     */
+    private requireAuth(nextState: any, replace: any) {
+        // TODO Ask server if token is valid
+        if (!localStorage.getItem(TOKEN)) {
+            replace(PATHS.LOGIN);
+        }
+    }
 };
 
 const AppContainer = connect(mapStateToProps)(App);

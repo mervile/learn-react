@@ -1,8 +1,9 @@
-import { TOKEN } from '../config';
+import { PATHS, TOKEN } from '../config';
 import { ICredentials } from '../models';
 import * as auth from '../services/authService';
 
 import * as jwt_decode from 'jwt-decode';
+import { browserHistory } from 'react-router';
 
 const REQUEST_LOGIN  = 'REQUEST_LOGIN';
 const LOGIN_FAILURE  = 'LOGIN_FAILURE';
@@ -40,6 +41,7 @@ function login(creds: ICredentials) {
                 const user = jwt_decode(res.token_id);
                 localStorage.setItem(TOKEN, JSON.stringify(res));
                 dispatch(loginSuccess(user.username));
+                browserHistory.push(PATHS.HOME);
             }).catch((error: Response) =>
                 dispatch(loginFailure(error))
             );
@@ -47,6 +49,8 @@ function login(creds: ICredentials) {
 }
 
 function logout() {
+    auth.logout();
+    browserHistory.push(PATHS.LOGIN);
     return {
         type: LOGOUT,
     };
