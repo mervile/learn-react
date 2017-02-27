@@ -6,7 +6,7 @@ import TodoForm from '../components/TodoForm';
 
 const mapStateToProps = (state: any) => {
     return {
-        isLoading: state.todos.requestStatus.isLoading && state.todos.requestStatus.type === ADD_TODO,
+        isLoading: state.request.isLoading && state.request.type === ADD_TODO,
     };
 };
 

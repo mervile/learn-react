@@ -4,11 +4,11 @@ import * as React from 'react';
 import { ConnectDropTarget, DropTarget, DropTargetConnector, DropTargetMonitor } from 'react-dnd';
 
 import { REQUEST_TODOS, UPDATE_TODO } from '../actions';
-import { IRequestStatus, ITodo, ItemTypes, Status } from '../models';
+import { IRequestState, ITodo, ItemTypes, Status } from '../models';
 import TodoList from './TodoList';
 
 interface IDropTargetListProps {
-    requestStatus: IRequestStatus;
+    request: IRequestState;
     isOver?: boolean;
     title: string;
     todos: ITodo[];
@@ -43,9 +43,9 @@ class DropTargetList extends React.Component<IDropTargetListProps, {}> {
     }
 
     public render() {
-        const { requestStatus, todos, title, connectDropTarget, isOver} = this.props;
-        const isFetching = requestStatus.isLoading &&
-            (requestStatus.type === REQUEST_TODOS || requestStatus.type === UPDATE_TODO);
+        const { request, todos, title, connectDropTarget, isOver} = this.props;
+        const isFetching = request.isLoading &&
+            (request.type === REQUEST_TODOS || request.type === UPDATE_TODO);
 
         return connectDropTarget(
             <div style={{backgroundColor: isOver ? 'lightgray' : 'white'}}>

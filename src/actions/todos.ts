@@ -49,7 +49,7 @@ function shouldGetTodos(state: IStateTree) {
     const todos = state.todos;
     if (!todos) {
         return true;
-    } else if (todos.requestStatus.isLoading) {
+    } else if (state.request.isLoading) {
         return false;
     } else {
         return todos.didInvalidate;

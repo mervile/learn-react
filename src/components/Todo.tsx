@@ -3,11 +3,11 @@ import FontIcon from 'material-ui/FontIcon';
 import * as React from 'react';
 
 import { DELETE_TODO } from '../actions';
-import { IRequestStatus, ITodo } from '../models';
+import { IRequestState, ITodo } from '../models';
 
 interface ITodoProps {
     todo: ITodo;
-    requestStatus: IRequestStatus;
+    request: IRequestState;
     onDelete(id: number): void;
 }
 
@@ -18,12 +18,12 @@ class Todo extends React.Component<ITodoProps, {}> {
     }
 
     public render() {
-        const { requestStatus, todo } = this.props;
+        const { request, todo } = this.props;
         const iconStyles = {
             cursor: 'pointer',
             float: 'right',
         };
-        const { id, isLoading, type } = requestStatus;
+        const { id, isLoading, type } = request;
         const isFetching = isLoading && type === DELETE_TODO && id === todo.id;
         const deleteIcon =
             <FontIcon

@@ -16,20 +16,15 @@ interface ITodo {
     userId: string;
 }
 
-interface IError {
+interface IRequestState {
+    type: string;
+    isLoading: boolean;
+    id?: number;
     error: Response | null;
     message: string;
 }
 
-interface IRequestStatus {
-    type: string;
-    isLoading: boolean;
-    id?: number;
-}
-
 interface ITodosState {
-    error: IError;
-    requestStatus: IRequestStatus;
     didInvalidate: boolean;
     lastUpdated: number;
     items: ITodo[];
@@ -37,14 +32,13 @@ interface ITodosState {
 
 interface IAuthState {
     isAuthenticated: boolean;
-    requestStatus: IRequestStatus;
-    error: IError;
     username: string;
  }
 
 interface IStateTree {
     todos: ITodosState;
     auth: IAuthState;
+    request: IRequestState;
 }
 
 interface ICredentials {
@@ -75,11 +69,10 @@ interface IFormState {
 
 export {
     Status,
-    IError,
     IStateTree,
     IAuthState,
     ITodosState,
-    IRequestStatus,
+    IRequestState,
     ITodo,
     ItemTypes,
     ICredentials,

@@ -11,7 +11,7 @@ interface ITodoContainerProps {
 
 const mapStateToProps = (state: IStateTree, props: ITodoContainerProps) => {
     return {
-        requestStatus: state.todos.requestStatus,
+        request: state.request,
         todo: props.todo,
     };
 };

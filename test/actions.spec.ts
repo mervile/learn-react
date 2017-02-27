@@ -14,10 +14,8 @@ const API_URL = 'http://localhost:8080/api';
 const todo = { description: 'do something', id: 234, status: 0, userId: '?' };
 let state: ITodosState = {
     didInvalidate: true,
-    error: null,
     items: [],
     lastUpdated: Date.now(),
-    requestStatus: { isLoading: false, type: '' },
 };
 
 describe('Todos actions', () => {

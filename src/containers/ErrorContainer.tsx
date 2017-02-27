@@ -6,7 +6,8 @@ import Error from '../components/Error';
 
 const mapStateToProps = (state: IStateTree) => {
     return {
-        error: state.todos.error || state.auth.error,
+        error: state.request.error,
+        message: state.request.message,
     };
 };
 

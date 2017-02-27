@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { IError } from '../models';
 import Snackbar from 'material-ui/Snackbar';
 
 interface IErrorProps {
-    error: IError;
+    error: Response | null;
+    message: string;
 }
 
 interface IErrorState {
@@ -26,7 +26,7 @@ class Error extends React.Component<IErrorProps, IErrorState> {
     }
 
     public render() {
-        let message = this.state.open ? this.props.error.message : '';
+        let message = this.state.open ? this.props.message : '';
         return (
             <Snackbar
                 bodyStyle={{backgroundColor:'red'}}

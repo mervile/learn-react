@@ -10,8 +10,8 @@ import RegisterForm from '../components/RegisterForm';
 
 const mapStateToProps = (state: any) => {
     return {
-        isLoading: state.auth.requestStatus.isLoading &&
-            (state.auth.requestStatus.type === REQUEST_REGISTRATION),
+        isLoading: state.request.isLoading &&
+            (state.request.type === REQUEST_REGISTRATION),
     };
 };
 

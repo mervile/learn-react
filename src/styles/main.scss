@@ -1,6 +1,7 @@
 @import 'mixins';
 
 $accent-color: darkseagreen;
+$accent-border: 30px solid $accent-color;
 $header-height: 65px;
 
 html, body {
@@ -31,6 +32,8 @@ h1, h3 {
     margin: 0px auto 0px auto;
     box-shadow: 3px 4px 10px gainsboro;
     border: 1px solid gainsboro;
+    border-top: $accent-border;
+    border-bottom: $accent-border;
     padding: 30px;
 
     @media all and (min-width: 800px) {

@@ -10,8 +10,8 @@ import LoginForm from '../components/LoginForm';
 
 const mapStateToProps = (state: any) => {
     return {
-        isLoading: state.auth.requestStatus.isLoading &&
-            (state.auth.requestStatus.type === REQUEST_LOGIN),
+        isLoading: state.request.isLoading &&
+            (state.request.type === REQUEST_LOGIN),
     };
 };
 

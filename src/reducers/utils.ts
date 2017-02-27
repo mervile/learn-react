@@ -1,34 +1,42 @@
-import { IAuthState, ITodosState } from '../models';
+import { IRequestState } from '../models';
 import * as _ from 'lodash';
 
-function request(state: IAuthState | ITodosState, action: any) {
+function startRequest(state: IRequestState, action: any) {
     const copy = JSON.parse(JSON.stringify(state));
     return _.assign(copy, {
         error: null,
-        requestStatus: {
-            id: action.id || undefined,
-            isLoading: true,
-            type: action.type,
-        },
+        id: action.id,
+        isLoading: true,
+        message: '',
+        type: action.type,
     });
 }
 
-function requestFailure(state: IAuthState | ITodosState, action: any) {
+function requestFailure(state: IRequestState, action: any) {
     const copy = JSON.parse(JSON.stringify(state));
     const err = action.error;
     return _.assign(copy, {
-        error: {
-            error: action.error,
-            message: err.status ? `${err.status} - ${err.statusText}` : `${err}`,
-        },
-        requestStatus: {
-            isLoading: false,
-            type: '',
-        },
+        error: action.error,
+        id: action.id,
+        isLoading: false,
+        message: err.status ? `${err.status} - ${err.statusText}` : `${err}`,
+        type: '',
+    });
+}
+
+function requestSuccess(state: IRequestState, action: any) {
+    const copy = JSON.parse(JSON.stringify(state));
+    return _.assign(copy, {
+        error: null,
+        id: action.id,
+        isLoading: false,
+        message: action.message,
+        type: action.type,
     });
 }
 
 export {
-    request,
+    startRequest,
     requestFailure,
+    requestSuccess,
 }
