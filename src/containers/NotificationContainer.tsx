@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { IStateTree } from '../models';
 
-import Error from '../components/Error';
+import Notification from '../components/Notification';
 
 const mapStateToProps = (state: IStateTree) => {
     return {
@@ -15,9 +15,9 @@ const mapDispatchToProps = (dispatch: any) => {
     return {};
 };
 
-const ErrorContainer = connect(
+const NotificationContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Error);
+)(Notification);
 
-export default ErrorContainer;
+export default NotificationContainer;

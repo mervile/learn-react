@@ -12,6 +12,7 @@ import FormTextField from './FormTextField';
 
 interface IRegisterFormProps {
     isLoading: boolean;
+    message: string;
     onRegister(creds: ICredentials): void;
 }
 
@@ -35,7 +36,7 @@ class RegisterForm extends React.Component<IRegisterFormProps, IFormState> {
     }
 
     public render() {
-        const { isLoading } = this.props;
+        const { isLoading, message } = this.props;
         const pass1Validator = {
             errorText: 'Passwords length must be at least 3 characters!',
             validate: (val: string) => val.length >= 3,
@@ -48,6 +49,11 @@ class RegisterForm extends React.Component<IRegisterFormProps, IFormState> {
             errorText: 'Username is already taken!',
             validate: (val: string) => validateUsername(val),
         };
+
+        let helpText = 'Already have an account?';
+        if (message.trim().length > 0) {
+            helpText = message;
+        }
 
         const content = (
             <div className='register'>
@@ -85,7 +91,7 @@ class RegisterForm extends React.Component<IRegisterFormProps, IFormState> {
                     disabled={!this.state.isValid || isLoading}
                 />
                 <div>
-                    <div>Already have an account?</div>
+                    <div>{helpText}</div>
                     <Link to={PATHS.LOGIN}>Login here</Link>
                 </div>
             </div>

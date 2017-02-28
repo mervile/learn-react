@@ -71,6 +71,7 @@ function registrationFailure(error: any) {
 
 function registrationSuccess() {
     return {
+        message: 'Registration completed successfully. Now you can login!',
         type: REGISTRATION_SUCCESS,
     };
 };

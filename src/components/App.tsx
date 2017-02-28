@@ -6,8 +6,8 @@ import { Route, Router, browserHistory } from 'react-router';
 import { PATHS, TOKEN } from '../config';
 import { IStateTree } from '../models';
 
-import ErrorContainer from '../containers/ErrorContainer';
 import LoginFormContainer from '../containers/LoginFormContainer';
+import NotificationContainer from '../containers/NotificationContainer';
 import RegisterFormContainer from '../containers/RegisterFormContainer';
 import TodosContainer from './Todos';
 
@@ -39,7 +39,7 @@ class App extends React.Component<IAppProps, {}> {
                     <Route path={PATHS.REGISTER} component={RegisterFormContainer} onEnter={this.checkAuth} />
                     <Route path={PATHS.HOME} component={TodosContainer} onEnter={this.requireAuth} />
                 </Router>
-                <ErrorContainer />
+                <NotificationContainer />
             </div>
         );
     }

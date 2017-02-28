@@ -23,6 +23,7 @@ function addTodo(description: string) {
 
 function addTodoSuccess(todo: ITodo) {
     return {
+        message: 'Added new todo successfully!',
         type: ADD_TODO_SUCCESS,
         todo,
     };
@@ -57,6 +58,7 @@ function updateTodo(todo: ITodo) {
 
 function updateTodoSuccess(todo: ITodo) {
     return {
+        message: 'Successfully updated todo!',
         type: UPDATE_TODO_SUCCESS,
         todo,
     };
@@ -90,6 +92,7 @@ function deleteTodo(id: number) {
 
 function deleteTodoSuccess(id: number) {
     return {
+        message: 'Successfully deleted todo!',
         type: DELETE_TODO_SUCCESS,
         id,
     };

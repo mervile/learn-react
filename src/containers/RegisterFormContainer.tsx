@@ -12,6 +12,7 @@ const mapStateToProps = (state: any) => {
     return {
         isLoading: state.request.isLoading &&
             (state.request.type === REQUEST_REGISTRATION),
+        message: state.request.message,
     };
 };
 

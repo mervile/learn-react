@@ -2,16 +2,16 @@ import * as React from 'react';
 
 import Snackbar from 'material-ui/Snackbar';
 
-interface IErrorProps {
+interface INotificationProps {
     error: Response | null;
     message: string;
 }
 
-interface IErrorState {
+interface INotificationState {
     open: boolean;
 }
 
-class Error extends React.Component<IErrorProps, IErrorState> {
+class Notification extends React.Component<INotificationProps, INotificationState> {
     constructor() {
         super();
         this.close = this.close.bind(this);
@@ -20,16 +20,17 @@ class Error extends React.Component<IErrorProps, IErrorState> {
         };
     }
 
-    public componentWillReceiveProps(nextProps: IErrorProps) {
-        const hasError = nextProps.error !== null;
-        this.setState({ open: hasError });
+    public componentWillReceiveProps(nextProps: INotificationProps) {
+        const hasMessage = nextProps.message && nextProps.message.trim().length > 0;
+        this.setState({ open: hasMessage });
     }
 
     public render() {
-        let message = this.state.open ? this.props.message : '';
+        const message = this.state.open ? this.props.message : '';
+        const bgColor = this.props.error !== null ? 'red' : 'green';
         return (
             <Snackbar
-                bodyStyle={{backgroundColor:'red'}}
+                bodyStyle={{backgroundColor: bgColor}}
                 open={this.state.open}
                 message={message}
                 autoHideDuration={4000}
@@ -43,4 +44,4 @@ class Error extends React.Component<IErrorProps, IErrorState> {
     }
 }
 
-export default Error;
+export default Notification;
