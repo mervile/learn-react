@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Status } from '../../models';
 import Header from '../common/Header';
-import TodoList from '../todos/todo-list/TodoList';
+import { TodoList } from '../todos/todo-list/TodoList';
 import TodoForm from '../todos/TodoForm';
 
 class Todos extends React.Component<{}, {}> {

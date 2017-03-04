@@ -96,9 +96,12 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
+const DropTargetList = DropTarget(ItemTypes.TodoItem,
+    listTarget, collect)(TodoListComponent);
+
 const TodoList = connect(
     mapStateToProps,
     mapDispatchToProps
-)(DropTarget(ItemTypes.TodoItem, listTarget, collect)(TodoListComponent));
+)(DropTargetList);
 
-export default TodoList;
+export { TodoList, DropTargetList };
