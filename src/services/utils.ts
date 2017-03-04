@@ -1,3 +1,4 @@
+import { TOKEN } from '../config';
 
 function handleErrors(response: any) {
     if (!response.ok) {
@@ -6,4 +7,7 @@ function handleErrors(response: any) {
     return response;
 }
 
-export { handleErrors };
+function getToken() {
+    return localStorage.getItem(TOKEN) !== null ? JSON.parse(localStorage.getItem(TOKEN)) : undefined;
+}
+export { getToken, handleErrors };

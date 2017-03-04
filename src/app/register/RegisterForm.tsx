@@ -1,14 +1,18 @@
-import { ICredentials } from '../models';
 import * as _ from 'lodash';
 import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { PATHS } from '../config';
-import { IField, IFormState } from '../models';
-import { validateUsername } from '../services/authService';
-import FormTextField from './FormTextField';
+import { PATHS } from '../../config';
+import {
+    REGISTRATION_REQUEST,
+    register,
+} from '../../data/actions';
+import { ICredentials, IField, IFormState } from '../../models';
+import { validateUsername } from '../../services/authService';
+import FormTextField from '../common/FormTextField';
 
 interface IRegisterFormProps {
     isLoading: boolean;
@@ -25,7 +29,7 @@ const initState = {
     isValid: false,
 };
 
-class RegisterForm extends React.Component<IRegisterFormProps, IFormState> {
+class RegisterFormComponent extends React.Component<IRegisterFormProps, IFormState> {
 
     constructor() {
         super();
@@ -124,4 +128,25 @@ class RegisterForm extends React.Component<IRegisterFormProps, IFormState> {
     }
 }
 
-export default RegisterForm;
+const mapStateToProps = (state: any) => {
+    return {
+        isLoading: state.request.isLoading &&
+            (state.request.type === REGISTRATION_REQUEST),
+        message: state.request.type === REGISTRATION_REQUEST ? state.request.message : '',
+    };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        onRegister: (creds: ICredentials) => {
+            dispatch(register(creds));
+        },
+    };
+};
+
+const RegistrationForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RegisterFormComponent);
+
+export default RegistrationForm;

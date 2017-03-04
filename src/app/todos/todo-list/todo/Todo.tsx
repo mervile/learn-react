@@ -1,9 +1,10 @@
 import CircularProgress from 'material-ui/CircularProgress';
 import FontIcon from 'material-ui/FontIcon';
 import * as React from 'react';
+import { connect } from 'react-redux';
 
-import { DELETE_TODO } from '../actions';
-import { IRequestState, ITodo } from '../models';
+import { DELETE_TODO_REQUEST, requestDeleteTodo } from '../../../../data/actions';
+import { IRequestState, IStateTree, ITodo } from '../../../../models';
 
 interface ITodoProps {
     todo: ITodo;
@@ -11,7 +12,7 @@ interface ITodoProps {
     onDelete(id: number): void;
 }
 
-class Todo extends React.Component<ITodoProps, {}> {
+class TodoComponent extends React.Component<ITodoProps, {}> {
     constructor() {
         super();
         this.onDelete = this.onDelete.bind(this);
@@ -24,7 +25,7 @@ class Todo extends React.Component<ITodoProps, {}> {
             float: 'right',
         };
         const { id, isLoading, type } = request;
-        const isFetching = isLoading && type === DELETE_TODO && id === todo.id;
+        const isFetching = isLoading && type === DELETE_TODO_REQUEST && id === todo.id;
         const deleteIcon =
             <FontIcon
                 className='material-icons'
@@ -46,5 +47,29 @@ class Todo extends React.Component<ITodoProps, {}> {
         onDelete(todo.id);
     }
 }
+
+interface ITodoContainerProps {
+    todo: ITodo;
+}
+
+const mapStateToProps = (state: IStateTree, props: ITodoContainerProps) => {
+    return {
+        request: state.request,
+        todo: props.todo,
+    };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        onDelete: (id: number) => {
+            dispatch(requestDeleteTodo(id));
+        },
+    };
+};
+
+const Todo = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(TodoComponent);
 
 export default Todo;

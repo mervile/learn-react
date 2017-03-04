@@ -1,3 +1,8 @@
+import { connect } from 'react-redux';
+
+import { logout } from '../../data/actions';
+import { IStateTree } from '../../models';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import * as React from 'react';
 
@@ -7,7 +12,7 @@ interface IHeaderProps {
     onLogout(): void;
 }
 
-class Header extends React.Component<IHeaderProps, {}> {
+class HeaderComponent extends React.Component<IHeaderProps, {}> {
     constructor() {
         super();
 
@@ -34,5 +39,25 @@ class Header extends React.Component<IHeaderProps, {}> {
         this.props.onLogout();
     }
 }
+
+const mapStateToProps = (state: IStateTree) => {
+    return {
+        isAuthenticated: state.auth.isAuthenticated,
+        username: state.auth.username,
+    };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        onLogout: () => {
+            dispatch(logout());
+        },
+    };
+};
+
+const Header = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HeaderComponent);
 
 export default Header;

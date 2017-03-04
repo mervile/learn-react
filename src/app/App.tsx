@@ -6,10 +6,10 @@ import { Route, Router, browserHistory } from 'react-router';
 import { PATHS, TOKEN } from '../config';
 import { IStateTree } from '../models';
 
-import LoginFormContainer from '../containers/LoginFormContainer';
-import NotificationContainer from '../containers/NotificationContainer';
-import RegisterFormContainer from '../containers/RegisterFormContainer';
-import TodosContainer from './Todos';
+import Notification from './common/Notification';
+import LoginForm from './login/LoginForm';
+import RegisterForm from './register/RegisterForm';
+import Todos from './todos/Todos';
 
 import { connect } from 'react-redux';
 
@@ -23,7 +23,7 @@ const mapStateToProps = (state: IStateTree) => {
     };
 };
 
-class App extends React.Component<IAppProps, {}> {
+class AppComponent extends React.Component<IAppProps, {}> {
     public constructor() {
         super();
 
@@ -35,11 +35,11 @@ class App extends React.Component<IAppProps, {}> {
         return (
             <div>
                 <Router history={browserHistory}>
-                    <Route path={PATHS.LOGIN} component={LoginFormContainer} onEnter={this.checkAuth} />
-                    <Route path={PATHS.REGISTER} component={RegisterFormContainer} onEnter={this.checkAuth} />
-                    <Route path={PATHS.HOME} component={TodosContainer} onEnter={this.requireAuth} />
+                    <Route path={PATHS.LOGIN} component={LoginForm} onEnter={this.checkAuth} />
+                    <Route path={PATHS.REGISTER} component={RegisterForm} onEnter={this.checkAuth} />
+                    <Route path={PATHS.HOME} component={Todos} onEnter={this.requireAuth} />
                 </Router>
-                <NotificationContainer />
+                <Notification />
             </div>
         );
     }
@@ -65,6 +65,6 @@ class App extends React.Component<IAppProps, {}> {
     }
 };
 
-const AppContainer = connect(mapStateToProps)(App);
+const App = connect(mapStateToProps)(AppComponent);
 
-export default DragDropContext(HTML5Backend)(AppContainer) as React.ComponentClass<{}>;
+export default DragDropContext(HTML5Backend)(App) as React.ComponentClass<{}>;

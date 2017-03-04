@@ -1,11 +1,11 @@
+import { ITodosState } from '../../models';
 import {
     ADD_TODO_SUCCESS,
     DELETE_TODO_SUCCESS,
     LOGOUT,
-    RECEIVE_TODOS,
+    TODOS_SUCCESS,
     UPDATE_TODO_SUCCESS,
 } from '../actions';
-import { ITodosState } from '../models';
 import * as _ from 'lodash';
 
 const initialState: ITodosState = {
@@ -22,7 +22,7 @@ function todos(state = initialState, action: any): ITodosState {
                 items: [...state.items, action.todo],
                 lastUpdated: Date.now(),
             };
-        case RECEIVE_TODOS:
+        case TODOS_SUCCESS:
             return {
                 didInvalidate: true,
                 items: action.todos,

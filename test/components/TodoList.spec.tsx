@@ -1,4 +1,4 @@
-import TodoList from '../../src/components/TodoList';
+import TodoList from '../../src/app/todos/todo-list/TodoList';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 

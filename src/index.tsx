@@ -13,8 +13,8 @@ import { applyMiddleware, createStore } from 'redux';
 import * as createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 
-import App from './components/App';
-import todoApp from './reducers';
+import App from './app/App';
+import todoApp from './data/reducers';
 
 // Important that this is after all!
 import './styles/main.scss';
@@ -45,10 +45,10 @@ ReactDOM.render(
 
 // Handle hot reloading requests from Webpack
 if (module.hot) {
-  module.hot.accept('./components/App', () => {
+  module.hot.accept('./app/App', () => {
     // If we receive a HMR request for our App container, then reload it
     // using require (we can't do this dynamically with import)
-    const NextApp = require('./components/App').default;
+    const NextApp = require('./app/App').default;
 
     // And render it into the root element again
     ReactDOM.render(

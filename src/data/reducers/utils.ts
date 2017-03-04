@@ -1,4 +1,4 @@
-import { IRequestState } from '../models';
+import { IRequestState } from '../../models';
 import * as _ from 'lodash';
 
 function startRequest(state: IRequestState, action: any) {

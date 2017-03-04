@@ -1,22 +1,22 @@
-import { ITodo } from '../models';
-import { removeTodo, saveTodo } from '../services/todoService';
+import { ITodo } from '../../models';
+import { removeTodo, saveTodo } from '../../services/todoService';
 
-const ADD_TODO = 'ADD_TODO';
+const ADD_TODO_REQUEST = 'ADD_TODO_REQUEST';
 const ADD_TODO_SUCCESS = 'ADD_TODO_SUCCESS';
 const ADD_TODO_FAILURE = 'ADD_TODO_FAILURE';
 
-const UPDATE_TODO = 'UPDATE_TODO';
+const UPDATE_TODO_REQUEST = 'UPDATE_TODO_REQUEST';
 const UPDATE_TODO_SUCCESS = 'UPDATE_TODO_SUCCESS';
 const UPDATE_TODO_FAILURE = 'UPDATE_TODO_FAILURE';
 
-const DELETE_TODO = 'DELETE_TODO';
+const DELETE_TODO_REQUEST = 'DELETE_TODO_REQUEST';
 const DELETE_TODO_SUCCESS = 'DELETE_TODO_SUCCESS';
 const DELETE_TODO_FAILURE = 'DELETE_TODO_FAILURE';
 
 // action creators
 function addTodo(description: string) {
     return {
-        type: ADD_TODO,
+        type: ADD_TODO_REQUEST,
         description,
     };
 };
@@ -51,7 +51,7 @@ function requestAddTodo(description: string) {
 
 function updateTodo(todo: ITodo) {
     return {
-        type: UPDATE_TODO,
+        type: UPDATE_TODO_REQUEST,
         todo,
     };
 }
@@ -85,7 +85,7 @@ function requestUpdateTodo(todo: ITodo) {
 
 function deleteTodo(id: number) {
     return {
-        type: DELETE_TODO,
+        type: DELETE_TODO_REQUEST,
         id,
     };
 };
@@ -118,13 +118,13 @@ function requestDeleteTodo(id: number) {
 }
 
 export {
-    ADD_TODO,
+    ADD_TODO_REQUEST,
     ADD_TODO_FAILURE,
     ADD_TODO_SUCCESS,
-    UPDATE_TODO,
+    UPDATE_TODO_REQUEST,
     UPDATE_TODO_FAILURE,
     UPDATE_TODO_SUCCESS,
-    DELETE_TODO,
+    DELETE_TODO_REQUEST,
     DELETE_TODO_FAILURE,
     DELETE_TODO_SUCCESS,
     requestAddTodo,

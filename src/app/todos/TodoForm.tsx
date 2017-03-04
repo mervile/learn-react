@@ -1,6 +1,9 @@
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
+import { connect } from 'react-redux';
+
+import { ADD_TODO_REQUEST, requestAddTodo } from '../../data/actions';
 
 interface ITodoFormProps {
     isLoading: boolean;
@@ -8,7 +11,7 @@ interface ITodoFormProps {
 }
 interface ITodoFormState { value: string; }
 
-class TodoForm extends React.Component<ITodoFormProps, ITodoFormState> {
+class TodoFormComponent extends React.Component<ITodoFormProps, ITodoFormState> {
 
     constructor() {
         super();
@@ -48,5 +51,25 @@ class TodoForm extends React.Component<ITodoFormProps, ITodoFormState> {
         this.setState({ value: event.target.value });
     }
 }
+
+const mapStateToProps = (state: any) => {
+    return {
+        isLoading: state.request.isLoading && state.request.type === ADD_TODO_REQUEST,
+    };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        onSubmit: (event: any, value: string) => {
+            event.preventDefault();
+            dispatch(requestAddTodo(value));
+        },
+    };
+};
+
+const TodoForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TodoFormComponent);
 
 export default TodoForm;

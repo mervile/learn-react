@@ -2,11 +2,18 @@ import 'whatwg-fetch';
 
 import { API_URL, TOKEN } from '../config';
 import { ITodo } from '../models';
-import { handleErrors } from './utils';
+import { getToken, handleErrors } from './utils';
 
 // TODO https://github.com/werk85/fetch-intercept or api middleware?
 
-const getAuth = () => 'Bearer ' + JSON.parse(localStorage.getItem(TOKEN)).token_id;
+const getAuth = () => {
+    const token = getToken();
+    let tokenId = '';
+    if (typeof token !== 'undefined') {
+        tokenId = token.token_id;
+    }
+    return `Bearer ${tokenId}`;
+}
 
 function getTodoList() {
     const auth = getAuth();

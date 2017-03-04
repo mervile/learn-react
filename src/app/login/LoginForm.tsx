@@ -1,13 +1,18 @@
-import { ICredentials } from '../models';
 import * as _ from 'lodash';
 import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { PATHS } from '../config';
-import { IField, IFormState } from '../models';
-import FormTextField from './FormTextField';
+import { PATHS } from '../../config';
+import {
+    LOGIN_REQUEST,
+    login,
+} from '../../data/actions';
+import { ICredentials, IField, IFormState } from '../../models';
+import FormTextField from '../common/FormTextField';
+
 
 interface ILoginFormProps {
     isLoading: boolean;
@@ -22,7 +27,7 @@ const initState = {
     isValid: false,
 };
 
-class LoginForm extends React.Component<ILoginFormProps, IFormState> {
+class LoginFormComponent extends React.Component<ILoginFormProps, IFormState> {
     constructor() {
         super();
 
@@ -91,5 +96,25 @@ class LoginForm extends React.Component<ILoginFormProps, IFormState> {
             username: this.state.fields[1].value });
     }
 }
+
+const mapStateToProps = (state: any) => {
+    return {
+        isLoading: state.request.isLoading &&
+            (state.request.type === LOGIN_REQUEST),
+    };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        onLogin: (creds: ICredentials) => {
+            dispatch(login(creds));
+        },
+    };
+};
+
+const LoginForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LoginFormComponent);
 
 export default LoginForm;

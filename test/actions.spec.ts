@@ -1,4 +1,4 @@
-import * as actions from '../src/actions';
+import * as actions from '../src/data/actions';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
@@ -17,20 +17,27 @@ let state: ITodosState = {
     items: [],
     lastUpdated: Date.now(),
 };
+let rstate: IRequestState = {
+    error: null,
+    isLoading: false,
+    message: '',
+    type: '',
+};
+
 
 describe('Todos actions', () => {
     afterEach(() => {
         fetchMock.restore();
     });
 
-    it('creates RECEIVE_TODOS when fetching todos has been done', () => {
+    it('creates TODOS_SUCCESS when fetching todos has been done', () => {
         fetchMock.mock(`${API_URL}/todos`, [todo]);
 
         const expectedActions = [
-            { type: actions.REQUEST_TODOS },
-            { type: actions.RECEIVE_TODOS, todos: [todo] },
+            { type: actions.TODOS_REQUEST },
+            { type: actions.TODOS_SUCCESS, todos: [todo] },
         ];
-        const store = mockStore({ todos: state });
+        const store = mockStore({ todos: state, request: rstate });
 
         return store.dispatch(actions.getTodosIfNeeded())
             .then(() => { // return of async actions
@@ -39,22 +46,22 @@ describe('Todos actions', () => {
             });
     });
 
-    it('creates REQUEST_TODOS_FAILURE when fetching todos fails', () => {
+    it('creates TODOS_FAILURE when fetching todos fails', () => {
         const error = 'DB error';
         fetchMock.mock(`${API_URL}/todos`, { body: error, status: 500 });
 
         const expectedActions = [
-            { type: actions.REQUEST_TODOS },
-            { type: actions.REQUEST_TODOS_FAILURE, error },
+            { type: actions.TODOS_REQUEST },
+            { type: actions.TODOS_FAILURE, error },
         ];
-        const store = mockStore({ todos: state });
+        const store = mockStore({ todos: state, request: rstate });
 
         return store.dispatch(actions.getTodosIfNeeded())
             .then(() => { // return of async actions
                 console.log(JSON.stringify(store.getActions()));
                 const storeActions = store.getActions();
-                expect(storeActions[0]).to.eql(expectedActions[0]);
-                expect(storeActions[1].type).to.eql(actions.REQUEST_TODOS_FAILURE);
+                expect(storeActions[0].type).to.eql(actions.TODOS_REQUEST);
+                expect(storeActions[1].type).to.eql(actions.TODOS_FAILURE);
             });
     });
 });
@@ -68,7 +75,7 @@ describe('Todo actions', () => {
         fetchMock.post(`${API_URL}/todo`, todo);
 
         const expectedActions = [
-            { type: actions.ADD_TODO, description: todo.description },
+            { type: actions.ADD_TODO_REQUEST, description: todo.description },
             { type: actions.ADD_TODO_SUCCESS, todo },
         ];
         const store = mockStore({ todos: state });
@@ -76,7 +83,8 @@ describe('Todo actions', () => {
         return store.dispatch(actions.requestAddTodo(todo.description))
             .then(() => {
                 const storeActions = store.getActions();
-                expect(storeActions).to.eql(expectedActions);
+                expect(storeActions[0].type).to.equal(actions.ADD_TODO_REQUEST);
+                expect(storeActions[1].type).to.equal(actions.ADD_TODO_SUCCESS);
             });
     });
 
@@ -85,7 +93,7 @@ describe('Todo actions', () => {
         fetchMock.post(`${API_URL}/todo`, { body: error, status: 500 });
 
         const expectedActions = [
-            { type: actions.ADD_TODO, description: todo.description },
+            { type: actions.ADD_TODO_REQUEST, description: todo.description },
             { type: actions.ADD_TODO_FAILURE, error },
         ];
         const store = mockStore({ todos: state });
@@ -93,7 +101,7 @@ describe('Todo actions', () => {
         return store.dispatch(actions.requestAddTodo(todo.description))
             .then(() => {
                 const storeActions = store.getActions();
-                expect(storeActions[0]).to.eql(expectedActions[0]);
+                expect(storeActions[0].type).to.eql(expectedActions[0].type);
                 expect(storeActions[1].type).to.eql(actions.ADD_TODO_FAILURE);
             });
     });
@@ -102,7 +110,7 @@ describe('Todo actions', () => {
         fetchMock.post(`${API_URL}/todo`, todo);
 
         const expectedActions = [
-            { type: actions.UPDATE_TODO, todo },
+            { type: actions.UPDATE_TODO_REQUEST, todo },
             { type: actions.UPDATE_TODO_SUCCESS, todo },
         ];
         const store = mockStore({ todos: state });
@@ -110,11 +118,12 @@ describe('Todo actions', () => {
         return store.dispatch(actions.requestUpdateTodo(todo))
             .then(() => {
                 const storeActions = store.getActions();
-                expect(storeActions).to.eql(expectedActions);
+                expect(storeActions[0].type).to.eql(actions.UPDATE_TODO_REQUEST);
+                expect(storeActions[1].type).to.eql(actions.UPDATE_TODO_SUCCESS);
             });
     });
 
-    it('creates UPDATE_TODO_FAILURE when updating a todo fails');
+    it('creates UPDATE_TODO_REQUEST_FAILURE when updating a todo fails');
 
     it('creates DELETE_TODO_SUCCESS when deleting a todo succeeds');
     it('creates DELETE_TODO_FAILURE when deleting a todo fails');

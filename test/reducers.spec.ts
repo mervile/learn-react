@@ -1,27 +1,28 @@
-import * as actions from '../src/actions';
-import { ITodosState } from '../src/models';
-import reducer from '../src/reducers/todos';
+import * as actions from '../src/data/actions';
+import reducer from '../src/data/reducers/request';
+import { IRequestState } from '../src/models';
 
 const expect = chai.expect;
 const todo = { description: 'do something', id: 234, status: 0 };
-let state: ITodosState = {
-    didInvalidate: true,
-    items: [],
-    lastUpdated: Date.now(),
+let state: IRequestState = {
+    error: null,
+    isLoading: false,
+    message: '',
+    type: '',
 };
 
-describe('todos reducer', () => {
+describe('request reducer', () => {
     it('should return the initial state', () => {
-        expect(reducer(undefined, {})).to.have.any.keys('items');
+        expect(reducer(undefined, {})).to.have.any.keys('isLoading');
     });
 
-    xit('should handle ADD_TODO', () => {
+    it('should handle ADD_TODO_REQUEST', () => {
         const addAction = {
             description: 'Run the tests',
-            type: actions.ADD_TODO,
+            type: actions.ADD_TODO_REQUEST,
         };
-        const newState: ITodosState = reducer(state, addAction);
-        expect(newState).to.eql({ isLoading: true,
-            type: actions.ADD_TODO });
+        const newState: IRequestState = reducer(state, addAction);
+        expect(newState.isLoading).to.eql(true);
+        expect(newState.type).to.eql(actions.ADD_TODO_REQUEST);
     });
 });

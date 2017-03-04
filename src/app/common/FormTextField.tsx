@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 
-import { IAsyncValidator, IField, IValidator } from '../models';
+import { IAsyncValidator, IField, IValidator } from '../../models';
 
 interface IFormTextFieldState {
     errorText: string;

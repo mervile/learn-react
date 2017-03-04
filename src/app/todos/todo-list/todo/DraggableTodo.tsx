@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { DragSource, DragSourceConnector, DragSourceMonitor } from 'react-dnd';
 
-import TodoContainer from '../containers/TodoContainer';
-import { ITodo, ItemTypes } from '../models';
+import { ITodo, ItemTypes } from '../../../../models';
+import Todo from './Todo';
 
 interface IDraggableTodoProps {
     todo: ITodo;
@@ -28,7 +28,7 @@ class DraggableTodo extends React.Component<IDraggableTodoProps, {}> {
         const { todo, connectDragSource, isDragging } = this.props;
         return connectDragSource(
             <div style={{opacity: isDragging ? 0.5 : 1}}>
-                <TodoContainer todo={todo} />
+                <Todo todo={todo} />
             </div>
         );
     }

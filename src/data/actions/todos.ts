@@ -1,26 +1,26 @@
-import { IStateTree, ITodo } from '../models';
-import { getTodoList } from '../services/todoService';
+import { IStateTree, ITodo } from '../../models';
+import { getTodoList } from '../../services/todoService';
 
-const REQUEST_TODOS = 'REQUEST_TODOS';
-const REQUEST_TODOS_FAILURE = 'REQUEST_TODOS_FAILURE';
-const RECEIVE_TODOS = 'RECEIVE_TODOS';
+const TODOS_REQUEST = 'TODOS_REQUEST';
+const TODOS_FAILURE = 'TODOS_FAILURE';
+const TODOS_SUCCESS = 'TODOS_SUCCESS';
 
 function requestTodos() {
     return {
-        type: REQUEST_TODOS,
+        type: TODOS_REQUEST,
     };
 };
 
 function requestTodosFailure(error: any) {
     return {
-        type: REQUEST_TODOS_FAILURE,
+        type: TODOS_FAILURE,
         error,
     };
 };
 
 function receiveTodos(todos: ITodo[]) {
     return {
-        type: RECEIVE_TODOS,
+        type: TODOS_SUCCESS,
         todos,
     };
 };
@@ -73,8 +73,8 @@ function getTodosIfNeeded() {
 }
 
 export {
-    REQUEST_TODOS,
-    REQUEST_TODOS_FAILURE,
-    RECEIVE_TODOS,
+    TODOS_REQUEST,
+    TODOS_FAILURE,
+    TODOS_SUCCESS,
     getTodosIfNeeded,
 }

@@ -1,21 +1,21 @@
-import { PATHS, TOKEN } from '../config';
-import { ICredentials } from '../models';
-import * as auth from '../services/authService';
+import { PATHS, TOKEN } from '../../config';
+import { ICredentials } from '../../models';
+import * as auth from '../../services/authService';
 
 import * as jwt_decode from 'jwt-decode';
 import { browserHistory } from 'react-router';
 
-const REQUEST_LOGIN  = 'REQUEST_LOGIN';
+const LOGIN_REQUEST  = 'LOGIN_REQUEST';
 const LOGIN_FAILURE  = 'LOGIN_FAILURE';
 const LOGIN_SUCCESS  = 'LOGIN_SUCCESS';
 const LOGOUT = 'LOGOUT';
-const REQUEST_REGISTRATION  = 'REQUEST_REGISTRATION';
+const REGISTRATION_REQUEST  = 'REGISTRATION_REQUEST';
 const REGISTRATION_FAILURE  = 'REGISTRATION_FAILURE';
 const REGISTRATION_SUCCESS  = 'REGISTRATION_SUCCESS';
 
 function requestLogin() {
     return {
-        type: REQUEST_LOGIN,
+        type: LOGIN_REQUEST,
     };
 };
 
@@ -58,7 +58,7 @@ function logout() {
 
 function requestRegistration() {
     return {
-        type: REQUEST_REGISTRATION,
+        type: REGISTRATION_REQUEST,
     };
 };
 
@@ -92,11 +92,11 @@ function register(creds: ICredentials) {
 export {
     login,
     logout,
-    REQUEST_LOGIN,
+    LOGIN_REQUEST,
     LOGIN_FAILURE,
     LOGIN_SUCCESS,
     LOGOUT,
-    REQUEST_REGISTRATION,
+    REGISTRATION_REQUEST,
     REGISTRATION_FAILURE,
     REGISTRATION_SUCCESS,
     register,
