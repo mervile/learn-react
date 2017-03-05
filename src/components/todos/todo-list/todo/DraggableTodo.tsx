@@ -12,7 +12,7 @@ interface IDraggableTodoProps {
 
 const todoItemSource = {
     beginDrag(props: IDraggableTodoProps) {
-        return { item: props.todo };
+        return props.todo;
     },
 };
 

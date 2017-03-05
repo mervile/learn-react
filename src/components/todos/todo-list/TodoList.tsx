@@ -25,7 +25,7 @@ interface IDropTargetListProps {
 
 const listTarget = {
     drop(props: IDropTargetListProps, monitor: DropTargetMonitor) {
-        const todo = monitor.getItem().item as ITodo;
+        const todo = monitor.getItem() as ITodo;
         todo.status = props.status;
         props.onUpdate(todo);
     },
@@ -104,4 +104,4 @@ const TodoList = connect(
     mapDispatchToProps
 )(DropTargetList);
 
-export { TodoList, DropTargetList };
+export { TodoList, DropTargetList, IDropTargetListProps };

@@ -1,16 +1,15 @@
 import { shallow } from 'enzyme';
-import { ConnectDropTarget } from 'react-dnd';
 import * as React from 'react';
+import { ConnectDropTarget } from 'react-dnd';
 
-import { DropTargetList, TodoListComponent } from '../../src/app/todos/todo-list/TodoList';
+import { DropTargetList, IDropTargetListProps } from '../../src/components/todos/todo-list/TodoList';
 import { ITodo, Status } from '../../src/models';
 
 const expect = chai.expect;
 
 function setup() {
     const todo: ITodo = { description: 'test', id: 0, status: Status.New, userId: '23' };
-    const props = {
-        onDelete: () => {},
+    const props: IDropTargetListProps = {
         onInit: () => { return [todo]; },
         onUpdate: (t: ITodo) => {},
         request: { error: null, isLoading: false, message: '', type: '' },

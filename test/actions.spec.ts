@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 
 import * as fetchMock from 'fetch-mock';
 
-import { ITodosState } from '../src/models';
+import { IRequestState, ITodosState } from '../src/models';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
