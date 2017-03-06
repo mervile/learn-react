@@ -50,7 +50,6 @@ function login(creds: ICredentials) {
 
 function logout() {
     auth.logout();
-    browserHistory.push(PATHS.LOGIN);
     return {
         type: LOGOUT,
     };

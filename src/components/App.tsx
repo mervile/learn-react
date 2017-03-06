@@ -48,7 +48,6 @@ class AppComponent extends React.Component<IAppProps, {}> {
      * Redirect to authenticated content if user is logged in.
      */
     private checkAuth(nextState: any, replace: any) {
-        // TODO Ask server if token is valid
         if (localStorage.getItem(TOKEN)) {
             replace(PATHS.HOME);
         }
@@ -58,7 +57,6 @@ class AppComponent extends React.Component<IAppProps, {}> {
      * Redirect to login if user is not logged in.
      */
     private requireAuth(nextState: any, replace: any) {
-        // TODO Ask server if token is valid
         if (!localStorage.getItem(TOKEN)) {
             replace(PATHS.LOGIN);
         }

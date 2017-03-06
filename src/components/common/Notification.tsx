@@ -23,7 +23,8 @@ class NotificationComponent extends React.Component<INotificationProps, INotific
     }
 
     public componentWillReceiveProps(nextProps: INotificationProps) {
-        const hasMessage = nextProps.message && nextProps.message.trim().length > 0;
+        const hasMessage = typeof nextProps.message !== 'undefined'
+            && nextProps.message.trim().length > 0;
         this.setState({ open: hasMessage });
     }
 

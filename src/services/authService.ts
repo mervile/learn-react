@@ -1,6 +1,7 @@
+import { browserHistory } from 'react-router';
 import 'whatwg-fetch';
 
-import { AUTH_URL, PUBLIC_URL, TOKEN } from '../config';
+import { AUTH_URL, PATHS, PUBLIC_URL, TOKEN } from '../config';
 import { ICredentials } from '../models';
 import { handleErrors } from './utils';
 
@@ -20,6 +21,7 @@ function login(creds: ICredentials) {
 
 function logout() {
     localStorage.removeItem(TOKEN);
+    browserHistory.push(PATHS.LOGIN);
 }
 
 function register(creds: ICredentials) {

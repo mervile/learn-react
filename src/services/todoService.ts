@@ -13,7 +13,7 @@ const getAuth = () => {
         tokenId = token.token_id;
     }
     return `Bearer ${tokenId}`;
-}
+};
 
 function getTodoList() {
     const auth = getAuth();
