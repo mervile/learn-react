@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import { Status } from '../../models';
 import Header from '../common/Header';
-import { TodoList } from '../todos/todo-list/TodoList';
 import TodoForm from '../todos/TodoForm';
+import { TodoList } from '../todos/todolist/TodoList';
 
 class Todos extends React.Component<{}, {}> {
     constructor() {

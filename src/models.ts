@@ -28,17 +28,18 @@ interface ITodosState {
     didInvalidate: boolean;
     lastUpdated: number;
     items: ITodo[];
+    request: IRequestState;
 }
 
 interface IAuthState {
     isAuthenticated: boolean;
     username: string;
+    request: IRequestState;
  }
 
 interface IStateTree {
     todos: ITodosState;
     auth: IAuthState;
-    request: IRequestState;
 }
 
 interface ICredentials {

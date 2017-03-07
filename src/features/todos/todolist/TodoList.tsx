@@ -5,15 +5,19 @@ import { ConnectDropTarget, DropTarget, DropTargetConnector, DropTargetMonitor }
 import { connect } from 'react-redux';
 
 import {
+    getTodosByStatus,
     getTodosIfNeeded,
+    isGettingTodos,
+    isUpdatingTodo,
     requestUpdateTodo,
-} from '../../../data/actions';
-import { TODOS_REQUEST, UPDATE_TODO_REQUEST } from '../../../data/actions';
-import { IRequestState, IStateTree, ITodo, ItemTypes, Status  } from '../../../models';
+} from '../duck';
+
+import { IStateTree, ITodo, ItemTypes, Status  } from '../../../models';
 import DraggableTodo from './todo/DraggableTodo';
 
 interface IDropTargetListProps {
-    request: IRequestState;
+    isGettingTodos: boolean;
+    isUpdatingTodo: boolean;
     isOver?: boolean;
     title: string;
     todos: ITodo[];
@@ -48,9 +52,10 @@ class TodoListComponent extends React.Component<IDropTargetListProps, {}> {
     }
 
     public render() {
-        const { request, todos, title, connectDropTarget, isOver} = this.props;
-        const isFetching = request.isLoading &&
-            (request.type === TODOS_REQUEST || request.type === UPDATE_TODO_REQUEST);
+        const { isGettingTodos, isUpdatingTodo, todos, title, connectDropTarget, isOver} = this.props;
+        // const isFetching = request.isLoading &&
+        //    (request.type === TODOS_REQUEST || request.type === UPDATE_TODO_REQUEST);
+        const isFetching = isGettingTodos || isUpdatingTodo;
         const list = todos.map((item: ITodo) =>
             <ListItem key={item.id} className='todoItemList'>
                 <DraggableTodo
@@ -78,10 +83,11 @@ interface ITodoListContainerProps {
 
 const mapStateToProps = (state: IStateTree, props: ITodoListContainerProps) => {
     return {
-        request: state.request,
+        isGettingTodos: isGettingTodos(state),
+        isUpdatingTodo: isUpdatingTodo(state),
         status: props.status,
         title: props.title,
-        todos: state.todos.items.filter(todo => todo.status === props.status),
+        todos: getTodosByStatus(state, props),
     };
 };
 

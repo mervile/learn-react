@@ -6,13 +6,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import { PATHS } from '../../config';
-import {
-    REGISTRATION_REQUEST,
-    register,
-} from '../../data/actions';
 import { ICredentials, IField, IFormState } from '../../models';
 import { validateUsername } from '../../services/authService';
 import FormTextField from '../common/FormTextField';
+import { getRegistrationMessage, isRegistering, register } from './duck';
 
 interface IRegisterFormProps {
     isLoading: boolean;
@@ -130,9 +127,8 @@ class RegisterFormComponent extends React.Component<IRegisterFormProps, IFormSta
 
 const mapStateToProps = (state: any) => {
     return {
-        isLoading: state.request.isLoading &&
-            (state.request.type === REGISTRATION_REQUEST),
-        message: state.request.type === REGISTRATION_REQUEST ? state.request.message : '',
+        isLoading: isRegistering(state),
+        message: getRegistrationMessage(state),
     };
 };
 

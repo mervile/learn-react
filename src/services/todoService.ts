@@ -1,8 +1,9 @@
 import 'whatwg-fetch';
 
-import { API_URL, TOKEN } from '../config';
+import { API_URL } from '../config';
 import { ITodo } from '../models';
-import { getToken, handleErrors } from './utils';
+import { handleErrors } from '../utils/handleErrors';
+import { getToken } from '../utils/token';
 
 // TODO https://github.com/werk85/fetch-intercept or api middleware?
 

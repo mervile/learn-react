@@ -1,5 +1,6 @@
-import { IRequestState } from '../../models';
 import * as _ from 'lodash';
+
+import { IRequestState } from '../models';
 
 function startRequest(state: IRequestState, action: any) {
     const copy = JSON.parse(JSON.stringify(state));
@@ -34,6 +35,7 @@ function requestSuccess(state: IRequestState, action: any) {
         type: action.type,
     });
 }
+
 
 export {
     startRequest,

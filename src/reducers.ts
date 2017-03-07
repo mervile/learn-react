@@ -1,12 +1,10 @@
-import auth from './auth';
-import request from './request';
-import todos from './todos';
+import auth from './features/auth/duck';
+import todos from './features/todos/duck';
 
 import { combineReducers } from 'redux';
 
 const todoApp = combineReducers({
   auth,
-  request,
   todos,
 });
 

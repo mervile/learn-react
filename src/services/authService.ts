@@ -3,7 +3,7 @@ import 'whatwg-fetch';
 
 import { AUTH_URL, PATHS, PUBLIC_URL, TOKEN } from '../config';
 import { ICredentials } from '../models';
-import { handleErrors } from './utils';
+import { handleErrors } from '../utils/handleErrors';
 
 function login(creds: ICredentials) {
     return fetch(`${AUTH_URL}/login`, {

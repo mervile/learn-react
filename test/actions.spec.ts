@@ -1,4 +1,4 @@
-import * as actions from '../src/data/actions';
+import * as actions from '../src/features/todos/duck';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
@@ -12,16 +12,17 @@ const expect = chai.expect;
 
 const API_URL = 'http://localhost:8080/api';
 const todo = { description: 'do something', id: 234, status: 0, userId: '?' };
-let state: ITodosState = {
-    didInvalidate: true,
-    items: [],
-    lastUpdated: Date.now(),
-};
 let rstate: IRequestState = {
     error: null,
     isLoading: false,
     message: '',
     type: '',
+};
+let state: ITodosState = {
+    didInvalidate: true,
+    items: [],
+    lastUpdated: Date.now(),
+    request: rstate,
 };
 
 
@@ -37,7 +38,7 @@ describe('Todos actions', () => {
             { type: actions.TODOS_REQUEST },
             { type: actions.TODOS_SUCCESS, todos: [todo] },
         ];
-        const store = mockStore({ todos: state, request: rstate });
+        const store = mockStore({ todos: state });
 
         return store.dispatch(actions.getTodosIfNeeded())
             .then(() => { // return of async actions
@@ -54,7 +55,7 @@ describe('Todos actions', () => {
             { type: actions.TODOS_REQUEST },
             { type: actions.TODOS_FAILURE, error },
         ];
-        const store = mockStore({ todos: state, request: rstate });
+        const store = mockStore({ todos: state });
 
         return store.dispatch(actions.getTodosIfNeeded())
             .then(() => { // return of async actions

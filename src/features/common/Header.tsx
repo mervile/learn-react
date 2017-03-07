@@ -1,10 +1,9 @@
-import { connect } from 'react-redux';
-
-import { logout } from '../../data/actions';
-import { IStateTree } from '../../models';
-
 import RaisedButton from 'material-ui/RaisedButton';
 import * as React from 'react';
+import { connect } from 'react-redux';
+
+import { IStateTree } from '../../models';
+import { logout } from '../auth/duck';
 
 interface IHeaderProps {
     isAuthenticated: boolean;

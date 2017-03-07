@@ -3,13 +3,13 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Route, Router, browserHistory } from 'react-router';
 
-import { PATHS, TOKEN } from '../config';
-import { IStateTree } from '../models';
+import { PATHS, TOKEN } from './config';
+import { IStateTree } from './models';
 
-import Notification from './common/Notification';
-import LoginForm from './login/LoginForm';
-import RegisterForm from './register/RegisterForm';
-import Todos from './todos/Todos';
+import LoginForm from './features/auth/LoginForm';
+import RegisterForm from './features/auth/RegisterForm';
+import Notification from './features/common/Notification';
+import Todos from './features/todos/Todos';
 
 import { connect } from 'react-redux';
 

@@ -2,7 +2,7 @@ import { shallow } from 'enzyme';
 import * as React from 'react';
 import { ConnectDropTarget } from 'react-dnd';
 
-import { DropTargetList, IDropTargetListProps } from '../../src/components/todos/todo-list/TodoList';
+import { DropTargetList, IDropTargetListProps } from '../../src/features/todos/todolist/TodoList';
 import { ITodo, Status } from '../../src/models';
 
 const expect = chai.expect;
@@ -10,9 +10,10 @@ const expect = chai.expect;
 function setup() {
     const todo: ITodo = { description: 'test', id: 0, status: Status.New, userId: '23' };
     const props: IDropTargetListProps = {
+        isGettingTodos: false,
+        isUpdatingTodo: false,
         onInit: () => { return [todo]; },
         onUpdate: (t: ITodo) => {},
-        request: { error: null, isLoading: false, message: '', type: '' },
         status: 0,
         title: '',
         todos: [{ description: 'Run tests', id: 0, status: 0, userId: '?' }],

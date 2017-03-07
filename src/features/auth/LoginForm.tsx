@@ -6,13 +6,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import { PATHS } from '../../config';
-import {
-    LOGIN_REQUEST,
-    login,
-} from '../../data/actions';
-import { ICredentials, IField, IFormState } from '../../models';
+import { ICredentials, IField, IFormState, IStateTree } from '../../models';
 import FormTextField from '../common/FormTextField';
 
+import { isLoggingIn, login } from './duck';
 
 interface ILoginFormProps {
     isLoading: boolean;
@@ -97,10 +94,9 @@ class LoginFormComponent extends React.Component<ILoginFormProps, IFormState> {
     }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: IStateTree) => {
     return {
-        isLoading: state.request.isLoading &&
-            (state.request.type === LOGIN_REQUEST),
+        isLoading: isLoggingIn(state),
     };
 };
 

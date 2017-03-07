@@ -3,7 +3,7 @@ import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { ADD_TODO_REQUEST, requestAddTodo } from '../../data/actions';
+import { isAddingTodo, requestAddTodo } from './duck';
 
 interface ITodoFormProps {
     isLoading: boolean;
@@ -54,7 +54,7 @@ class TodoFormComponent extends React.Component<ITodoFormProps, ITodoFormState> 
 
 const mapStateToProps = (state: any) => {
     return {
-        isLoading: state.request.isLoading && state.request.type === ADD_TODO_REQUEST,
+        isLoading: isAddingTodo(state),
     };
 };
 

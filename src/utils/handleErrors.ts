@@ -1,5 +1,4 @@
-import { TOKEN } from '../config';
-import * as auth from './authService';
+import * as auth from '../services/authService';
 
 function handleErrors(response: any) {
     if (response.status === 401 || response.status === 403) {
@@ -11,7 +10,6 @@ function handleErrors(response: any) {
     return response;
 }
 
-function getToken() {
-    return localStorage.getItem(TOKEN) !== null ? JSON.parse(localStorage.getItem(TOKEN)) : undefined;
-}
-export { getToken, handleErrors };
+export {
+    handleErrors
+};
