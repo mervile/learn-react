@@ -53,8 +53,6 @@ class TodoListComponent extends React.Component<IDropTargetListProps, {}> {
 
     public render() {
         const { isGettingTodos, isUpdatingTodo, todos, title, connectDropTarget, isOver} = this.props;
-        // const isFetching = request.isLoading &&
-        //    (request.type === TODOS_REQUEST || request.type === UPDATE_TODO_REQUEST);
         const isFetching = isGettingTodos || isUpdatingTodo;
         const list = todos.map((item: ITodo) =>
             <ListItem key={item.id} className='todoItemList'>

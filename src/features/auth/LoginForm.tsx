@@ -3,11 +3,13 @@ import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { I18n, Translate } from 'react-redux-i18n';
 import { Link } from 'react-router';
 
 import { PATHS } from '../../config';
 import { ICredentials, IField, IFormState, IStateTree } from '../../models';
 import FormTextField from '../common/FormTextField';
+import Locales from '../common/localeselection';
 
 import { isLoggingIn, login } from './duck';
 
@@ -38,32 +40,33 @@ class LoginFormComponent extends React.Component<ILoginFormProps, IFormState> {
         const { isLoading } = this.props;
         return (
             <div className='login'>
-                <h1>login</h1>
+                <Locales />
+                <h1><Translate value='auth.login'/></h1>
                 <FormTextField
                     type='text'
                     name='username'
-                    hintText='Username'
+                    hintText={I18n.t('auth.username')}
                     onUpdate={this.updateField}
                     isRequired={true}
                 />
                 <FormTextField
                     type='password'
                     name='password'
-                    hintText='Password'
+                    hintText={I18n.t('auth.password')}
                     onUpdate={this.updateField}
                     isRequired={true}
                 />
                 <RaisedButton
                     type='submit'
                     style={{margin:'10px'}}
-                    label='Login'
+                    label={I18n.t('auth.login')}
                     icon={ isLoading ? <CircularProgress size={20} /> : ''}
                     onClick={this.login}
                     disabled={!this.state.isValid || isLoading}
                 />
                 <div>
-                    <div>Don't have an account yet?</div>
-                    <Link to={PATHS.REGISTER}>Register here</Link>
+                    <div><Translate value='auth.noAccount' /></div>
+                    <Link to={PATHS.REGISTER}><Translate value='auth.registerHere' /></Link>
                 </div>
             </div>
         );

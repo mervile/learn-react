@@ -15,11 +15,13 @@ import { connect } from 'react-redux';
 
 interface IAppProps {
     isAuthenticated: boolean;
+    locale: string;
 }
 
 const mapStateToProps = (state: IStateTree) => {
     return {
         isAuthenticated: state.auth.isAuthenticated,
+        locale: state.i18n.locale,
     };
 };
 

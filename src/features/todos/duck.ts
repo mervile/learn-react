@@ -1,5 +1,6 @@
 // Todos actions, selectors and reducers
 import * as _ from 'lodash';
+import { I18n } from 'react-redux-i18n';
 import { createSelector } from 'reselect';
 
 import { IStateTree, ITodo, ITodosState } from '../../models';
@@ -103,7 +104,7 @@ function addTodo(description: string) {
 
 function addTodoSuccess(todo: ITodo) {
     return {
-        message: 'Added new todo successfully!',
+        message: I18n.t('todos.todoAdded'),
         type: ADD_TODO_SUCCESS,
         todo,
     };
@@ -138,7 +139,7 @@ function updateTodo(todo: ITodo) {
 
 function updateTodoSuccess(todo: ITodo) {
     return {
-        message: 'Successfully updated todo!',
+        message: I18n.t('todos.todoUpdated'),
         type: UPDATE_TODO_SUCCESS,
         todo,
     };
@@ -172,7 +173,7 @@ function deleteTodo(id: number) {
 
 function deleteTodoSuccess(id: number) {
     return {
-        message: 'Successfully deleted todo!',
+        message: I18n.t('todos.todoDeleted'),
         type: DELETE_TODO_SUCCESS,
         id,
     };

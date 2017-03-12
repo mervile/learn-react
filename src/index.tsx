@@ -2,12 +2,14 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { loadTranslations, setLocale, syncTranslationWithStore } from 'react-redux-i18n';
 import { applyMiddleware, createStore } from 'redux';
 import * as createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 
 import App from './App';
-import todoApp from './reducers';
+import reducers from './reducers';
+import translationsObj from './translations';
 
 // Important that this is after all!
 import './styles/main.scss';
@@ -24,12 +26,16 @@ declare var module: { hot: any };
 const loggerMiddleware = createLogger();
 
 let store = createStore(
-  todoApp,
+  reducers,
   applyMiddleware(
     thunkMiddleware, // lets us dispatch() functions
     loggerMiddleware, // neat middleware that logs actions
   )
 );
+
+syncTranslationWithStore(store);
+store.dispatch(loadTranslations(translationsObj));
+store.dispatch(setLocale('fi'));
 
 ReactDOM.render(
     <MuiThemeProvider>

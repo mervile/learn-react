@@ -3,6 +3,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { I18n, Translate } from 'react-redux-i18n';
 import { Link } from 'react-router';
 
 import { PATHS } from '../../config';
@@ -39,30 +40,30 @@ class RegisterFormComponent extends React.Component<IRegisterFormProps, IFormSta
     public render() {
         const { isLoading, message } = this.props;
         const pass1Validator = {
-            errorText: 'Passwords length must be at least 3 characters!',
+            errorText: I18n.t('auth.passwordLength'),
             validate: (val: string) => val.length >= 3,
         };
         const pass2Validator = {
-            errorText: 'Passwords must match!',
+            errorText: I18n.t('auth.passwordMatch'),
             validate: (val: string) => val === this.state.fields[0].value,
         };
         const usernameValidator = {
-            errorText: 'Username is already taken!',
+            errorText: I18n.t('auth.usernameTaken'),
             validate: (val: string) => validateUsername(val),
         };
 
-        let helpText = 'Already have an account?';
+        let helpText = I18n.t('auth.accountAlready');
         if (message.trim().length > 0) {
             helpText = message;
         }
 
         const content = (
             <div className='register'>
-                <h1>Create new account</h1>
+                <h1><Translate value='auth.createAccount' /></h1>
                 <FormTextField
                     type='text'
                     name='username'
-                    hintText='Username'
+                    hintText={I18n.t('auth.username')}
                     isRequired={true}
                     asyncValidator={usernameValidator}
                     onUpdate={this.updateField}
@@ -70,7 +71,7 @@ class RegisterFormComponent extends React.Component<IRegisterFormProps, IFormSta
                 <FormTextField
                     type='password'
                     name='password'
-                    hintText='Password'
+                    hintText={I18n.t('auth.password')}
                     isRequired={true}
                     validator={pass1Validator}
                     onUpdate={this.updateField}
@@ -78,7 +79,7 @@ class RegisterFormComponent extends React.Component<IRegisterFormProps, IFormSta
                 <FormTextField
                     type='password'
                     name='passwordAgain'
-                    hintText='Password again'
+                    hintText={I18n.t('auth.passwordAgain')}
                     isRequired={true}
                     validator={pass2Validator}
                     onUpdate={this.updateField}
@@ -86,14 +87,14 @@ class RegisterFormComponent extends React.Component<IRegisterFormProps, IFormSta
                 <RaisedButton
                     type='submit'
                     style={{margin:'10px'}}
-                    label='Register'
+                    label={I18n.t('auth.register')}
                     icon={ isLoading ? <CircularProgress size={20} /> : ''}
                     onClick={this.register}
                     disabled={!this.state.isValid || isLoading}
                 />
                 <div>
                     <div>{helpText}</div>
-                    <Link to={PATHS.LOGIN}>Login here</Link>
+                    <Link to={PATHS.LOGIN}><Translate value='auth.loginHere' /></Link>
                 </div>
             </div>
         );

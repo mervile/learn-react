@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
+import { I18n } from 'react-redux-i18n';
 
 import { IAsyncValidator, IField, IValidator } from '../../models';
 
@@ -54,7 +55,7 @@ class FormTextField extends React.Component<IFormTextFieldProps, IFormTextFieldS
         const { validator, asyncValidator } = this.props;
         let errorText = '';
         if (this.props.isRequired && value.trim().length === 0) {
-            errorText = 'This field is required!';
+            errorText = I18n.t('common.requiredField');
         } else {
             if (typeof validator !== 'undefined' &&
                 !validator.validate(value)) {

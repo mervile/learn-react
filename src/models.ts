@@ -1,3 +1,5 @@
+import { I18nState } from 'react-redux-i18n';
+
 enum Status {
     New,
     InProgress,
@@ -40,6 +42,7 @@ interface IAuthState {
 interface IStateTree {
     todos: ITodosState;
     auth: IAuthState;
+    i18n: I18nState;
 }
 
 interface ICredentials {

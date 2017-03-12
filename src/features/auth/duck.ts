@@ -1,5 +1,6 @@
 // Auth actions, selectors and reducers
 import * as _ from 'lodash';
+import { I18n } from 'react-redux-i18n';
 import { browserHistory } from 'react-router';
 import { createSelector } from 'reselect';
 
@@ -76,7 +77,7 @@ function registrationFailure(error: any) {
 
 function registrationSuccess() {
     return {
-        message: 'Registration completed successfully. Now you can login!',
+        message: I18n.t('auth.registrationComplete'),
         type: REGISTRATION_SUCCESS,
     };
 };

@@ -69,3 +69,16 @@ h1, h3 {
     box-shadow: 0px 2px 5px gainsboro;
     background-color: whitesmoke;
 }
+
+.locale {
+    border-left: 1px solid;
+    cursor: pointer;
+    margin: 5px;
+    padding-left: 5px;
+}
+
+.selectedLocale {
+    color: $accent-color;
+    font-weight: bold;
+    border-left: 2px solid $accent-color;
+}
