@@ -10,7 +10,8 @@ import { isAddingTodo, requestAddTodo } from './duck';
 interface ITodoFormProps {
     isLoading: boolean;
     locale: string;
-    onSubmit(event: any, value: string): void;
+    projectId: string;
+    onSubmit(event: any, value: string, projectId: string): void;
 }
 interface ITodoFormState { value: string; }
 
@@ -47,7 +48,7 @@ class TodoFormComponent extends React.Component<ITodoFormProps, ITodoFormState> 
     }
 
     protected submitTodo(event: any) {
-        this.props.onSubmit(event, this.state.value);
+        this.props.onSubmit(event, this.state.value, this.props.projectId);
     }
 
     protected handleChange(event: any) {
@@ -55,18 +56,23 @@ class TodoFormComponent extends React.Component<ITodoFormProps, ITodoFormState> 
     }
 }
 
-const mapStateToProps = (state: IStateTree) => {
+interface ITodoFormContainerProps {
+    projectId: string;
+}
+
+const mapStateToProps = (state: IStateTree, props: ITodoFormContainerProps) => {
     return {
         isLoading: isAddingTodo(state),
         locale: state.i18n.locale,
+        projectId: props.projectId,
     };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        onSubmit: (event: any, value: string) => {
+        onSubmit: (event: any, value: string, projectId: string) => {
             event.preventDefault();
-            dispatch(requestAddTodo(value));
+            dispatch(requestAddTodo(value, projectId));
         },
     };
 };

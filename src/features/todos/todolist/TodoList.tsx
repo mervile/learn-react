@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 
 import {
     getTodosByStatus,
-    getTodosIfNeeded,
-    isGettingTodos,
     isUpdatingTodo,
     requestUpdateTodo,
 } from '../duck';
@@ -16,7 +14,6 @@ import { IStateTree, ITodo, ItemTypes, Status  } from '../../../models';
 import DraggableTodo from './todo/DraggableTodo';
 
 interface IDropTargetListProps {
-    isGettingTodos: boolean;
     isUpdatingTodo: boolean;
     isOver?: boolean;
     title: string;
@@ -24,7 +21,6 @@ interface IDropTargetListProps {
     status: Status;
     connectDropTarget?: ConnectDropTarget;
     onUpdate(todo: ITodo): void;
-    onInit(): ITodo[];
 }
 
 const listTarget = {
@@ -47,13 +43,8 @@ class TodoListComponent extends React.Component<IDropTargetListProps, {}> {
         super();
     }
 
-    public componentDidMount() {
-        this.props.onInit();
-    }
-
     public render() {
-        const { isGettingTodos, isUpdatingTodo, todos, title, connectDropTarget, isOver} = this.props;
-        const isFetching = isGettingTodos || isUpdatingTodo;
+        const { isUpdatingTodo, todos, title, connectDropTarget, isOver} = this.props;
         const list = todos.map((item: ITodo) =>
             <ListItem key={item.id} className='todoItemList'>
                 <DraggableTodo
@@ -63,10 +54,10 @@ class TodoListComponent extends React.Component<IDropTargetListProps, {}> {
         );
 
         return connectDropTarget(
-            <div style={{backgroundColor: isOver ? 'lightgray' : 'white'}}>
+            <div style={{backgroundColor: isOver ? 'lightgray' : ''}}>
                 <h3>
                     <span style={{marginRight:'10px'}}>{title}</span>
-                    <span>{ isFetching ? <CircularProgress size={15} /> : '' }</span>
+                    <span>{ isUpdatingTodo ? <CircularProgress size={15} /> : '' }</span>
                 </h3>
                 {list}
             </div>
@@ -77,11 +68,11 @@ class TodoListComponent extends React.Component<IDropTargetListProps, {}> {
 interface ITodoListContainerProps {
     status: Status;
     title: string;
+    projectId: string;
 }
 
 const mapStateToProps = (state: IStateTree, props: ITodoListContainerProps) => {
     return {
-        isGettingTodos: isGettingTodos(state),
         isUpdatingTodo: isUpdatingTodo(state),
         status: props.status,
         title: props.title,
@@ -91,9 +82,6 @@ const mapStateToProps = (state: IStateTree, props: ITodoListContainerProps) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        onInit: () => {
-            dispatch(getTodosIfNeeded());
-        },
         onUpdate: (todo: ITodo) => {
             dispatch(requestUpdateTodo(todo));
         },

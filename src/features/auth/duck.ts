@@ -149,9 +149,11 @@ function auth(state = getInitialState(), action: any): IAuthState {
 }
 
 // selectors
-const getIsLoading      = (state: IStateTree) => state.auth.request.isLoading;
-const getType           = (state: IStateTree) => state.auth.request.type;
-const getRequestMessage = (state: IStateTree) => state.auth.request.message;
+const getIsLoading       = (state: IStateTree) => state.auth.request.isLoading;
+const getType            = (state: IStateTree) => state.auth.request.type;
+const getRequestMessage  = (state: IStateTree) => state.auth.request.message;
+const isAuthenticated    = (state: IStateTree) => state.auth.isAuthenticated;
+const getUsername        = (state: IStateTree) => state.auth.username;
 
 const isRegistering = createSelector(
     getIsLoading, getType, (isLoading, type) => isLoading && type === REGISTRATION_REQUEST
@@ -164,7 +166,6 @@ const isLoggingIn = createSelector(
 const getRegistrationMessage = createSelector(
     getType, getRequestMessage, (type, message) => type === REGISTRATION_SUCCESS ? message : ''
 );
-
 
 const getAuthRequestResult =  (state: IStateTree) => {
     return {
@@ -182,6 +183,8 @@ export default auth;
 export {
     getAuthRequestResult,
     getRegistrationMessage,
+    getUsername,
+    isAuthenticated,
     isLoggingIn,
     isRegistering,
     login,

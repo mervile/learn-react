@@ -11,7 +11,7 @@ const mockStore = configureMockStore(middlewares);
 const expect = chai.expect;
 
 const API_URL = 'http://localhost:8080/api';
-const todo = { description: 'do something', id: 234, status: 0, userId: '?' };
+const todo = { description: 'do something', id: 234, status: 0, userId: '?', projectId: '?' };
 let rstate: IRequestState = {
     error: null,
     isLoading: false,
@@ -76,12 +76,12 @@ describe('Todo actions', () => {
         fetchMock.post(`${API_URL}/todo`, todo);
 
         const expectedActions = [
-            { type: actions.ADD_TODO_REQUEST, description: todo.description },
+            { type: actions.ADD_TODO_REQUEST },
             { type: actions.ADD_TODO_SUCCESS, todo },
         ];
         const store = mockStore({ todos: state });
 
-        return store.dispatch(actions.requestAddTodo(todo.description))
+        return store.dispatch(actions.requestAddTodo(todo.description, todo.projectId))
             .then(() => {
                 const storeActions = store.getActions();
                 expect(storeActions[0].type).to.equal(actions.ADD_TODO_REQUEST);
@@ -99,7 +99,7 @@ describe('Todo actions', () => {
         ];
         const store = mockStore({ todos: state });
 
-        return store.dispatch(actions.requestAddTodo(todo.description))
+        return store.dispatch(actions.requestAddTodo(todo.description, todo.projectId))
             .then(() => {
                 const storeActions = store.getActions();
                 expect(storeActions[0].type).to.eql(expectedActions[0].type);

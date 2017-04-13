@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { I18n, Translate } from 'react-redux-i18n';
 
 import { IStateTree } from '../../models';
-import { logout } from '../auth/duck';
+import { getUsername, isAuthenticated, logout } from '../auth/duck';
 import Locales from './localeselection';
 
 interface IHeaderProps {
@@ -50,9 +50,9 @@ class HeaderComponent extends React.Component<IHeaderProps, {}> {
 
 const mapStateToProps = (state: IStateTree) => {
     return {
-        isAuthenticated: state.auth.isAuthenticated,
+        isAuthenticated: isAuthenticated(state),
         locale: state.i18n.locale,
-        username: state.auth.username,
+        username: getUsername(state),
     };
 };
 

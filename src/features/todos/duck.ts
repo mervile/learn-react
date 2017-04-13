@@ -3,11 +3,12 @@ import * as _ from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { createSelector } from 'reselect';
 
-import { IStateTree, ITodo, ITodosState } from '../../models';
+import { IProject, IStateTree, ITodo, ITodosState } from '../../models';
 import { getTodoList, removeTodo, saveTodo } from '../../services/todoService';
 import { requestFailure, requestSuccess, startRequest } from '../../utils/handleRequests';
 
 import { LOGOUT } from '../auth/duck';
+import { PROJECTS_SUCCESS } from '../projects/duck';
 
 // Action constants
 // Exported for unit tests
@@ -95,10 +96,9 @@ function getTodosIfNeeded() {
     };
 }
 
-function addTodo(description: string) {
+function addTodo() {
     return {
         type: ADD_TODO_REQUEST,
-        description,
     };
 };
 
@@ -117,10 +117,16 @@ function addTodoFailure(error: Response) {
     };
 };
 
-function requestAddTodo(description: string) {
+function requestAddTodo(description: string, projectId: string) {
     return (dispatch: any) => {
-        dispatch(addTodo(description));
-        return saveTodo({ id: -1, description, status: 0, userId: '' }) // TODO
+        dispatch(addTodo());
+        return saveTodo({
+                id: -1,
+                description,
+                projectId,
+                status: 0,
+                userId: '',
+            })
             .then((todo: ITodo) =>
                 dispatch(addTodoSuccess(todo))
             ).catch((error: Response) =>
@@ -231,9 +237,10 @@ function todos(state = getInitialState(), action: any): ITodosState {
                 request: requestSuccess(state.request, action),
             };
         case TODOS_SUCCESS:
+        case PROJECTS_SUCCESS:
             return {
                 didInvalidate: true,
-                items: action.todos,
+                items: action.todos || _.flatMap(action.projects, (p: IProject) => p.todos),
                 lastUpdated: Date.now(),
                 request: requestSuccess(state.request, action),
             };
@@ -278,7 +285,9 @@ const getIsLoading     = (state: IStateTree) => state.todos.request.isLoading;
 const getType          = (state: IStateTree) => state.todos.request.type;
 const isRequestTarget  = (state: IStateTree, props: any) => state.todos.request.id === props.todo.id;
 const todosByStatus    = (state: IStateTree, props: any): ITodo[] =>
-    state.todos.items.filter(t => t.status === props.status);
+    state.todos.items.filter(t => t.status === props.status && t.projectId === props.projectId);
+const todosByProject   = (state: IStateTree, props: any): ITodo[] =>
+    state.todos.items.filter(t => t.projectId === props.projectId);
 
 const isAddingTodo = createSelector(
     getIsLoading, getType, (isLoading, type) => isLoading && type === ADD_TODO_REQUEST
@@ -299,6 +308,9 @@ const isGettingTodos = createSelector(
 
 const getTodosByStatus = createSelector(
   todosByStatus, (todos: ITodo[]) => todos);
+
+const getTodosByProject = createSelector(
+  todosByProject, (todos: ITodo[]) => todos);
 
 const getTodosRequestResult = (state: IStateTree) => {
     return {
@@ -323,5 +335,6 @@ export {
     isAddingTodo,
     isUpdatingTodo,
     isDeletingTodo,
-    getTodosByStatus
+    getTodosByStatus,
+    getTodosByProject,
 }

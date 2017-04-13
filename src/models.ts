@@ -16,6 +16,14 @@ interface ITodo {
     description: string;
     status: Status;
     userId: string;
+    projectId?: string;
+}
+
+interface IProject {
+    id: string;
+    title: string;
+    description: string;
+    todos: ITodo[];
 }
 
 interface IRequestState {
@@ -24,6 +32,13 @@ interface IRequestState {
     id?: number;
     error: Response | null;
     message: string;
+}
+
+interface IProjectsState {
+    didInvalidate: boolean;
+    lastUpdated: number;
+    projects: IProject[];
+    request: IRequestState;
 }
 
 interface ITodosState {
@@ -42,6 +57,7 @@ interface IAuthState {
 interface IStateTree {
     todos: ITodosState;
     auth: IAuthState;
+    projects: IProjectsState;
     i18n: I18nState;
 }
 
@@ -84,4 +100,6 @@ export {
     IFormState,
     IValidator,
     IAsyncValidator,
+    IProject,
+    IProjectsState,
 }

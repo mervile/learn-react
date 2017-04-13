@@ -10,9 +10,7 @@ const expect = chai.expect;
 function setup() {
     const todo: ITodo = { description: 'test', id: 0, status: Status.New, userId: '23' };
     const props: IDropTargetListProps = {
-        isGettingTodos: false,
         isUpdatingTodo: false,
-        onInit: () => { return [todo]; },
         onUpdate: (t: ITodo) => {},
         status: 0,
         title: '',

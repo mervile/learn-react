@@ -1,29 +1,73 @@
+import CircularProgress from 'material-ui/CircularProgress';
 import * as React from 'react';
-
-import { Status } from '../../models';
-import Header from '../common/Header';
-import TodoForm from '../todos/TodoForm';
-import { TodoList } from '../todos/todolist/TodoList';
+import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 
-class Todos extends React.Component<{}, {}> {
+import {
+    getTodosIfNeeded,
+    isGettingTodos,
+} from './duck';
+
+import { IStateTree, ITodo, Status } from '../../models';
+import TodoForm from '../todos/TodoForm';
+import { TodoList } from '../todos/todolist/TodoList';
+
+interface ITodosProps {
+    isGettingTodos: boolean;
+    projectId: string;
+    onInit(): ITodo[];
+}
+
+class TodosComponent extends React.Component<ITodosProps, {}> {
     constructor() {
         super();
     }
 
+    public componentDidMount() {
+        if (typeof this.props.projectId === 'undefined') {
+            this.props.onInit();
+        }
+    }
+
     public render() {
+        // TODO loading
+        const { isGettingTodos, projectId } = this.props;
         return (
             <div>
-                <Header />
-                <div className='content'>
-                    <TodoForm />
-                    <TodoList status={Status.New} title={I18n.t('todos.new')} />
-                    <TodoList status={Status.InProgress} title={I18n.t('todos.inProgress')} />
-                    <TodoList status={Status.Done} title={I18n.t('todos.done')} />
+                <div>
+                    <span>{ isGettingTodos ? <CircularProgress size={15} /> : '' }</span>
+                    <TodoForm projectId={projectId} />
+                    <TodoList projectId={projectId} status={Status.New} title={I18n.t('todos.new')} />
+                    <TodoList projectId={projectId} status={Status.InProgress} title={I18n.t('todos.inProgress')} />
+                    <TodoList projectId={projectId} status={Status.Done} title={I18n.t('todos.done')} />
                 </div>
             </div>
         );
     }
 }
+
+interface ITodosComponentProps {
+    projectId: string;
+}
+
+const mapStateToProps = (state: IStateTree, props: ITodosComponentProps) => {
+    return {
+        isGettingTodos: isGettingTodos(state),
+        projectId: props.projectId,
+    };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        onInit: () => {
+            dispatch(getTodosIfNeeded());
+        },
+    };
+};
+
+const Todos = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TodosComponent);
 
 export default Todos;

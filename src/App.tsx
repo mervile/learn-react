@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 import { Route, Router, browserHistory } from 'react-router';
 
 import { PATHS, TOKEN } from './config';
@@ -9,7 +7,7 @@ import { IStateTree } from './models';
 import LoginForm from './features/auth/LoginForm';
 import RegisterForm from './features/auth/RegisterForm';
 import Notification from './features/common/Notification';
-import Todos from './features/todos/Todos';
+import Main from './features/main/Main';
 
 import { connect } from 'react-redux';
 
@@ -39,7 +37,7 @@ class AppComponent extends React.Component<IAppProps, {}> {
                 <Router history={browserHistory}>
                     <Route path={PATHS.LOGIN} component={LoginForm} onEnter={this.checkAuth} />
                     <Route path={PATHS.REGISTER} component={RegisterForm} onEnter={this.checkAuth} />
-                    <Route path={PATHS.HOME} component={Todos} onEnter={this.requireAuth} />
+                    <Route path={PATHS.HOME} component={Main} onEnter={this.requireAuth} />
                 </Router>
                 <Notification />
             </div>
@@ -67,4 +65,4 @@ class AppComponent extends React.Component<IAppProps, {}> {
 
 const App = connect(mapStateToProps)(AppComponent);
 
-export default DragDropContext(HTML5Backend)(App) as React.ComponentClass<{}>;
+export default App;

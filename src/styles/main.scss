@@ -2,6 +2,7 @@
 
 $accent-color: darkblue;
 $accent-border: 30px solid $accent-color;
+$content-background-color: whitesmoke;
 $header-height: 65px;
 
 html, body {
@@ -18,11 +19,22 @@ h1, h3 {
 
 .content {
     margin: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
-.todoItemList {
-    @media all and (min-width: 800px) {
-        width: 50%;
+.project {
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 1px 2px 5px gainsboro;
+    background-color: $content-background-color;
+    flex-grow: 1;
+    max-width: 50%;
+
+    .todoItemList {
+        background-color: $content-background-color;
     }
 }
 
