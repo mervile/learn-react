@@ -189,6 +189,13 @@ const isGettingProjects = createSelector(
     getIsLoading, getType, (isLoading, type) => isLoading && type === PROJECTS_REQUEST
 );
 
+const getProjectsRequestResult = (state: IStateTree) => {
+    return {
+        error: state.projects.request.error,
+        message: state.projects.request.message,
+    };
+};
+
 // Export reducer which will be combined with other
 // reducers in top level
 export default projects;
@@ -201,4 +208,5 @@ export {
     isGettingProjects,
     isAddingProject,
     requestAddProject,
+    getProjectsRequestResult,
 }

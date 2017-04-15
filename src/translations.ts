@@ -29,6 +29,7 @@ const translationsObj = {
     projects: {
       addNew: 'Add new project',
       description: 'Project description',
+      projectAdded: 'Successfully added new project!',
       title: 'Project title',
     },
     todos: {
@@ -71,6 +72,7 @@ const translationsObj = {
     projects: {
       addNew: 'Lisää uusi projekti',
       description: 'Projektin kuvaus',
+      projectAdded: 'Uusi projekti lisättiin onnistuneesti!',
       title: 'Projektin nimi',
     },
     todos: {

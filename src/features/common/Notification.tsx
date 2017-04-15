@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { IStateTree } from '../../models';
 import { getAuthRequestResult } from '../auth/duck';
+import { getProjectsRequestResult } from '../projects/duck';
 import { getTodosRequestResult } from '../todos/duck';
 
 interface INotificationProps {
@@ -57,6 +58,7 @@ const mapStateToProps = (state: IStateTree) => {
     const reqRes = [
         getAuthRequestResult(state),
         getTodosRequestResult(state),
+        getProjectsRequestResult(state),
     ];
 
     // Working with the assumption there is one request result
