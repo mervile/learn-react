@@ -40,7 +40,7 @@ class TodoFormComponent extends React.Component<ITodoFormProps, ITodoFormState> 
                     type='submit'
                     style={{margin:'10px'}}
                     onClick={this.submitTodo}
-                    label={this.props.isLoading ? I18n.t('todos.adding') : I18n.t('todos.submit')}
+                    label={this.props.isLoading ? I18n.t('common.adding') : I18n.t('common.submit')}
                     disabled={this.props.isLoading ? true : false}
                 />
             </form>

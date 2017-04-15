@@ -2,17 +2,17 @@ import * as React from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
-import { I18n } from 'react-redux-i18n';
 
-import { IProject, IStateTree } from '../../models';
+import { IProject, IProjectWithTodos, IStateTree } from '../../models';
 import { getProjectsIfNeeded, getUserProjects, isGettingProjects } from './duck';
 
 import Todos from '../todos/Todos';
+import ProjectForm from './ProjectForm';
 
 interface IProjectsProps {
     isLoading: boolean;
-    projects: IProject[];
-    onInit(): IProject[];
+    projects: IProjectWithTodos[];
+    onInit(): IProjectWithTodos[];
 }
 
 class ProjectsComponent extends React.Component<IProjectsProps, {}> {
@@ -34,7 +34,10 @@ class ProjectsComponent extends React.Component<IProjectsProps, {}> {
             </div>);
         return (
             <div className='content'>
-                {list}
+                <ProjectForm />
+                <div className='projectList'>
+                    {list}
+                </div>
             </div>
         );
     }

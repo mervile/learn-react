@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { createSelector } from 'reselect';
 
-import { IProject, IStateTree, ITodo, ITodosState } from '../../models';
+import { IProjectWithTodos, IStateTree, ITodo, ITodosState } from '../../models';
 import { getTodoList, removeTodo, saveTodo } from '../../services/todoService';
 import { requestFailure, requestSuccess, startRequest } from '../../utils/handleRequests';
 
@@ -240,7 +240,7 @@ function todos(state = getInitialState(), action: any): ITodosState {
         case PROJECTS_SUCCESS:
             return {
                 didInvalidate: true,
-                items: action.todos || _.flatMap(action.projects, (p: IProject) => p.todos),
+                items: action.todos || _.flatMap(action.projects, (p: IProjectWithTodos) => p.todos),
                 lastUpdated: Date.now(),
                 request: requestSuccess(state.request, action),
             };

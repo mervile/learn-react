@@ -23,6 +23,10 @@ interface IProject {
     id: string;
     title: string;
     description: string;
+}
+
+interface IProjectWithTodos {
+    project: IProject;
     todos: ITodo[];
 }
 
@@ -37,7 +41,7 @@ interface IRequestState {
 interface IProjectsState {
     didInvalidate: boolean;
     lastUpdated: number;
-    projects: IProject[];
+    projectsWithTodos: IProjectWithTodos[];
     request: IRequestState;
 }
 
@@ -102,4 +106,5 @@ export {
     IAsyncValidator,
     IProject,
     IProjectsState,
+    IProjectWithTodos,
 }

@@ -1,8 +1,15 @@
 // Project actions, selectors and reducers
 import * as _ from 'lodash';
+import { I18n } from 'react-redux-i18n';
 import { createSelector } from 'reselect';
 
-import { IProject, IProjectsState, IStateTree } from '../../models';
+import {
+    IProject,
+    IProjectWithTodos,
+    IProjectsState,
+    IStateTree,
+    ITodo,
+} from '../../models';
 import * as projectService from '../../services/projectService';
 import { requestFailure, requestSuccess, startRequest } from '../../utils/handleRequests';
 
@@ -11,6 +18,15 @@ import { requestFailure, requestSuccess, startRequest } from '../../utils/handle
 export const PROJECTS_REQUEST  = 'app/auth/PROJECTS_REQUEST';
 export const PROJECTS_FAILURE  = 'app/auth/PROJECTS_FAILURE';
 export const PROJECTS_SUCCESS  = 'app/auth/PROJECTS_SUCCESS';
+export const ADD_PROJECT_REQUEST  = 'app/auth/ADD_PROJECT_REQUEST';
+export const ADD_PROJECT_FAILURE  = 'app/auth/ADD_PROJECT_FAILURE';
+export const ADD_PROJECT_SUCCESS  = 'app/auth/ADD_PROJECT_SUCCESS';
+export const UPDATE_PROJECT_REQUEST  = 'app/auth/UPDATE_PROJECT_REQUEST';
+export const UPDATE_PROJECT_FAILURE  = 'app/auth/UPDATE_PROJECT_FAILURE';
+export const UPDATE_PROJECT_SUCCESS  = 'app/auth/UPDATE_PROJECT_SUCCESS';
+export const DELETE_PROJECT_REQUEST  = 'app/auth/DELETE_PROJECT_REQUEST';
+export const DELETE_PROJECT_FAILURE  = 'app/auth/DELETE_PROJECT_FAILURE';
+export const DELETE_PROJECT_SUCCESS  = 'app/auth/DELETE_PROJECT_SUCCESS';
 
 // Action creators
 function requestProjects() {
@@ -26,7 +42,7 @@ function projectsFailure(error: any) {
     };
 };
 
-function projectsSuccess(projects: IProject[]) {
+function projectsSuccess(projects: IProjectWithTodos[]) {
     return {
         type: PROJECTS_SUCCESS,
         projects,
@@ -37,7 +53,7 @@ function getProjects() {
     return (dispatch: any) => {
         dispatch(requestProjects());
         return projectService.getProjects()
-            .then((projects: IProject[]) =>
+            .then((projects: IProjectWithTodos[]) =>
                 dispatch(projectsSuccess(projects))
             ).catch((error: Response) =>
                 dispatch(projectsFailure(error))
@@ -67,12 +83,51 @@ function getProjectsIfNeeded() {
     };
 }
 
+function addProject() {
+    return {
+        type: ADD_PROJECT_REQUEST,
+    };
+};
+
+function addProjectSuccess(project: IProject) {
+    return {
+        message: I18n.t('projects.projectAdded'),
+        type: ADD_PROJECT_SUCCESS,
+        project,
+    };
+};
+
+function addProjectFailure(error: Response) {
+    return {
+        type: ADD_PROJECT_FAILURE,
+        error,
+    };
+};
+
+function requestAddProject(title: string, description: string) {
+    return (dispatch: any) => {
+        dispatch(addProject());
+        return projectService.saveProject({
+                id: '',
+                description,
+                title,
+            })
+            .then((project: IProject) =>
+                dispatch(addProjectSuccess(project))
+            ).catch((error: Response) =>
+                dispatch(addProjectFailure(error))
+            );
+    };
+}
+
+
+
 // reducers
 function getInitialState(): IProjectsState {
     return {
         didInvalidate: true,
         lastUpdated: Date.now(),
-        projects: [],
+        projectsWithTodos: [],
         request: {
             error: null,
             isLoading: false,
@@ -84,6 +139,7 @@ function getInitialState(): IProjectsState {
 
 function projects(state = getInitialState(), action: any): IProjectsState {
     switch (action.type) {
+        case ADD_PROJECT_REQUEST:
         case PROJECTS_REQUEST:
             const copy = JSON.parse(JSON.stringify(state));
             return _.assign(copy, {
@@ -94,10 +150,21 @@ function projects(state = getInitialState(), action: any): IProjectsState {
             return _.assign(copy, {
                 didInvalidate: true,
                 lastUpdated: Date.now(),
-                projects: action.projects,
+                projectsWithTodos: action.projects,
                 request: requestSuccess(state.request, action),
             });
         }
+        case ADD_PROJECT_SUCCESS: {
+            const todos: ITodo[] = [];
+            const projWithTodos = { project: action.project, todos };
+            return {
+                didInvalidate: false,
+                lastUpdated: Date.now(),
+                projectsWithTodos: [...state.projectsWithTodos, projWithTodos],
+                request: requestSuccess(state.request, action),
+            };
+        }
+        case ADD_PROJECT_FAILURE:
         case PROJECTS_FAILURE: {
             const copy = JSON.parse(JSON.stringify(state));
             return _.assign(copy, {
@@ -112,7 +179,11 @@ function projects(state = getInitialState(), action: any): IProjectsState {
 // selectors
 const getIsLoading       = (state: IStateTree) => state.auth.request.isLoading;
 const getType            = (state: IStateTree) => state.auth.request.type;
-const getUserProjects    = (state: IStateTree) => state.projects.projects;
+const getUserProjects    = (state: IStateTree) => state.projects.projectsWithTodos;
+
+const isAddingProject = createSelector(
+    getIsLoading, getType, (isLoading, type) => isLoading && type === ADD_PROJECT_REQUEST
+);
 
 const isGettingProjects = createSelector(
     getIsLoading, getType, (isLoading, type) => isLoading && type === PROJECTS_REQUEST
@@ -128,4 +199,6 @@ export {
     getProjectsIfNeeded,
     getUserProjects,
     isGettingProjects,
+    isAddingProject,
+    requestAddProject,
 }

@@ -1,6 +1,6 @@
 @import 'mixins';
 
-$accent-color: darkblue;
+$accent-color: crimson;
 $accent-border: 30px solid $accent-color;
 $content-background-color: whitesmoke;
 $header-height: 65px;
@@ -19,6 +19,17 @@ h1, h3 {
 
 .content {
     margin: 20px;
+}
+
+.projectForm {
+    @include flex-column();
+
+    @media all and (min-width: 800px) {
+        width: 265px;
+    }
+}
+
+.projectList {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -28,10 +39,14 @@ h1, h3 {
 .project {
     padding: 10px;
     margin: 10px;
+    border: 1px solid whitesmoke;
     box-shadow: 1px 2px 5px gainsboro;
     background-color: $content-background-color;
     flex-grow: 1;
-    max-width: 50%;
+
+    h1 {
+        border-bottom: 5px solid $accent-color;
+    }
 
     .todoItemList {
         background-color: $content-background-color;
