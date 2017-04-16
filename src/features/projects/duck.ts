@@ -120,6 +120,38 @@ function requestAddProject(title: string, description: string) {
     };
 }
 
+function deleteProject() {
+    return {
+        type: DELETE_PROJECT_REQUEST,
+    };
+};
+
+function deleteProjectSuccess(project: IProject) {
+    return {
+        message: I18n.t('projects.projectDeleted'),
+        type: DELETE_PROJECT_SUCCESS,
+        project,
+    };
+};
+
+function deleteProjectFailure(error: Response) {
+    return {
+        type: DELETE_PROJECT_FAILURE,
+        error,
+    };
+};
+
+function requestDeleteProject(id: string) {
+    return (dispatch: any) => {
+        dispatch(deleteProject());
+        return projectService.deleteProject(id)
+            .then((project: IProject) =>
+                dispatch(deleteProjectSuccess(project))
+            ).catch((error: Response) =>
+                dispatch(deleteProjectFailure(error))
+            );
+    };
+}
 
 
 // reducers
@@ -141,6 +173,7 @@ function projects(state = getInitialState(), action: any): IProjectsState {
     switch (action.type) {
         case ADD_PROJECT_REQUEST:
         case PROJECTS_REQUEST:
+        case DELETE_PROJECT_REQUEST:
             const copy = JSON.parse(JSON.stringify(state));
             return _.assign(copy, {
                 request: startRequest(state.request, action),
@@ -164,7 +197,17 @@ function projects(state = getInitialState(), action: any): IProjectsState {
                 request: requestSuccess(state.request, action),
             };
         }
+        case DELETE_PROJECT_SUCCESS:
+            const projectsWithTodos = _.filter(state.projectsWithTodos,
+                (item) => item.project.id !== action.project.id);
+            return {
+                didInvalidate: false,
+                projectsWithTodos,
+                lastUpdated: state.lastUpdated,
+                request: requestSuccess(state.request, action),
+            };
         case ADD_PROJECT_FAILURE:
+        case DELETE_PROJECT_FAILURE:
         case PROJECTS_FAILURE: {
             const copy = JSON.parse(JSON.stringify(state));
             return _.assign(copy, {
@@ -189,6 +232,10 @@ const isGettingProjects = createSelector(
     getIsLoading, getType, (isLoading, type) => isLoading && type === PROJECTS_REQUEST
 );
 
+const isDeletingProject = createSelector(
+    getIsLoading, getType, (isLoading, type) => isLoading && type === DELETE_PROJECT_REQUEST
+);
+
 const getProjectsRequestResult = (state: IStateTree) => {
     return {
         error: state.projects.request.error,
@@ -207,6 +254,8 @@ export {
     getUserProjects,
     isGettingProjects,
     isAddingProject,
+    isDeletingProject,
     requestAddProject,
     getProjectsRequestResult,
+    requestDeleteProject,
 }

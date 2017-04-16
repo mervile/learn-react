@@ -3,10 +3,15 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
 
-import { IProject, IProjectWithTodos, IStateTree } from '../../models';
-import { getProjectsIfNeeded, getUserProjects, isGettingProjects } from './duck';
+import { IProjectWithTodos, IStateTree } from '../../models';
+import {
+    getProjectsIfNeeded,
+    getUserProjects,
+    isGettingProjects,
+    requestDeleteProject,
+} from './duck';
 
-import Todos from '../todos/Todos';
+import Project from './Project';
 import ProjectForm from './ProjectForm';
 
 interface IProjectsProps {
@@ -27,11 +32,7 @@ class ProjectsComponent extends React.Component<IProjectsProps, {}> {
     public render() {
         const { projects } = this.props;
         const list = projects.map((p: any) =>
-            <div key={p.project.id} className='project'>
-                <h1>{p.project.title}</h1>
-                <h3>{p.project.description}</h3>
-                <Todos projectId={p.project.id} />
-            </div>);
+            <Project key={p.project.id} project={p.project} />);
         return (
             <div className='content'>
                 <ProjectForm />

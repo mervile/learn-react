@@ -44,8 +44,23 @@ function saveProject(project: IProject) {
     });
 }
 
+function deleteProject(id: string) {
+    const auth = getAuth();
+    return fetch(`${API_URL}/project?id=${id}`, {
+        headers: {
+            Authorization: auth,
+            'Content-Type': 'application/json',
+        },
+        method: 'DELETE',
+    })
+    .then(handleErrors)
+    .then((response: any) => {
+        return response.json();
+    });
+}
 
 export {
     getProjects,
+    deleteProject,
     saveProject,
 };
