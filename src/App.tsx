@@ -6,6 +6,7 @@ import { IStateTree } from './models';
 
 import LoginForm from './features/auth/LoginForm';
 import RegisterForm from './features/auth/RegisterForm';
+import ModalRoot from './features/common/modals/ModalRoot';
 import Notification from './features/common/Notification';
 import Main from './features/main/Main';
 
@@ -40,6 +41,7 @@ class AppComponent extends React.Component<IAppProps, {}> {
                     <Route path={PATHS.HOME} component={Main} onEnter={this.requireAuth} />
                 </Router>
                 <Notification />
+                <ModalRoot />
             </div>
         );
     }

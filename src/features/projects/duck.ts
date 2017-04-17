@@ -15,18 +15,18 @@ import { requestFailure, requestSuccess, startRequest } from '../../utils/handle
 
 // Action constants
 // Exported for mainly for unit tests
-export const PROJECTS_REQUEST  = 'app/auth/PROJECTS_REQUEST';
-export const PROJECTS_FAILURE  = 'app/auth/PROJECTS_FAILURE';
-export const PROJECTS_SUCCESS  = 'app/auth/PROJECTS_SUCCESS';
-export const ADD_PROJECT_REQUEST  = 'app/auth/ADD_PROJECT_REQUEST';
-export const ADD_PROJECT_FAILURE  = 'app/auth/ADD_PROJECT_FAILURE';
-export const ADD_PROJECT_SUCCESS  = 'app/auth/ADD_PROJECT_SUCCESS';
-export const UPDATE_PROJECT_REQUEST  = 'app/auth/UPDATE_PROJECT_REQUEST';
-export const UPDATE_PROJECT_FAILURE  = 'app/auth/UPDATE_PROJECT_FAILURE';
-export const UPDATE_PROJECT_SUCCESS  = 'app/auth/UPDATE_PROJECT_SUCCESS';
-export const DELETE_PROJECT_REQUEST  = 'app/auth/DELETE_PROJECT_REQUEST';
-export const DELETE_PROJECT_FAILURE  = 'app/auth/DELETE_PROJECT_FAILURE';
-export const DELETE_PROJECT_SUCCESS  = 'app/auth/DELETE_PROJECT_SUCCESS';
+export const PROJECTS_REQUEST  = 'app/projects/PROJECTS_REQUEST';
+export const PROJECTS_FAILURE  = 'app/projects/PROJECTS_FAILURE';
+export const PROJECTS_SUCCESS  = 'app/projects/PROJECTS_SUCCESS';
+export const ADD_PROJECT_REQUEST  = 'app/projects/ADD_PROJECT_REQUEST';
+export const ADD_PROJECT_FAILURE  = 'app/projects/ADD_PROJECT_FAILURE';
+export const ADD_PROJECT_SUCCESS  = 'app/projects/ADD_PROJECT_SUCCESS';
+export const UPDATE_PROJECT_REQUEST  = 'app/projects/UPDATE_PROJECT_REQUEST';
+export const UPDATE_PROJECT_FAILURE  = 'app/projects/UPDATE_PROJECT_FAILURE';
+export const UPDATE_PROJECT_SUCCESS  = 'app/projects/UPDATE_PROJECT_SUCCESS';
+export const DELETE_PROJECT_REQUEST  = 'app/projects/DELETE_PROJECT_REQUEST';
+export const DELETE_PROJECT_FAILURE  = 'app/projects/DELETE_PROJECT_FAILURE';
+export const DELETE_PROJECT_SUCCESS  = 'app/projects/DELETE_PROJECT_SUCCESS';
 
 // Action creators
 function requestProjects() {
@@ -220,8 +220,8 @@ function projects(state = getInitialState(), action: any): IProjectsState {
 }
 
 // selectors
-const getIsLoading       = (state: IStateTree) => state.auth.request.isLoading;
-const getType            = (state: IStateTree) => state.auth.request.type;
+const getIsLoading       = (state: IStateTree) => state.projects.request.isLoading;
+const getType            = (state: IStateTree) => state.projects.request.type;
 const getUserProjects    = (state: IStateTree) => state.projects.projectsWithTodos;
 
 const isAddingProject = createSelector(

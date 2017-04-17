@@ -18,6 +18,7 @@ const translationsObj = {
     },
     common: {
       adding: 'Adding...',
+      confirm: 'Confirm action',
       en: 'English',
       fi: 'Finnish',
       logout: 'Logout',
@@ -28,6 +29,7 @@ const translationsObj = {
     },
     projects: {
       addNew: 'Add new project',
+      deleteProject: 'Are you sure you want to delete this project and all its todos?',
       description: 'Project description',
       projectAdded: 'Successfully added new project!',
       projectDeleted: 'Successfully deleted project!',
@@ -62,6 +64,7 @@ const translationsObj = {
     },
     common: {
       adding: 'Lisäämässä...',
+      confirm: 'Vahvista toiminto',
       en: 'Englanti',
       fi: 'Suomi',
       logout: 'Kirjaudu ulos',
@@ -72,6 +75,7 @@ const translationsObj = {
     },
     projects: {
       addNew: 'Lisää uusi projekti',
+      deleteProject: 'Haluatko varmasti poistaa projektin ja kaikki sen tehtävät?',
       description: 'Projektin kuvaus',
       projectAdded: 'Uusi projekti lisättiin onnistuneesti!',
       projectDeleted: 'Projekti poistettu!',

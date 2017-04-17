@@ -63,6 +63,7 @@ interface IStateTree {
     auth: IAuthState;
     projects: IProjectsState;
     i18n: I18nState;
+    modal: IModalState;
 }
 
 interface ICredentials {
@@ -91,6 +92,11 @@ interface IFormState {
     isValid: boolean;
 }
 
+interface IModalState {
+    modalType: string;
+    modalProps: any;
+}
+
 export {
     Status,
     IStateTree,
@@ -107,4 +113,5 @@ export {
     IProject,
     IProjectsState,
     IProjectWithTodos,
+    IModalState,
 }

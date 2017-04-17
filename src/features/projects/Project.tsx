@@ -2,8 +2,12 @@ import CircularProgress from 'material-ui/CircularProgress';
 import FontIcon from 'material-ui/FontIcon';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
 
 import { IProject, IStateTree } from '../../models';
+import {
+    showModal,
+} from '../common/modals/duck';
 import {
     isDeletingProject,
     requestDeleteProject,
@@ -70,7 +74,12 @@ const mapStateToProps = (state: IStateTree, props: IProjectComponentProps) => {
 const mapDispatchToProps = (dispatch: any) => {
     return {
         onDelete: (id: string) => {
-            dispatch(requestDeleteProject(id));
+            // dispatch(requestDeleteProject(id));
+            dispatch(showModal({
+                callback: requestDeleteProject.bind(this, id),
+                description: I18n.t('projects.deleteProject'),
+                title: I18n.t('common.confirm'),
+            }, 'CONFIRM_MODAL'));
         },
     };
 };
