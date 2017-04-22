@@ -1,18 +1,9 @@
 import 'whatwg-fetch';
 
 import { API_URL } from '../config';
-import { IProject } from '../models';
+import { IProject, IUser } from '../models';
 import { handleErrors } from '../utils/handleErrors';
-import { getToken } from '../utils/token';
-
-const getAuth = () => {
-    const token = getToken();
-    let tokenId = '';
-    if (typeof token !== 'undefined') {
-        tokenId = token.token_id;
-    }
-    return `Bearer ${tokenId}`;
-};
+import { getAuth } from '../utils/token';
 
 function getProjects() {
     const auth = getAuth();
@@ -28,10 +19,10 @@ function getProjects() {
     });
 }
 
-function saveProject(project: IProject) {
+function saveProject(project: IProject, users: IUser[]) {
     const auth = getAuth();
     return fetch(`${API_URL}/project`, {
-        body: JSON.stringify(project),
+        body: JSON.stringify({ project, users }),
         headers: {
             Authorization: auth,
             'Content-Type': 'application/json',

@@ -18,6 +18,7 @@ const translationsObj = {
     },
     common: {
       adding: 'Adding...',
+      and: 'and',
       confirm: 'Confirm action',
       en: 'English',
       fi: 'Finnish',
@@ -31,8 +32,10 @@ const translationsObj = {
       addNew: 'Add new project',
       deleteProject: 'Are you sure you want to delete this project and all its todos?',
       description: 'Project description',
+      notShared: 'This project hasn\'t been shared with anyone.',
       projectAdded: 'Successfully added new project!',
       projectDeleted: 'Successfully deleted project!',
+      sharedWith: 'This project has been shared with ',
       title: 'Project title',
     },
     todos: {
@@ -43,6 +46,9 @@ const translationsObj = {
       todoAdded: 'Added new todo successfully!',
       todoDeleted: 'Successfully deleted todo!',
       todoUpdated: 'Successfully updated todo!',
+    },
+    users: {
+      select: 'Select users to share this project with',
     },
   },
   fi: {
@@ -64,21 +70,24 @@ const translationsObj = {
     },
     common: {
       adding: 'Lisäämässä...',
+      and: 'ja',
       confirm: 'Vahvista toiminto',
       en: 'Englanti',
       fi: 'Suomi',
       logout: 'Kirjaudu ulos',
       myTodos: 'Tehtävät',
       requiredField: 'Pakollinen kenttä!',
-      submit: 'Lisää',
+      submit: 'OK',
       welcome: 'Tervetuloa %{username}!',
     },
     projects: {
       addNew: 'Lisää uusi projekti',
       deleteProject: 'Haluatko varmasti poistaa projektin ja kaikki sen tehtävät?',
       description: 'Projektin kuvaus',
+      notShared: 'Tätä projektia ei ole jaettu kenenkään kanssa.',
       projectAdded: 'Uusi projekti lisättiin onnistuneesti!',
       projectDeleted: 'Projekti poistettu!',
+      sharedWith: 'Tämä projekti on jaettu seuraavien kanssa: ',
       title: 'Projektin nimi',
     },
     todos: {
@@ -89,6 +98,9 @@ const translationsObj = {
       todoAdded: 'Uusi tehtävä lisätty!',
       todoDeleted: 'Tehtävä poistettu!',
       todoUpdated: 'Tehtävä päivitetty!',
+    },
+    users: {
+      select: 'Valitse käyttäjät joiden kanssa haluat jakaa projektin',
     },
   },
 };

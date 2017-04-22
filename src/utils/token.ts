@@ -15,7 +15,17 @@ function getTokenUsername() {
     return username;
 }
 
+const getAuth = () => {
+    const token = getToken();
+    let tokenId = '';
+    if (typeof token !== 'undefined') {
+        tokenId = token.token_id;
+    }
+    return `Bearer ${tokenId}`;
+};
+
 export {
+    getAuth,
     getToken,
     getTokenUsername,
 };

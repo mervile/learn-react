@@ -6,13 +6,15 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 
-import { IStateTree } from '../../models';
+import { IStateTree, IUser } from '../../models';
+import { getSelectedUsers } from '../../services/userService';
+import UserSelector from '../users/UserSelector';
 import { isAddingProject, requestAddProject } from './duck';
 
 interface IProjectFormProps {
     isLoading: boolean;
     locale: string;
-    onSubmit(event: any, title: string, description: string): void;
+    onSubmit(event: any, title: string, description: string, users: IUser[]): void;
 }
 
 interface IProjectFormState { title: string; description: string; open: boolean; }
@@ -56,9 +58,11 @@ class ProjectFormComponent extends React.Component<IProjectFormProps, IProjectFo
                 <Dialog
                     title={I18n.t('projects.addNew')}
                     actions={actions}
-                    modal={false}
+                    modal={true}
                     open={this.state.open}
                     onRequestClose={this.handleClose}
+                    autoScrollBodyContent={true}
+                    autoDetectWindowHeight={false}
                 >
                     <form className='projectForm'>
                         <TextField
@@ -74,6 +78,7 @@ class ProjectFormComponent extends React.Component<IProjectFormProps, IProjectFo
                             onChange={this.handleChange}
                             multiLine={true}
                         />
+                        <UserSelector />
                     </form>
                 </Dialog>
             </div>
@@ -81,7 +86,7 @@ class ProjectFormComponent extends React.Component<IProjectFormProps, IProjectFo
     }
 
     protected submitProject(event: any) {
-        this.props.onSubmit(event, this.state.title, this.state.description);
+        this.props.onSubmit(event, this.state.title, this.state.description, getSelectedUsers());
         this.handleClose();
     }
 
@@ -115,9 +120,9 @@ const mapStateToProps = (state: IStateTree) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        onSubmit: (event: any, title: string, description: string) => {
+        onSubmit: (event: any, title: string, description: string, users: IUser[]) => {
             event.preventDefault();
-            dispatch(requestAddProject(title, description));
+            dispatch(requestAddProject(title, description, users));
         },
     };
 };

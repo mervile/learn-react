@@ -25,6 +25,11 @@ interface IProject {
     description: string;
 }
 
+interface IUser {
+    id: string;
+    username: string;
+}
+
 interface IProjectWithTodos {
     project: IProject;
     todos: ITodo[];
@@ -56,7 +61,14 @@ interface IAuthState {
     isAuthenticated: boolean;
     username: string;
     request: IRequestState;
- }
+}
+
+interface IUsersState {
+    didInvalidate: boolean;
+    lastUpdated: number;
+    request: IRequestState;
+    users: IUser[];
+}
 
 interface IStateTree {
     todos: ITodosState;
@@ -64,6 +76,7 @@ interface IStateTree {
     projects: IProjectsState;
     i18n: I18nState;
     modal: IModalState;
+    users: IUsersState;
 }
 
 interface ICredentials {
@@ -114,4 +127,6 @@ export {
     IProjectsState,
     IProjectWithTodos,
     IModalState,
+    IUser,
+    IUsersState,
 }

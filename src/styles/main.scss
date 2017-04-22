@@ -113,3 +113,16 @@ h1, h3 {
     font-weight: bold;
     border-left: 2px solid $accent-color;
 }
+
+.user {
+    border: 1px inset black;
+    padding: 7px;
+    display: inline;
+    margin: 3px 5px;
+    cursor: pointer;
+}
+
+.selectedUser {
+    border-width: 3px;
+    padding: 5px;
+}

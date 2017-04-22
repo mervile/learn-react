@@ -32,7 +32,7 @@ class ProjectsComponent extends React.Component<IProjectsProps, {}> {
     public render() {
         const { projects } = this.props;
         const list = projects.map((p: any) =>
-            <Project key={p.project.id} project={p.project} />);
+            <Project key={p.project.id} project={p.project} users={p.users} />);
         return (
             <div className='content'>
                 <ProjectForm />

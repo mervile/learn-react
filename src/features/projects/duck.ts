@@ -9,6 +9,7 @@ import {
     IProjectsState,
     IStateTree,
     ITodo,
+    IUser,
 } from '../../models';
 import * as projectService from '../../services/projectService';
 import { requestFailure, requestSuccess, startRequest } from '../../utils/handleRequests';
@@ -104,14 +105,14 @@ function addProjectFailure(error: Response) {
     };
 };
 
-function requestAddProject(title: string, description: string) {
+function requestAddProject(title: string, description: string, users: IUser[]) {
     return (dispatch: any) => {
         dispatch(addProject());
         return projectService.saveProject({
                 id: '',
                 description,
                 title,
-            })
+            }, users)
             .then((project: IProject) =>
                 dispatch(addProjectSuccess(project))
             ).catch((error: Response) =>

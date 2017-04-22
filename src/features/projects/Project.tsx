@@ -2,9 +2,10 @@ import CircularProgress from 'material-ui/CircularProgress';
 import FontIcon from 'material-ui/FontIcon';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { I18n } from 'react-redux-i18n';
+import { I18n, Translate } from 'react-redux-i18n';
 
-import { IProject, IStateTree } from '../../models';
+import { IProject, IStateTree, IUser } from '../../models';
+import { getTokenUsername } from '../../utils/token';
 import {
     showModal,
 } from '../common/modals/duck';
@@ -18,6 +19,7 @@ import Todos from '../todos/todos';
 interface IProjectProps {
     isLoading: boolean;
     project: IProject;
+    users: IUser[];
     onDelete(id: string): void;
 }
 
@@ -29,7 +31,7 @@ class ProjectComponent extends React.Component<IProjectProps, {}> {
     }
 
     public render() {
-        const { isLoading, project } = this.props;
+        const { isLoading, project, users } = this.props;
         const iconStyles = {
             cursor: 'pointer',
             float: 'right',
@@ -42,6 +44,18 @@ class ProjectComponent extends React.Component<IProjectProps, {}> {
             >
                 delete
             </FontIcon>;
+        let usersList = users.filter(user => user.username !== getTokenUsername())
+            .map(user => user.username).join(', ');
+        usersList = usersList.replace(/,([^,]*)$/, ' ' + I18n.t('common.and') + ' $1');
+        let shared = <div><Translate value='projects.notShared' /></div>;
+        if (usersList.length > 0) {
+            shared = (
+                <div>
+                    <Translate value='projects.sharedWith' />
+                    {usersList}
+                </div>
+            );
+        }
 
         return (
             <div className='project'>
@@ -50,6 +64,7 @@ class ProjectComponent extends React.Component<IProjectProps, {}> {
                     { isLoading ? <CircularProgress size={20} style={iconStyles} /> : deleteIcon }
                 </h1>
                 <h3>{project.description}</h3>
+                <div> {shared}</div>
                 <Todos projectId={project.id} />
             </div>
         );
@@ -62,12 +77,14 @@ class ProjectComponent extends React.Component<IProjectProps, {}> {
 
 interface IProjectComponentProps {
     project: IProject;
+    users: IUser[];
 }
 
 const mapStateToProps = (state: IStateTree, props: IProjectComponentProps) => {
     return {
         isLoading: isDeletingProject(state),
         project: props.project,
+        users: props.users,
     };
 };
 
