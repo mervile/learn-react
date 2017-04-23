@@ -28,7 +28,6 @@ function updateSelectedUsers(user: IUser, isSelected: boolean) {
     } else if (!isSelected && indx > -1) {
         _.remove(selectedUsers, user);
     }
-    console.log(indx, selectedUsers);
 }
 
 function getSelectedUsers() {

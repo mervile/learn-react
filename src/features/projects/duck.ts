@@ -90,7 +90,7 @@ function addProject() {
     };
 };
 
-function addProjectSuccess(project: IProject) {
+function addProjectSuccess(project: IProjectWithTodos) {
     return {
         message: I18n.t('projects.projectAdded'),
         type: ADD_PROJECT_SUCCESS,
@@ -106,14 +106,15 @@ function addProjectFailure(error: Response) {
 };
 
 function requestAddProject(title: string, description: string, users: IUser[]) {
+    const todos: ITodo[] = [];
     return (dispatch: any) => {
         dispatch(addProject());
         return projectService.saveProject({
-                id: '',
-                description,
-                title,
-            }, users)
-            .then((project: IProject) =>
+                    id: '',
+                    description,
+                    title,
+                }, users, todos)
+            .then((project: IProjectWithTodos) =>
                 dispatch(addProjectSuccess(project))
             ).catch((error: Response) =>
                 dispatch(addProjectFailure(error))
@@ -189,8 +190,11 @@ function projects(state = getInitialState(), action: any): IProjectsState {
             });
         }
         case ADD_PROJECT_SUCCESS: {
-            const todos: ITodo[] = [];
-            const projWithTodos = { project: action.project, todos };
+            const projWithTodos = {
+                project: action.project.project,
+                todos: action.project.todos,
+                users: action.project.users,
+            };
             return {
                 didInvalidate: false,
                 lastUpdated: Date.now(),
