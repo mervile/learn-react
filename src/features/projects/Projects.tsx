@@ -8,7 +8,6 @@ import {
     getProjectsIfNeeded,
     getUserProjects,
     isGettingProjects,
-    requestDeleteProject,
 } from './duck';
 
 import Project from './Project';
@@ -32,10 +31,10 @@ class ProjectsComponent extends React.Component<IProjectsProps, {}> {
     public render() {
         const { projects } = this.props;
         const list = projects.map((p: any) =>
-            <Project key={p.project.id} project={p.project} users={p.users} />);
+            <Project key={p.project.id} project={p} />);
         return (
             <div className='content'>
-                <ProjectForm />
+                <ProjectForm project={undefined} />
                 <div className='projectList'>
                     {list}
                 </div>

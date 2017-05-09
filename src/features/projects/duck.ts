@@ -155,6 +155,38 @@ function requestDeleteProject(id: string) {
     };
 }
 
+function updateProject() {
+    return {
+        type: UPDATE_PROJECT_REQUEST,
+    };
+};
+
+function updateProjectSuccess(projectWithTodos: IProjectWithTodos) {
+    return {
+        message: I18n.t('projects.projectUpdated'),
+        type: UPDATE_PROJECT_SUCCESS,
+        projectWithTodos,
+    };
+};
+
+function updateProjectFailure(error: Response) {
+    return {
+        type: UPDATE_PROJECT_FAILURE,
+        error,
+    };
+};
+
+function requestUpdateProject(project: IProjectWithTodos) {
+    return (dispatch: any) => {
+        dispatch(updateProject());
+        return projectService.saveProject(project.project, project.users, project.todos)
+            .then((proj: IProjectWithTodos) =>
+                dispatch(updateProjectSuccess(proj))
+            ).catch((error: Response) =>
+                dispatch(updateProjectFailure(error))
+            );
+    };
+}
 
 // reducers
 function getInitialState(): IProjectsState {
@@ -176,6 +208,7 @@ function projects(state = getInitialState(), action: any): IProjectsState {
         case ADD_PROJECT_REQUEST:
         case PROJECTS_REQUEST:
         case DELETE_PROJECT_REQUEST:
+        case UPDATE_PROJECT_REQUEST:
             const copy = JSON.parse(JSON.stringify(state));
             return _.assign(copy, {
                 request: startRequest(state.request, action),
@@ -211,8 +244,20 @@ function projects(state = getInitialState(), action: any): IProjectsState {
                 lastUpdated: state.lastUpdated,
                 request: requestSuccess(state.request, action),
             };
+        case UPDATE_PROJECT_SUCCESS: {
+            const items = state.projectsWithTodos.slice();
+            const index = _.indexOf(items, _.find(items, { id: action.projectWithTodos.project.id }));
+            items.splice(index, 1, action.projectWithTodos);
+            return {
+                didInvalidate: false,
+                lastUpdated: Date.now(),
+                projectsWithTodos: items,
+                request: requestSuccess(state.request, action),
+            };
+        }
         case ADD_PROJECT_FAILURE:
         case DELETE_PROJECT_FAILURE:
+        case UPDATE_PROJECT_FAILURE:
         case PROJECTS_FAILURE: {
             const copy = JSON.parse(JSON.stringify(state));
             return _.assign(copy, {
@@ -228,6 +273,8 @@ function projects(state = getInitialState(), action: any): IProjectsState {
 const getIsLoading       = (state: IStateTree) => state.projects.request.isLoading;
 const getType            = (state: IStateTree) => state.projects.request.type;
 const getUserProjects    = (state: IStateTree) => state.projects.projectsWithTodos;
+const getProjectById     = (state: IStateTree, props: any) =>
+    _.find(state.projects.projectsWithTodos, p => p.project.id === props.id);
 
 const isAddingProject = createSelector(
     getIsLoading, getType, (isLoading, type) => isLoading && type === ADD_PROJECT_REQUEST
@@ -256,6 +303,7 @@ export default projects;
 // this feature
 export {
     getProjectsIfNeeded,
+    getProjectById,
     getUserProjects,
     isGettingProjects,
     isAddingProject,
@@ -263,4 +311,5 @@ export {
     requestAddProject,
     getProjectsRequestResult,
     requestDeleteProject,
+    requestUpdateProject,
 }

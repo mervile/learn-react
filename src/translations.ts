@@ -32,6 +32,7 @@ const translationsObj = {
       addNew: 'Add new project',
       deleteProject: 'Are you sure you want to delete this project and all its todos?',
       description: 'Project description',
+      edit: 'Edit project',
       notShared: 'This project hasn\'t been shared with anyone.',
       projectAdded: 'Successfully added new project!',
       projectDeleted: 'Successfully deleted project!',
@@ -49,6 +50,7 @@ const translationsObj = {
     },
     users: {
       select: 'Select users to share this project with',
+      you: 'You',
     },
   },
   fi: {
@@ -84,6 +86,7 @@ const translationsObj = {
       addNew: 'Lisää uusi projekti',
       deleteProject: 'Haluatko varmasti poistaa projektin ja kaikki sen tehtävät?',
       description: 'Projektin kuvaus',
+      edit: 'Muokkaa projektia',
       notShared: 'Tätä projektia ei ole jaettu kenenkään kanssa.',
       projectAdded: 'Uusi projekti lisättiin onnistuneesti!',
       projectDeleted: 'Projekti poistettu!',
@@ -101,6 +104,7 @@ const translationsObj = {
     },
     users: {
       select: 'Valitse käyttäjät joiden kanssa haluat jakaa projektin',
+      you: 'Sinä',
     },
   },
 };

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { I18n, Translate } from 'react-redux-i18n';
 
-import { IProject, IStateTree, IUser } from '../../models';
+import { IProjectWithTodos, IStateTree, IUser } from '../../models';
 import { getTokenUsername } from '../../utils/token';
 import {
     showModal,
@@ -15,11 +15,11 @@ import {
 } from './duck';
 
 import Todos from '../todos/todos';
+import ProjectForm from './ProjectForm';
 
 interface IProjectProps {
     isLoading: boolean;
-    project: IProject;
-    users: IUser[];
+    project: IProjectWithTodos;
     onDelete(id: string): void;
 }
 
@@ -31,20 +31,16 @@ class ProjectComponent extends React.Component<IProjectProps, {}> {
     }
 
     public render() {
-        const { isLoading, project, users } = this.props;
-        const iconStyles = {
-            cursor: 'pointer',
-            float: 'right',
-        };
+        const { isLoading, project } = this.props;
         const deleteIcon =
             <FontIcon
                 className='material-icons'
-                style={iconStyles}
+                style={{cursor: 'pointer'}}
                 onClick={this.onDelete}
             >
                 delete
             </FontIcon>;
-        let usersList = users.filter(user => user.username !== getTokenUsername())
+        let usersList = project.users.filter(user => user.username !== getTokenUsername())
             .map(user => user.username).join(', ');
         usersList = usersList.replace(/,([^,]*)$/, ' ' + I18n.t('common.and') + ' $1');
         let shared = <div><Translate value='projects.notShared' /></div>;
@@ -57,34 +53,34 @@ class ProjectComponent extends React.Component<IProjectProps, {}> {
             );
         }
 
+        const actions = isLoading ? <CircularProgress size={20} /> :
+            <div className='actions'><ProjectForm project={project} /> <div>{deleteIcon}</div></div>;
         return (
             <div className='project'>
-                <h1>
-                    {project.title}
-                    { isLoading ? <CircularProgress size={20} style={iconStyles} /> : deleteIcon }
-                </h1>
-                <h3>{project.description}</h3>
+                <div className='project-header'>
+                    <h1>{project.project.title}</h1>
+                    <div>{ actions }</div>
+                </div>
+                <h3>{project.project.description}</h3>
                 <div> {shared}</div>
-                <Todos projectId={project.id} />
+                <Todos projectId={project.project.id} />
             </div>
         );
     }
 
     private onDelete() {
-        this.props.onDelete(this.props.project.id);
+        this.props.onDelete(this.props.project.project.id);
     }
 }
 
 interface IProjectComponentProps {
-    project: IProject;
-    users: IUser[];
+    project: IProjectWithTodos;
 }
 
 const mapStateToProps = (state: IStateTree, props: IProjectComponentProps) => {
     return {
         isLoading: isDeletingProject(state),
         project: props.project,
-        users: props.users,
     };
 };
 

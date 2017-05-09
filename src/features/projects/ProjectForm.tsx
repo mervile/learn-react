@@ -1,23 +1,30 @@
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 
-import { IStateTree, IUser } from '../../models';
+import { IProjectWithTodos, IStateTree, IUser } from '../../models';
 import { getSelectedUsers } from '../../services/userService';
 import UserSelector from '../users/UserSelector';
-import { isAddingProject, requestAddProject } from './duck';
+import { isAddingProject, requestAddProject, requestUpdateProject } from './duck';
 
 interface IProjectFormProps {
     isLoading: boolean;
     locale: string;
-    onSubmit(event: any, title: string, description: string, users: IUser[]): void;
+    project: IProjectWithTodos;
+    onCreate(event: any, title: string, description: string, users: IUser[]): void;
+    onEdit(event: any, pwtu: IProjectWithTodos): void;
 }
 
-interface IProjectFormState { title: string; description: string; open: boolean; }
+interface IProjectFormState {
+    title: string;
+    description: string;
+    open: boolean;
+}
 
 class ProjectFormComponent extends React.Component<IProjectFormProps, IProjectFormState> {
 
@@ -36,6 +43,17 @@ class ProjectFormComponent extends React.Component<IProjectFormProps, IProjectFo
         this.submitProject = this.submitProject.bind(this);
     }
 
+    public componentDidMount() {
+        if (this.isEdit()) {
+            const { project } = this.props;
+            this.setState({
+                description: project.project.description,
+                open: this.state.open,
+                title: project.project.title,
+            });
+        }
+    }
+
     public render() {
         const actions = [
             <FlatButton
@@ -52,11 +70,23 @@ class ProjectFormComponent extends React.Component<IProjectFormProps, IProjectFo
             />,
         ];
 
+        const title = this.isEdit() ? I18n.t('projects.edit') : I18n.t('projects.addNew');
+        let button = <RaisedButton label={title} onTouchTap={this.handleOpen} />;
+        if (this.isEdit()) {
+            button = <FontIcon
+                className='material-icons'
+                style={{cursor: 'pointer'}}
+                onClick={this.handleOpen}
+            >
+                mode_edit
+            </FontIcon>;
+        }
+
         return (
             <div>
-                <RaisedButton label={I18n.t('projects.addNew')} onTouchTap={this.handleOpen} />
+                {button}
                 <Dialog
-                    title={I18n.t('projects.addNew')}
+                    title={title}
                     actions={actions}
                     modal={true}
                     open={this.state.open}
@@ -68,17 +98,19 @@ class ProjectFormComponent extends React.Component<IProjectFormProps, IProjectFo
                         <TextField
                             id='new-project-title'
                             type='text'
+                            value={this.state.title}
                             hintText={I18n.t('projects.title')}
                             onChange={this.handleChange}
                         />
                         <TextField
                             id='new-project-description'
                             type='text'
+                            value={this.state.description}
                             hintText={I18n.t('projects.description')}
                             onChange={this.handleChange}
                             multiLine={true}
                         />
-                        <UserSelector />
+                        <UserSelector project={this.props.project} />
                     </form>
                 </Dialog>
             </div>
@@ -86,7 +118,22 @@ class ProjectFormComponent extends React.Component<IProjectFormProps, IProjectFo
     }
 
     protected submitProject(event: any) {
-        this.props.onSubmit(event, this.state.title, this.state.description, getSelectedUsers());
+        const { description, title } = this.state;
+        const users = getSelectedUsers();
+        if (this.isEdit()) {
+            const pwtu = {
+                project: {
+                    description,
+                    id: this.props.project.project.id,
+                    title,
+                },
+                users,
+                todos: this.props.project.todos,
+            };
+            this.props.onEdit(event, pwtu);
+        } else {
+            this.props.onCreate(event, title, description, users);
+        }
         this.handleClose();
     }
 
@@ -100,6 +147,10 @@ class ProjectFormComponent extends React.Component<IProjectFormProps, IProjectFo
         }
     }
 
+    private isEdit() {
+        return typeof this.props.project !== 'undefined';
+    }
+
     private handleOpen() {
         const { title, description } = this.state;
         this.setState({ description, open: true, title });
@@ -111,18 +162,27 @@ class ProjectFormComponent extends React.Component<IProjectFormProps, IProjectFo
     }
 }
 
-const mapStateToProps = (state: IStateTree) => {
+interface IProjectFormComponentProps {
+    project?: IProjectWithTodos;
+}
+
+const mapStateToProps = (state: IStateTree, props: IProjectFormComponentProps) => {
     return {
         isLoading: isAddingProject(state),
         locale: state.i18n.locale,
+        project: props.project,
     };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        onSubmit: (event: any, title: string, description: string, users: IUser[]) => {
+        onCreate: (event: any, title: string, description: string, users: IUser[]) => {
             event.preventDefault();
             dispatch(requestAddProject(title, description, users));
+        },
+        onEdit: (event: any, pwtu: IProjectWithTodos) => {
+            event.preventDefault();
+            dispatch(requestUpdateProject(pwtu));
         },
     };
 };

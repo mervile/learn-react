@@ -33,6 +33,7 @@ interface IUser {
 interface IProjectWithTodos {
     project: IProject;
     todos: ITodo[];
+    users: IUser[];
 }
 
 interface IRequestState {
