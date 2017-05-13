@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "test": "karma start"
+    "dev": "webpack-dev-server",
+    "test": "karma start",
+    "build": "webpack --progress --watch",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -27,6 +29,9 @@
     "@types/reselect": "^2.0.27",
     "@types/whatwg-fetch": "0.0.32",
     "jwt-decode": "^2.1.0",
+    "koa": "^2.2.0",
+    "koa-convert": "^1.2.0",
+    "koa-static": "^3.0.0",
     "lodash": "^4.16.4",
     "material-ui": "^0.16.7",
     "react": "^15.4.2",
