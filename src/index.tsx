@@ -12,7 +12,7 @@ import reducers from './reducers';
 import translationsObj from './translations';
 
 // Important that this is after all!
-import './styles/main.scss';
+//import './styles/main.scss';
 
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();

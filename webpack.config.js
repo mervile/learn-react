@@ -62,12 +62,12 @@ var config = {
       },*/
       {
         test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
-      },
-      {
-        test: /\.scss$/,
         loader: ExtractTextPlugin.extract("style", "css!sass?")
       },
+      /*{
+        test: /\.scss$/,
+        loaders: ["style", "css", "sass"]
+      },*/
       {
         test: /\.tsx?$/,
         loaders: ["ts-loader"],
