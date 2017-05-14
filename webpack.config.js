@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
 var WebpackNotifierPlugin = require('webpack-notifier');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 // var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var config = {
   /*
@@ -75,7 +76,12 @@ var config = {
   plugins: [
     new WebpackNotifierPlugin({ alwaysNotify: true }),
     new webpack.HotModuleReplacementPlugin(),
-    // new ExtractTextPlugin("main.css")
+    new CopyWebpackPlugin([
+      {
+        from: __dirname + '/index.html',
+        to: __dirname + '/dist/index.html'
+      },
+    ])
   ],
   // Special setup for enzyme
   externals: {

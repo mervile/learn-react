@@ -7,7 +7,7 @@
     "dev": "webpack-dev-server",
     "test": "karma start",
     "build": "webpack --progress --watch",
-    "start": "node server.js"
+    "start": "webpack && node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +28,7 @@
     "@types/redux-thunk": "^2.1.31",
     "@types/reselect": "^2.0.27",
     "@types/whatwg-fetch": "0.0.32",
+    "copy-webpack-plugin": "^4.0.1",
     "jwt-decode": "^2.1.0",
     "koa": "^2.2.0",
     "koa-convert": "^1.2.0",
