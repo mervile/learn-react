@@ -14,7 +14,7 @@ import {
     requestDeleteProject,
 } from './duck';
 
-import Todos from '../todos/todos';
+import Todos from '../todos/Todos';
 import ProjectForm from './ProjectForm';
 
 interface IProjectProps {
