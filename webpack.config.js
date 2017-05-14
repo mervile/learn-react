@@ -9,13 +9,14 @@ var config = {
    * recursively go through every "require" statement in app.ts and
    * efficiently build out the application's dependency tree.
    */
-  entry: [
+  /*entry: [
     'whatwg-fetch',
     //'react-hot-loader/patch',
     //'webpack-dev-server/client?http://localhost:3000', // WebpackDevServer host and port
     //'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-    '../src/index.tsx',
-  ],
+    './src/index.tsx',
+  ],*/
+  entry: './src/index.tsx',
 
   /*
    * The combination of path and filename tells Webpack what name to give to
