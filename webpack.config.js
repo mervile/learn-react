@@ -2,7 +2,8 @@ var webpack = require('webpack');
 var path = require('path');
 var WebpackNotifierPlugin = require('webpack-notifier');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-// var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 var config = {
   /*
    * app.ts represents the entry point to your web application. Webpack will
@@ -64,6 +65,10 @@ var config = {
         loaders: ["style", "css", "sass"]
       },
       {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract("style", "css!sass?")
+      },
+      {
         test: /\.tsx?$/,
         loaders: ["ts-loader"],
         exclude: /node_modules/
@@ -77,6 +82,7 @@ var config = {
   plugins: [
     new WebpackNotifierPlugin({ alwaysNotify: true }),
     new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin("main.css"),
     new CopyWebpackPlugin([
       {
         from: __dirname + '/index.html',
