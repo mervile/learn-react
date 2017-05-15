@@ -11,9 +11,6 @@ import App from './App';
 import reducers from './reducers';
 import translationsObj from './translations';
 
-// Important that this is after all!
-//import './styles/main.scss';
-
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
@@ -37,16 +34,17 @@ syncTranslationWithStore(store);
 store.dispatch(loadTranslations(translationsObj));
 store.dispatch(setLocale('fi'));
 
-ReactDOM.render(
+const render = (Component: any) => ReactDOM.render(
     <MuiThemeProvider>
       <Provider store={store}>
         <AppContainer>
-          <App />
+          <Component />
         </AppContainer>
       </Provider>
     </MuiThemeProvider>,
     document.getElementById('appContainer')
 );
+render(App);
 
 // Handle hot reloading requests from Webpack
 if (module.hot) {
@@ -54,17 +52,7 @@ if (module.hot) {
     // If we receive a HMR request for our App container, then reload it
     // using require (we can't do this dynamically with import)
     const NextApp = require('./App').default;
-
     // And render it into the root element again
-    ReactDOM.render(
-        <MuiThemeProvider>
-          <Provider store={store}>
-            <AppContainer>
-              <NextApp />
-            </AppContainer>
-          </Provider>
-        </MuiThemeProvider>,
-        document.getElementById('appContainer')
-    );
+    render(NextApp);
   });
 }

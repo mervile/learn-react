@@ -8,7 +8,7 @@ import {
 
 import ConfirmModal from './ConfirmModal';
 
-const MODAL_COMPONENTS = {
+const MODAL_COMPONENTS: any = {
   CONFIRM_MODAL: ConfirmModal,
 };
 
