@@ -21,7 +21,7 @@ module.exports = {
           use: ["css-loader", 'sass-loader']
         })
       },
-      {test: /\.tsx?$/, use: 'ts-loader', exclude: /node-modules/},
+      {test: /\.tsx?$/, use: 'ts-loader', exclude: [/node-modules/, /test/]},
       {test: /\.json$/, use: 'json-loader'}
     ]
   },
