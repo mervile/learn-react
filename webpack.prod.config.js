@@ -12,7 +12,7 @@ module.exports = {
     publicPath: '/dist'
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".scss", ".css"]
+    extensions: [".ts", ".tsx", ".scss"]
   },
   module: {
     rules: [
