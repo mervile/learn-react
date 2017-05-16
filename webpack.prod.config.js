@@ -2,11 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-/*var WebpackNotifierPlugin = require('webpack-notifier');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");*/
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-  entry: './src/index.tsx',
+  entry: './src/index.prod.tsx',
   output: {
     filename: 'bundle.js',
     path: path.resolve('dist'),
@@ -17,12 +16,17 @@ module.exports = {
   },
   module: {
     rules: [
-      {test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader']},
+      {test: /\.scss$/, use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ["css-loader", 'sass-loader']
+        })
+      },
       {test: /\.tsx?$/, use: 'ts-loader', exclude: /node-modules/},
       {test: /\.json$/, use: 'json-loader'}
     ]
   },
   plugins: [
+    new ExtractTextPlugin("main.css"),
     new CopyWebpackPlugin([
       {
         from: __dirname + '/index.html',
