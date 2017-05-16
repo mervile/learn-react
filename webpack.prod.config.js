@@ -12,7 +12,7 @@ module.exports = {
     publicPath: '/dist'
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".scss"]
+    extensions: [".ts", ".tsx", ".js", ".scss", ".css"]
   },
   module: {
     rules: [
@@ -21,7 +21,7 @@ module.exports = {
           use: ["css-loader", 'sass-loader']
         })
       },
-      {test: /\.tsx?$/, use: 'ts-loader', include: /src/},
+      {test: /\.tsx?$/, use: 'ts-loader', exclude: /node-modules/},
       {test: /\.json$/, use: 'json-loader'}
     ]
   },

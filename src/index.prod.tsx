@@ -30,12 +30,11 @@ syncTranslationWithStore(store);
 store.dispatch(loadTranslations(translationsObj));
 store.dispatch(setLocale('fi'));
 
-const render = (Component: any) => ReactDOM.render(
+ReactDOM.render(
     <MuiThemeProvider>
       <Provider store={store}>
-        <Component />
+        <App />
       </Provider>
     </MuiThemeProvider>,
     document.getElementById('appContainer')
 );
-render(App);
