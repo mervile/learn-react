@@ -1,6 +1,6 @@
-const PUBLIC_URL = 'http://localhost:8080/public';
-const AUTH_URL = 'http://localhost:8080/auth';
-const API_URL = 'http://localhost:8080/api';
+const PUBLIC_URL = '/public';
+const AUTH_URL = '/auth';
+const API_URL = '/api';
 const TOKEN = 'id_token';
 
 const PATHS = {

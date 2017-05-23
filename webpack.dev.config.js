@@ -34,9 +34,15 @@ module.exports = {
     historyApiFallback: true,
     hot: true,
     proxy: {
-      "/api": "http://localhost:8080",
-      "/auth": "http://localhost:8080",
-      "/public": "http://localhost:8080"
+      "/api": {
+        target: "http://localhost:8080"
+      },
+      "/auth": {
+        target: "http://localhost:8080"
+      },
+      "/public": {
+        target: "http://localhost:8080"
+      }
     }
   },
   module: {
