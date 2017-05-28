@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 module.exports = {
   entry: [
     'react-hot-loader/patch',
@@ -47,12 +49,17 @@ module.exports = {
   },
   module: {
     rules: [
-      {test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader']},
+      {test: /\.scss$/, use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ["css-loader", 'sass-loader']
+        })
+      },
       {test: /\.tsx?$/, use: 'ts-loader', exclude: /node-modules/},
       {test: /\.json$/, use: 'json-loader'}
     ]
   },
   plugins: [
+    new ExtractTextPlugin("main.css"),
     new webpack.HotModuleReplacementPlugin()
   ],
   // Special setup for enzyme

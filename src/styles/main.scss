@@ -2,7 +2,7 @@
 
 $accent-color: crimson;
 $accent-border: 30px solid $accent-color;
-$content-background-color: whitesmoke;
+$content-background-color: white;
 $header-height: 65px;
 
 html, body {
@@ -29,13 +29,6 @@ h1, h3 {
     }
 }
 
-.projectList {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
 .project {
     padding: 10px;
     margin: 10px;
@@ -59,12 +52,31 @@ h1, h3 {
         }
     }
 
-    .todoItemList {
+    .todoListItem {
         background-color: $content-background-color;
+        div {
+            margin: 0px;
+            padding: 2px !important;
+        }
     }
 
-    @media all and (min-width: 800px) {
-        max-width: 50%;
+    .todoItem {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .todoLists {
+        display: flex;
+        flex-direction: row;
+
+        .todoList {
+            width: 100%;
+            flex-grow: 1;
+            margin: 5px;
+            box-shadow: 1px 1px 4px lightgrey;
+            padding: 5px;
+        }
     }
 }
 
@@ -88,14 +100,6 @@ h1, h3 {
     }
 }
 
-.todoItem {
-    padding: 5px;
-
-    .description {
-        margin: 10px;
-    }
-}
-
 .header {
     h1 {
         margin: 0px 10px;
@@ -113,7 +117,7 @@ h1, h3 {
     padding: 5px 10px;
     border-bottom: 1px solid lightgray;
     box-shadow: 0px 2px 5px gainsboro;
-    background-color: whitesmoke;
+    background-color: $content-background-color;
 }
 
 .locale {

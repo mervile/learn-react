@@ -22,7 +22,6 @@ class TodoComponent extends React.Component<ITodoProps, {}> {
         const { isDeletingTodo, todo } = this.props;
         const iconStyles = {
             cursor: 'pointer',
-            float: 'right',
         };
         const isFetching = isDeletingTodo;
         const deleteIcon =
@@ -35,8 +34,10 @@ class TodoComponent extends React.Component<ITodoProps, {}> {
             </FontIcon>;
         return (
             <div className='todoItem'>
-                <span className='description'>{ todo.description }</span>
+                <div className='description'>{ todo.description }</div>
+                <div>
                 { isFetching ? <CircularProgress size={20} style={iconStyles} /> : deleteIcon }
+                </div>
             </div>
         );
     }

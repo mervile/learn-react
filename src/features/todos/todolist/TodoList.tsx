@@ -46,7 +46,7 @@ class TodoListComponent extends React.Component<IDropTargetListProps, {}> {
     public render() {
         const { isUpdatingTodo, todos, title, connectDropTarget, isOver} = this.props;
         const list = todos.map((item: ITodo) =>
-            <ListItem key={item.id} className='todoItemList'>
+            <ListItem key={item.id} className='todoListItem'>
                 <DraggableTodo
                     todo={item}
                 />
@@ -54,7 +54,7 @@ class TodoListComponent extends React.Component<IDropTargetListProps, {}> {
         );
 
         return connectDropTarget(
-            <div style={{backgroundColor: isOver ? 'lightgray' : ''}}>
+            <div className='todoList' style={{backgroundColor: isOver ? 'lightgray' : ''}}>
                 <h3>
                     <span style={{marginRight:'10px'}}>{title}</span>
                     <span>{ isUpdatingTodo ? <CircularProgress size={15} /> : '' }</span>

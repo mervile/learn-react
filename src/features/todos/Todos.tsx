@@ -37,9 +37,11 @@ class TodosComponent extends React.Component<ITodosProps, {}> {
                 <div>
                     <span>{ isGettingTodos ? <CircularProgress size={15} /> : '' }</span>
                     <TodoForm projectId={projectId} />
-                    <TodoList projectId={projectId} status={Status.New} title={I18n.t('todos.new')} />
-                    <TodoList projectId={projectId} status={Status.InProgress} title={I18n.t('todos.inProgress')} />
-                    <TodoList projectId={projectId} status={Status.Done} title={I18n.t('todos.done')} />
+                    <div className='todoLists'>
+                        <TodoList projectId={projectId} status={Status.New} title={I18n.t('todos.new')} />
+                        <TodoList projectId={projectId} status={Status.InProgress} title={I18n.t('todos.inProgress')} />
+                        <TodoList projectId={projectId} status={Status.Done} title={I18n.t('todos.done')} />
+                    </div>
                 </div>
             </div>
         );
